@@ -230,5 +230,52 @@
             document.getElementById('addProductForm').reset();
         }
     </script>
-</body>
+</body><script>
+  document.querySelector('form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+
+    const fileInput = document.getElementById('pichaBidhaa');
+    const file = fileInput.files[0];
+
+    if (!file) {
+      alert("Tafadhali chagua picha ya bidhaa kwanza!");
+      return;
+    }
+
+    // Chukua majina na namba ulizojaza
+    const inputs = document.querySelectorAll('form input');
+    const jina = inputs[0].value;
+    const bei = inputs[1].value;
+    const mkoa = inputs[2].value;
+    const simu = inputs[3].value;
+
+    // Tengeneza link ya muda ya picha uliyochagua
+    const pichaUrl = URL.createObjectURL(file);
+
+    // Ongeza tangazo jipya kwenye peji
+    const productGrid = document.getElementById('productGrid');
+    
+    if (productGrid) {
+      const newCard = document.createElement('div');
+      newCard.className = "bg-brand-card p-4 rounded-2xl border border-brand-border";
+      newCard.innerHTML = `
+        <div class="relative w-full h-48 bg-black/40 rounded-xl overflow-hidden mb-3">
+          <img src="${pichaUrl}" alt="${jina}" class="w-full h-full object-cover">
+        </div>
+        <h3 class="font-bold text-lg mb-1 text-white">${jina}</h3>
+        <p class="text-brand-subtext text-xs mb-1">📍 ${mkoa}</p>
+        <p class="text-brand-green font-black text-xl mb-3">TSH ${Number(bei).toLocaleString()}</p>
+        <div class="grid grid-cols-2 gap-2 pt-2 border-t border-brand-border">
+          <a href="tel:${simu}" class="flex items-center justify-center gap-1 bg-black/40 border border-brand-border py-2 rounded-xl text-xs font-semibold text-white">📞 Piga</a>
+          <a href="https://wa.me/255${simu.replace(/^0/, '')}" class="flex items-center justify-center gap-1 bg-brand-green py-2 rounded-xl text-xs font-bold text-black">💬 WhatsApp</a>
+        </div>
+      `;
+
+      productGrid.prepend(newCard);
+      alert("Tangazo lako limerushwa sokoni successfully!");
+      document.querySelector('form').reset();
+    }
+  });
+</script>
+
 </html>
