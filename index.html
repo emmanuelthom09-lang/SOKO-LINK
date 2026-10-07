@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="sw" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SokoLink | Digital Marketplace</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Custom Config for Spotify-style Colors -->
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            green: '#1DB954',
+                            hover: '#1ed760',
+                            dark: '#121212',
+                            card: '#181818',
+                            cardHover: '#282828',
+                            subtext: '#b3b3b3'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #000000;
+            color: #ffffff;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        .glass-header {
+            background: rgba(18, 18, 18, 0.8);
+            backdrop-filter: blur(12px);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between selection:bg-brand-green selection:text-black">
+
+    <!-- Navigation Header -->
+    <header class="sticky top-0 z-50 glass-header border-b border-white/10 px-6 py-4 flex items-center justify-between">
+        <div class="flex items-center space-x-3">
+            <div class="w-10 h-10 bg-brand-green rounded-full flex items-center justify-center font-bold text-black text-xl shadow-lg shadow-brand-green/20">
+                S
+            </div>
+            <span class="text-2xl font-black tracking-wider text-white">SOKO<span class="text-brand-green">LINK</span></span>
+        </div>
+
+        <div class="hidden md:flex items-center space-x-6 text-sm font-semibold text-brand-subtext">
+            <a href="#" class="hover:text-white transition">Sokoni</a>
+            <a href="#" class="hover:text-white transition">Vipagani</a>
+            <a href="#" class="hover:text-white transition">Huduma</a>
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <button class="bg-brand-green hover:bg-brand-hover text-black font-bold py-2.5 px-6 rounded-full transition-all transform hover:scale-105 shadow-md shadow-brand-green/30">
+                Weka Tangazo
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <main class="max-w-7xl mx-auto px-6 py-12 flex-grow">
+        <section class="mb-12 text-center md:text-left md:flex items-center justify-between gap-8 bg-gradient-to-r from-brand-card to-black p-8 md:p-12 rounded-3xl border border-white/10 shadow-2xl">
+            <div class="max-w-xl">
+                <span class="text-brand-green text-xs font-bold tracking-widest uppercase bg-brand-green/10 px-3 py-1 rounded-full border border-brand-green/20">Soko la Kidijitali</span>
+                <h1 class="text-4xl md:text-6xl font-black mt-4 mb-4 tracking-tight leading-tight">
+                    Unganisha <span class="text-brand-green">Wauzaji</span> na <span class="text-brand-green">Wanunuzi</span> Hapo Hapo.
+                </h1>
+                <p class="text-brand-subtext text-base md:text-lg mb-6">
+                    SokoLink inakupa uwezo wa kununua na kuuza bidhaa au huduma kwa urahisi, usalama na haraka bila madalali.
+                </p>
+                <!-- Search Bar -->
+                <div class="flex items-center bg-white/5 border border-white/10 rounded-full p-2 pl-5 focus-within:border-brand-green transition">
+                    <i data-lucide="search" class="w-5 h-5 text-brand-subtext mr-3"></i>
+                    <input type="text" placeholder="Tafuta bidhaa, mfano: Simu, Gari, Nyumba..." class="bg-transparent w-full text-white focus:outline-none text-sm placeholder:text-brand-subtext">
+                    <button class="bg-brand-green hover:bg-brand-hover text-black font-bold px-6 py-2.5 rounded-full text-sm transition">
+                        Tafuta
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Product Grid Header -->
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-2xl font-bold tracking-tight">Bidhaa Zilizopo Sokoni</h2>
+            <a href="#" class="text-sm font-bold text-brand-subtext hover:text-white transition">Ona Zote</a>
+        </div>
+
+        <!-- Cards Grid -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            
+            <!-- Sample Card 1 -->
+            <div class="bg-brand-card hover:bg-brand-cardHover p-4 rounded-2xl border border-white/5 transition-all duration-300 group cursor-pointer hover:-translate-y-1">
+                <div class="relative w-full h-48 bg-zinc-800 rounded-xl overflow-hidden mb-4">
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?q=80&w=500');"></div>
+                    <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full border border-white/10">Simu</span>
+                </div>
+                <h3 class="font-bold text-lg mb-1 truncate">iPhone 13 Pro Max - 256GB</h3>
+                <p class="text-brand-subtext text-xs mb-3">Dar es Salaam • Masaa 2 yaliyopita</p>
+                <div class="flex items-center justify-between pt-2 border-t border-white/5">
+                    <span class="text-brand-green font-black text-lg">TSH 1,850,000</span>
+                    <button class="w-9 h-9 rounded-full bg-brand-green text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sample Card 2 -->
+            <div class="bg-brand-card hover:bg-brand-cardHover p-4 rounded-2xl border border-white/5 transition-all duration-300 group cursor-pointer hover:-translate-y-1">
+                <div class="relative w-full h-48 bg-zinc-800 rounded-xl overflow-hidden mb-4">
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('https://images.unsplash.com/photo-1517336714731-489689fd1ca8?q=80&w=500');"></div>
+                    <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full border border-white/10">Kompyuta</span>
+                </div>
+                <h3 class="font-bold text-lg mb-1 truncate">MacBook Air M2 (2023)</h3>
+                <p class="text-brand-subtext text-xs mb-3">Dodoma • Leo</p>
+                <div class="flex items-center justify-between pt-2 border-t border-white/5">
+                    <span class="text-brand-green font-black text-lg">TSH 2,900,000</span>
+                    <button class="w-9 h-9 rounded-full bg-brand-green text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sample Card 3 -->
+            <div class="bg-brand-card hover:bg-brand-cardHover p-4 rounded-2xl border border-white/5 transition-all duration-300 group cursor-pointer hover:-translate-y-1">
+                <div class="relative w-full h-48 bg-zinc-800 rounded-xl overflow-hidden mb-4">
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?q=80&w=500');"></div>
+                    <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full border border-white/10">Viatu</span>
+                </div>
+                <h3 class="font-bold text-lg mb-1 truncate">Nike Air Max Red Edition</h3>
+                <p class="text-brand-subtext text-xs mb-3">Arusha • Jana</p>
+                <div class="flex items-center justify-between pt-2 border-t border-white/5">
+                    <span class="text-brand-green font-black text-lg">TSH 120,000</span>
+                    <button class="w-9 h-9 rounded-full bg-brand-green text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Sample Card 4 -->
+            <div class="bg-brand-card hover:bg-brand-cardHover p-4 rounded-2xl border border-white/5 transition-all duration-300 group cursor-pointer hover:-translate-y-1">
+                <div class="relative w-full h-48 bg-zinc-800 rounded-xl overflow-hidden mb-4">
+                    <div class="absolute inset-0 bg-cover bg-center group-hover:scale-105 transition-transform duration-500" style="background-image: url('https://images.unsplash.com/photo-1505740420928-5e560c06d30e?q=80&w=500');"></div>
+                    <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full border border-white/10">Vifaa vya Mziki</span>
+                </div>
+                <h3 class="font-bold text-lg mb-1 truncate">Sony WH-1000XM4 Wireless</h3>
+                <p class="text-brand-subtext text-xs mb-3">Mwanza • Masaa 5 yaliyopita</p>
+                <div class="flex items-center justify-between pt-2 border-t border-white/5">
+                    <span class="text-brand-green font-black text-lg">TSH 650,000</span>
+                    <button class="w-9 h-9 rounded-full bg-brand-green text-black flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity shadow-lg">
+                        <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-white/10 py-8 px-6 text-center text-brand-subtext text-sm bg-brand-card mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <p>&copy; 2026 SokoLink. Haki zote zimehifadhiwa.</p>
+            <div class="flex space-x-6">
+                <a href="#" class="hover:text-white">Vigezo na Masharti</a>
+                <a href="#" class="hover:text-white">Faragha</a>
+                <a href="#" class="hover:text-white">Msaada</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Initialize Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
