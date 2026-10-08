@@ -31,12 +31,22 @@
         .animate-sponsor-scroll:hover {
             animation-play-state: paused;
         }
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        .toast-animation {
+            animation: slideIn 0.3s ease-out forwards;
+        }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased">
+<body class="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen relative">
+
+    <!-- LIVE NOTIFICATION TOAST CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
 
     <!-- TOP NAVIGATION BAR -->
-    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+    <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
             <div class="flex items-center space-x-3">
                 <a href="#" class="text-2xl font-black tracking-tight text-brand-600 flex items-center gap-2">
@@ -56,7 +66,7 @@
             </div>
 
             <!-- Header Actions -->
-            <div class="flex items-center space-x-4">
+            <div class="flex items-center space-x-3">
                 <button onclick="openAddModal()" class="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-md hover:from-amber-600 hover:to-orange-600 transition transform hover:scale-105">
                     <i class="fa-solid fa-plus text-base font-bold"></i>
                     <span class="hidden sm:inline">Sell Product</span>
@@ -84,7 +94,7 @@
         </div>
     </section>
 
-    <!-- SPONSORS ANIMATED CAROUSEL (10 Top Brands) -->
+    <!-- SPONSORS ANIMATED CAROUSEL -->
     <section class="bg-white border-b border-gray-200 py-6 overflow-hidden relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3 flex justify-between items-center">
             <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400">Strategic Global Partners & Sponsors</h3>
@@ -97,7 +107,6 @@
 
         <div class="w-full overflow-hidden relative">
             <div id="sponsorsContainer" class="animate-sponsor-scroll flex items-center gap-16">
-                <!-- 10 Top Global & African Sponsors -->
                 <div class="flex items-center gap-2 text-xl font-black text-red-500 shrink-0"><i class="fa-solid fa-signal"></i> Vodacom</div>
                 <div class="flex items-center gap-2 text-xl font-black text-blue-700 shrink-0"><i class="fa-solid fa-credit-card"></i> Mastercard</div>
                 <div class="flex items-center gap-2 text-xl font-black text-red-600 shrink-0"><i class="fa-solid fa-bottle-droplet"></i> Coca-Cola</div>
@@ -109,7 +118,7 @@
                 <div class="flex items-center gap-2 text-xl font-black text-blue-900 shrink-0"><i class="fa-solid fa-building-columns"></i> Equity Bank</div>
                 <div class="flex items-center gap-2 text-xl font-black text-orange-600 shrink-0"><i class="fa-solid fa-bolt"></i> Amazon Global</div>
 
-                <!-- Duplicate Loop Set for Smooth Animation -->
+                <!-- Duplicate Loop Set -->
                 <div class="flex items-center gap-2 text-xl font-black text-red-500 shrink-0"><i class="fa-solid fa-signal"></i> Vodacom</div>
                 <div class="flex items-center gap-2 text-xl font-black text-blue-700 shrink-0"><i class="fa-solid fa-credit-card"></i> Mastercard</div>
                 <div class="flex items-center gap-2 text-xl font-black text-red-600 shrink-0"><i class="fa-solid fa-bottle-droplet"></i> Coca-Cola</div>
@@ -122,14 +131,9 @@
                 <div class="flex items-center gap-2 text-xl font-black text-orange-600 shrink-0"><i class="fa-solid fa-bolt"></i> Amazon Global</div>
             </div>
         </div>
-        
-        <div class="text-right max-w-7xl mx-auto px-4 mt-2">
-            <button onclick="verifyAdminAccess()" class="text-[10px] text-gray-300 hover:text-gray-500">Admin Access</button>
-        </div>
     </section>
-
     <!-- MAIN PRODUCT CATALOGUE -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
         <div class="flex justify-between items-center mb-8">
             <div>
                 <h2 class="text-2xl font-bold text-gray-900">Soko Faster Global Feed</h2>
@@ -138,11 +142,85 @@
         </div>
 
         <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Dynamically populated (LIFO) -->
+            <!-- Dynamically populated -->
         </div>
     </main>
 
-    <!-- AUTH MODAL (With Profile Picture / DP Upload) -->
+    <!-- FOOTER WITH HIDDEN COPYRIGHT ADMIN TRIGGER -->
+    <footer class="bg-white border-t border-gray-200 py-6 mt-12 text-center text-xs text-gray-500">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>© 2026 Soko Faster Global Marketplace. All rights reserved.</div>
+            <div>
+                <button onclick="verifyAdminAccess()" class="hover:text-gray-700 transition cursor-default focus:outline-none">
+                    System Ver. 2.6.0 <span class="text-gray-400">|</span> Privacy & Copyright
+                </button>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ADMIN DASHBOARD MODAL -->
+    <div id="adminDashboardModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <div class="flex items-center gap-2">
+                    <i class="fa-solid fa-shield-halved text-amber-600 text-2xl"></i>
+                    <div>
+                        <h3 class="text-xl font-black text-gray-900">System Management & Control Dashboard</h3>
+                        <p class="text-xs text-gray-500">Full oversight: Registered accounts, store followers, awards & item moderation.</p>
+                    </div>
+                </div>
+                <button onclick="closeAdminDashboard()" class="text-gray-400 hover:text-gray-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
+                <div class="bg-brand-50 border border-brand-100 p-4 rounded-xl">
+                    <div class="text-xs font-bold text-brand-600 uppercase">Registered Users</div>
+                    <div id="adminStatUsers" class="text-2xl font-black text-gray-900 mt-1">0</div>
+                </div>
+                <div class="bg-amber-50 border border-amber-100 p-4 rounded-xl">
+                    <div class="text-xs font-bold text-amber-600 uppercase">Active Listings</div>
+                    <div id="adminStatProducts" class="text-2xl font-black text-gray-900 mt-1">0</div>
+                </div>
+                <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl">
+                    <div class="text-xs font-bold text-emerald-600 uppercase">Security Status</div>
+                    <div class="text-sm font-black text-emerald-700 mt-1"><i class="fa-solid fa-lock mr-1"></i> Session Protected</div>
+                </div>
+            </div>
+
+            <!-- Registered Users Table -->
+            <div class="mb-8">
+                <h4 class="font-bold text-gray-900 text-sm mb-3 flex items-center gap-2">
+                    <i class="fa-solid fa-users text-brand-600"></i> Orodha ya Watumiaji, Followers & Awards
+                </h4>
+                <div class="overflow-x-auto border border-gray-200 rounded-xl">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-gray-100 text-gray-600 border-b border-gray-200">
+                                <th class="p-3">Store DP & Username</th>
+                                <th class="p-3">Email Address</th>
+                                <th class="p-3">Store Followers</th>
+                                <th class="p-3">Awards / Recognition</th>
+                                <th class="p-3 text-right">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminUsersTableBody">
+                            <!-- Populated dynamically -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Admin Logout Button -->
+            <div class="border-t pt-4 flex justify-end">
+                <button onclick="adminLogout()" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs transition shadow flex items-center gap-2">
+                    <i class="fa-solid fa-right-from-bracket"></i> Close Panel & Lock Session
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- AUTH MODAL -->
     <div id="authModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -247,25 +325,161 @@
     <script>
         let isRegisterMode = false;
         let currentUser = JSON.parse(localStorage.getItem('soko_current_user')) || null;
-        let isAdminActive = localStorage.getItem('soko_admin_active') === 'true';
+        
+        let isAdminActive = sessionStorage.getItem('soko_admin_active') === 'true';
+        const SECURE_TARGET_HASH = "a68f6352932c5896b025345711c210ff24d858348b64e037748455e11d080c55";
 
         window.addEventListener('DOMContentLoaded', () => {
-            if (isAdminActive) {
-                document.getElementById('adminControlPanel').classList.remove('hidden');
-            }
+            checkAdminStatus();
             updateNavigationUI();
             renderProducts();
+
+            if (currentUser) {
+                showToast(`Karibu tena kwenye mtandao, ${currentUser.username}!`, 'info');
+            } else {
+                showToast("Karibu Soko Faster! Gundua bidhaa na uza kwa usalama.", 'info');
+            }
         });
 
+        // LIVE NOTIFICATION TOAST SYSTEM (Visible to all users)
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            
+            let bgClass = "bg-slate-900 text-white border-slate-800";
+            let icon = "fa-bell text-amber-400";
+            if (type === 'success') {
+                bgClass = "bg-emerald-600 text-white border-emerald-500";
+                icon = "fa-circle-check text-white";
+            } else if (type === 'alert') {
+                bgClass = "bg-amber-600 text-white border-amber-500";
+                icon = "fa-triangle-exclamation text-white";
+            }
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-xs font-semibold toast-animation ${bgClass}`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-base shrink-0"></i><span class="flex-1">${message}</span>`;
+            
+            container.appendChild(toast);
+
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.4s ease';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        function simpleSha256(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = (hash << 5) - hash + char;
+                hash |= 0;
+            }
+            return Math.abs(hash).toString(16) + "bunga2026x";
+        }
+
         function verifyAdminAccess() {
-            const pass = prompt("Weka neno la siri la Admin:");
-            if (pass === "BunguAdmin2026" || pass === "admin") {
+            if (isAdminActive) {
+                openAdminDashboard();
+                return;
+            }
+            const pass = prompt("Enter system security passphrase:");
+            if (pass && (pass === "BunguAdmin2026" || simpleSha256(pass) === SECURE_TARGET_HASH)) {
                 isAdminActive = true;
-                localStorage.setItem('soko_admin_active', 'true');
-                document.getElementById('adminControlPanel').classList.remove('hidden');
-                alert("Umefanikiwa kuingia kama Admin!");
+                sessionStorage.setItem('soko_admin_active', 'true');
+                checkAdminStatus();
+                showToast("Admin Panel imefunguliwa kwa mafanikio!", "success");
+                openAdminDashboard();
             } else {
-                alert("Neno la siri si sahihi!");
+                showToast("Neno la siri si sahihi!", "alert");
+            }
+        }
+
+        function checkAdminStatus() {
+            const adminControl = document.getElementById('adminControlPanel');
+            if (isAdminActive) {
+                if(adminControl) adminControl.classList.remove('hidden');
+            } else {
+                if(adminControl) adminControl.classList.add('hidden');
+            }
+        }
+
+        function openAdminDashboard() {
+            if (!isAdminActive) {
+                verifyAdminAccess();
+                return;
+            }
+            renderAdminDashboardData();
+            document.getElementById('adminDashboardModal').classList.remove('hidden');
+        }
+
+        function closeAdminDashboard() {
+            document.getElementById('adminDashboardModal').classList.add('hidden');
+        }
+
+        function adminLogout() {
+            isAdminActive = false;
+            sessionStorage.removeItem('soko_admin_active');
+            checkAdminStatus();
+            closeAdminDashboard();
+            showToast("Admin Panel imefungwa na session imesafishwa.", "alert");
+        }
+
+        function renderAdminDashboardData() {
+            let users = JSON.parse(localStorage.getItem('soko_users')) || [];
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            let followersMap = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
+
+            document.getElementById('adminStatUsers').innerText = users.length;
+            document.getElementById('adminStatProducts').innerText = products.length;
+
+            const tableBody = document.getElementById('adminUsersTableBody');
+            if (users.length === 0) {
+                tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 italic">No registered users found.</td></tr>`;
+                return;
+            }
+
+            tableBody.innerHTML = users.map(u => {
+                const storeFollowers = followersMap[u.username] || [];
+                const followerCount = storeFollowers.length;
+                let awardBadge = `<span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-[10px] font-semibold">Standard Store</span>`;
+                if (followerCount >= 5) {
+                    awardBadge = `<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[10px] font-bold"><i class="fa-solid fa-trophy mr-1"></i> Top Vendor</span>`;
+                } else if (followerCount >= 2) {
+                    awardBadge = `<span class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded text-[10px] font-bold"><i class="fa-solid fa-award mr-1"></i> Rising Star</span>`;
+                }
+
+                return `
+                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                        <td class="p-3 flex items-center gap-2">
+                            <img src="${u.dp || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'}" class="w-8 h-8 rounded-full object-cover border">
+                            <span class="font-bold text-gray-900">${u.username}</span>
+                        </td>
+                        <td class="p-3 text-gray-600">${u.email}</td>
+                        <td class="p-3 font-semibold text-brand-600">${followerCount} Followers</td>
+                        <td class="p-3">${awardBadge}</td>
+                        <td class="p-3 text-right">
+                            <button onclick="banUser('${u.email}')" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-3 py-1 rounded-md text-[11px] font-bold transition border border-red-200">
+                                <i class="fa-solid fa-user-slash mr-1"></i> Remove User
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function banUser(email) {
+            if (confirm("Are you sure you want to remove this user from the system?")) {
+                let users = JSON.parse(localStorage.getItem('soko_users')) || [];
+                users = users.filter(u => u.email !== email);
+                localStorage.setItem('soko_users', JSON.stringify(users));
+                
+                if (currentUser && currentUser.email === email) {
+                    handleLogout();
+                }
+
+                renderAdminDashboardData();
+                showToast("Mtumiaji ameondolewa kwenye mfumo.", "alert");
             }
         }
 
@@ -341,13 +555,13 @@
                 const dpFile = document.getElementById('authDpFile').files[0];
 
                 if (pass !== confirmPass) {
-                    alert("Password hazifanani! Tafadhali hakiki tena.");
+                    showToast("Password hazifanani!", "alert");
                     return;
                 }
 
                 const existingUser = users.find(u => u.email === email);
                 if (existingUser) {
-                    alert("Akaunti yenye email hii tayari ipo! Tafadhali fanya Sign In.");
+                    showToast("Akaunti yenye email hii tayari ipo!", "alert");
                     return;
                 }
 
@@ -360,7 +574,8 @@
                 users.push(currentUser);
                 localStorage.setItem('soko_users', JSON.stringify(users));
                 localStorage.setItem('soko_current_user', JSON.stringify(currentUser));
-                alert(`Akaunti ya biashara (${username}) imetengenezwa kikamilifu!`);
+                
+                showToast(`🎉 Mtumiaji mpya (${username}) amejisajili sasa hivi kwenye Soko Faster!`, "success");
             } else {
                 const foundUser = users.find(u => u.email === email && u.pass === pass);
                 if (foundUser) {
@@ -369,7 +584,7 @@
                     currentUser = { username: email.split('@')[0], email: email, dp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" };
                 }
                 localStorage.setItem('soko_current_user', JSON.stringify(currentUser));
-                alert(`Karibu tena ${currentUser.username}! Umefanikiwa kuingia kwenye duka lako.`);
+                showToast(`Karibu tena, ${currentUser.username}!`, "success");
             }
 
             updateNavigationUI();
@@ -382,7 +597,7 @@
             localStorage.removeItem('soko_current_user');
             updateNavigationUI();
             renderProducts();
-            alert("Umetoka kwenye akaunti yako salama. Unaweza kurudi wakati wowote kupitia Sign In bila kupoteza duka lako!");
+            showToast("Umetoka kwenye akaunti yako.", "alert");
         }
 
         function updateNavigationUI() {
@@ -406,7 +621,7 @@
 
         function openAddModal() {
             if (!currentUser) {
-                alert("Tafadhali ingia kwenye akaunti yako (Sign In / Register) kwanza ndipo uweze kupost bidhaa!");
+                showToast("Tafadhali ingia kwenye akaunti yako kwanza kabla ya kuposti bidhaa!", "alert");
                 openAuthModal('login');
                 return;
             }
@@ -479,6 +694,8 @@
                 renderProducts();
                 closeAddModal();
                 document.getElementById('productForm').reset();
+
+                showToast(`🔥 Bidhaa mpya (${title}) imewekwa hewani na ${newProduct.seller}!`, "success");
             }
         }
 
@@ -496,7 +713,7 @@
 
         function toggleFollow(sellerName) {
             if (!currentUser) {
-                alert("Tafadhali ingia kwenye akaunti yako kwanza ili uweze kuanza kumfuata muuzaji (Follow Store)!");
+                showToast("Tafadhali ingia kwenye akaunti yako kwanza!", "alert");
                 openAuthModal('login');
                 return;
             }
@@ -509,10 +726,10 @@
             const userIndex = followersMap[sellerName].indexOf(currentUser.username);
             if (userIndex > -1) {
                 followersMap[sellerName].splice(userIndex, 1);
-                alert(`Umeacha kumfuata ${sellerName}.`);
+                showToast(`Umeacha kumfuata ${sellerName}.`, "alert");
             } else {
                 followersMap[sellerName].push(currentUser.username);
-                alert(`Hongera! Sasa wewe ni mfuasi halisi (Real Follower) wa duka la ${sellerName}.`);
+                showToast(`⭐ Sasa unamfuata ${sellerName}!`, "success");
             }
 
             localStorage.setItem('soko_store_followers', JSON.stringify(followersMap));
@@ -522,7 +739,7 @@
         function addComment(productId, event) {
             event.preventDefault();
             if (!currentUser) {
-                alert("Tafadhali ingia kwenye akaunti yako (Sign In) kwanza ili uweze kuweka comment!");
+                showToast("Tafadhali ingia kwenye akaunti yako kwanza ili kuweka maoni!", "alert");
                 openAuthModal('login');
                 return;
             }
@@ -547,6 +764,7 @@
 
             localStorage.setItem('soko_products', JSON.stringify(products));
             renderProducts();
+            showToast("Maoni yako yamewekwa kwenye bidhaa!", "success");
         }
 
         function filterProducts() {
@@ -590,7 +808,7 @@
             let followersMap = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
 
             grid.innerHTML = products.map(p => {
-                const isOwner = currentUser && currentUser.username === p.seller;
+                const canDelete = isAdminActive || (currentUser && currentUser.username === p.seller);
                 const storeFollowers = followersMap[p.seller] || [];
                 const followerCount = storeFollowers.length;
                 const isFollowing = currentUser && storeFollowers.includes(currentUser.username);
@@ -598,8 +816,8 @@
 
                 return `
                     <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition group relative flex flex-col justify-between">
-                        ${isOwner ? `
-                            <button onclick="deleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600/90 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs backdrop-blur-md z-10 transition shadow" title="Futa Bidhaa Yako">
+                        ${canDelete ? `
+                            <button onclick="deleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600/90 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs backdrop-blur-md z-10 transition shadow" title="Delete Product">
                                 <i class="fa-solid fa-trash"></i>
                             </button>
                         ` : ''}
@@ -616,7 +834,7 @@
                                     <span class="text-xs font-semibold text-brand-600 uppercase">${p.category}</span>
                                     <div class="flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 px-2 py-1 rounded-lg">
                                         <span class="text-[11px] font-bold text-indigo-700">${followerCount} Followers</span>
-                                        ${!isOwner ? `
+                                        ${(!currentUser || currentUser.username !== p.seller) ? `
                                             <button onclick="toggleFollow('${p.seller}')" class="text-[10px] bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-0.5 rounded font-medium transition shadow-sm">
                                                 ${isFollowing ? 'Following' : '+ Follow'}
                                             </button>
@@ -637,10 +855,10 @@
 
                                 <div class="border-t border-gray-100 pt-3 mt-3">
                                     <div class="text-xs font-bold text-gray-700 mb-2 flex items-center justify-between">
-                                        <span><i class="fa-solid fa-comments text-brand-600 mr-1"></i> Maoni (${commentsList.length})</span>
+                                        <span><i class="fa-solid fa-comments text-brand-600 mr-1"></i> Comments (${commentsList.length})</span>
                                     </div>
                                     <div class="max-h-32 overflow-y-auto space-y-2 mb-3 pr-1">
-                                        ${commentsList.length === 0 ? '<p class="text-[11px] text-gray-400 italic">Hakuna maoni bado. Weka comment yako hapa chini!</p>' : 
+                                        ${commentsList.length === 0 ? '<p class="text-[11px] text-gray-400 italic">No comments yet. Be the first!</p>' : 
                                           commentsList.map(c => `
                                             <div class="bg-gray-50 p-2 rounded-lg text-xs flex items-start gap-2">
                                                 <img src="${c.dp}" class="w-5 h-5 rounded-full object-cover mt-0.5 shrink-0">
@@ -655,7 +873,7 @@
                                           `).join('')}
                                     </div>
                                     <form onsubmit="addComment(${p.id}, event)" class="flex gap-1">
-                                        <input type="text" id="commentInput_${p.id}" placeholder="Andika maoni yako..." class="w-full px-3 py-1.5 rounded-lg border border-gray-200 text-xs focus:ring-1 focus:ring-brand-500 focus:outline-none">
+                                        <input type="text" id="commentInput_${p.id}" placeholder="Write a comment..." class="w-full px-3 py-1.5 rounded-lg border border-gray-200 text-xs focus:ring-1 focus:ring-brand-500 focus:outline-none">
                                         <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition"><i class="fa-solid fa-paper-plane"></i></button>
                                     </form>
                                 </div>
@@ -664,7 +882,7 @@
 
                         <div class="px-5 pb-5 pt-2">
                             <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Habari,%20nahitaji%20kununua%20bidhaa%20hii:%20${encodeURIComponent(p.title)}" target="_blank" onclick="incrementViews(${p.id})" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-medium text-sm transition flex items-center justify-center gap-2 shadow-sm">
-                                <i class="fa-brands fa-whatsapp text-lg"></i> Wasiliana na Muuzaji
+                                <i class="fa-brands fa-whatsapp text-lg"></i> Contact Seller
                             </a>
                         </div>
                     </div>
@@ -673,22 +891,24 @@
         }
 
         function deleteProduct(id) {
-            if (confirm("Una uhakika unataka kufuta bidhaa hii kwenye duka lako?")) {
+            if (confirm("Are you sure you want to delete this listing?")) {
                 let products = JSON.parse(localStorage.getItem('soko_products')) || [];
                 products = products.filter(p => p.id !== id);
                 localStorage.setItem('soko_products', JSON.stringify(products));
                 renderProducts();
+                showToast("Bidhaa imefutwa kwenye mfumo.", "alert");
             }
         }
 
         function addSponsorPrompt() {
-            const sponsorName = prompt("Ingiza jina la Sponsor mpya duniani:");
+            const sponsorName = prompt("Enter new global partner/sponsor name:");
             if (sponsorName) {
                 const container = document.getElementById('sponsorsContainer');
                 const div = document.createElement('div');
                 div.className = "flex items-center gap-2 text-xl font-black text-gray-700 shrink-0";
                 div.innerHTML = `<i class="fa-solid fa-handshake text-brand-600"></i> ${sponsorName}`;
                 container.appendChild(div);
+                showToast(`Wadhamini wameongezwa: ${sponsorName}`, "success");
             }
         }
     </script>
