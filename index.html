@@ -45,17 +45,17 @@
                 <span class="hidden md:inline-block text-xs uppercase bg-brand-50 text-brand-700 font-semibold px-2 py-1 rounded-full border border-brand-100">Global Hub</span>
             </div>
 
-            <!-- Search Bar -->
+            <!-- Global Search Bar -->
             <div class="hidden md:flex flex-1 max-w-xl mx-8">
                 <div class="relative w-full flex items-center">
-                    <input type="text" placeholder="Search verified products & businesses..." class="w-full pl-4 pr-12 py-2.5 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                    <input type="text" placeholder="Search verified products & businesses globally..." class="w-full pl-4 pr-12 py-2.5 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
                     <button class="bg-brand-600 text-white px-6 py-2.5 rounded-r-lg hover:bg-brand-700 transition text-sm font-medium">
                         <i class="fa-solid fa-search"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Right Actions -->
+            <!-- Header Actions -->
             <div class="flex items-center space-x-4">
                 <button onclick="openAddModal()" class="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-md hover:from-amber-600 hover:to-orange-600 transition transform hover:scale-105">
                     <i class="fa-solid fa-plus text-base font-bold"></i>
@@ -76,7 +76,7 @@
         <div class="max-w-4xl mx-auto relative z-10">
             <span class="inline-block bg-white/10 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 border border-white/10 backdrop-blur-md">Trusted Worldwide Trade</span>
             <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">Empowering Secure Global Commerce on Soko Faster</h1>
-            <p class="text-lg sm:text-xl text-indigo-200 max-w-2xl mx-auto mb-10">Connect with verified businesses, wholesalers, and retail buyers worldwide with persistent accounts and secure listings.</p>
+            <p class="text-lg sm:text-xl text-indigo-200 max-w-2xl mx-auto mb-10">Connect with verified businesses, wholesalers, and retail buyers worldwide with persistent accounts and direct contacts.</p>
             <div class="flex flex-wrap justify-center gap-4">
                 <button onclick="openAuthModal('register')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-8 py-4 rounded-xl shadow-xl transition transform hover:-translate-y-0.5">Join Securely Free</button>
                 <button onclick="openAddModal()" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold px-8 py-4 rounded-xl transition backdrop-blur-md">Start Selling Now</button>
@@ -84,7 +84,7 @@
         </div>
     </section>
 
-    <!-- SPONSORS / 10 TOP GLOBAL & AFRICAN BRANDS ANIMATED CAROUSEL -->
+    <!-- SPONSORS ANIMATED CAROUSEL (10 Top Brands) -->
     <section class="bg-white border-b border-gray-200 py-6 overflow-hidden relative">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3 flex justify-between items-center">
             <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400">Strategic Global Partners & Sponsors</h3>
@@ -97,7 +97,7 @@
 
         <div class="w-full overflow-hidden relative">
             <div id="sponsorsContainer" class="animate-sponsor-scroll flex items-center gap-16">
-                <!-- 10 Top Global & African Sponsors (Duplicated for seamless loop) -->
+                <!-- 10 Top Global & African Sponsors -->
                 <div class="flex items-center gap-2 text-xl font-black text-red-500 shrink-0"><i class="fa-solid fa-signal"></i> Vodacom</div>
                 <div class="flex items-center gap-2 text-xl font-black text-blue-700 shrink-0"><i class="fa-solid fa-credit-card"></i> Mastercard</div>
                 <div class="flex items-center gap-2 text-xl font-black text-red-600 shrink-0"><i class="fa-solid fa-bottle-droplet"></i> Coca-Cola</div>
@@ -109,7 +109,7 @@
                 <div class="flex items-center gap-2 text-xl font-black text-blue-900 shrink-0"><i class="fa-solid fa-building-columns"></i> Equity Bank</div>
                 <div class="flex items-center gap-2 text-xl font-black text-orange-600 shrink-0"><i class="fa-solid fa-bolt"></i> Amazon Global</div>
 
-                <!-- Duplicate Loop Set -->
+                <!-- Duplicate Loop Set for Smooth Animation -->
                 <div class="flex items-center gap-2 text-xl font-black text-red-500 shrink-0"><i class="fa-solid fa-signal"></i> Vodacom</div>
                 <div class="flex items-center gap-2 text-xl font-black text-blue-700 shrink-0"><i class="fa-solid fa-credit-card"></i> Mastercard</div>
                 <div class="flex items-center gap-2 text-xl font-black text-red-600 shrink-0"><i class="fa-solid fa-bottle-droplet"></i> Coca-Cola</div>
@@ -127,7 +127,6 @@
             <button onclick="verifyAdminAccess()" class="text-[10px] text-gray-300 hover:text-gray-500">Admin Access</button>
         </div>
     </section>
-
     <!-- MAIN PRODUCT CATALOGUE -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="flex justify-between items-center mb-8">
@@ -138,11 +137,11 @@
         </div>
 
         <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Dynamically populated and loaded from localStorage -->
+            <!-- Dynamically populated (LIFO) -->
         </div>
     </main>
 
-    <!-- AUTH MODAL (Username, Email, Password, Confirm Password with Show/Hide) -->
+    <!-- AUTH MODAL -->
     <div id="authModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
@@ -182,7 +181,7 @@
         </div>
     </div>
 
-    <!-- ADD PRODUCT MODAL (Currency Selector: TZS & USD + Whole Image Contain) -->
+    <!-- ADD PRODUCT MODAL -->
     <div id="addProductModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6 border-b pb-4">
@@ -213,14 +212,20 @@
                     </div>
                 </div>
 
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Category</label>
-                    <select id="pCategory" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm bg-white">
-                        <option>Electronics & Gadgets</option>
-                        <option>Fashion & Apparel</option>
-                        <option>Home & Kitchen</option>
-                        <option>Raw Materials & Wholesale</option>
-                    </select>
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Category</label>
+                        <select id="pCategory" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm bg-white">
+                            <option>Electronics & Gadgets</option>
+                            <option>Fashion & Apparel</option>
+                            <option>Home & Kitchen</option>
+                            <option>Raw Materials & Wholesale</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Namba ya Simu (WhatsApp)</label>
+                        <input type="text" id="pPhone" required placeholder="e.g., +255 712 345 678" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
+                    </div>
                 </div>
 
                 <div>
@@ -234,7 +239,7 @@
         </div>
     </div>
 
-    <!-- ROBUST JAVASCRIPT LOGIC -->
+    <!-- JAVASCRIPT LOGIC -->
     <script>
         let isRegisterMode = false;
         let currentUser = JSON.parse(localStorage.getItem('soko_current_user')) || null;
@@ -340,6 +345,7 @@
             }
 
             updateNavigationUI();
+            renderProducts();
             closeAuthModal();
         }
 
@@ -347,6 +353,7 @@
             currentUser = null;
             localStorage.removeItem('soko_current_user');
             updateNavigationUI();
+            renderProducts();
         }
 
         function updateNavigationUI() {
@@ -369,6 +376,11 @@
         }
 
         function openAddModal() {
+            if (!currentUser) {
+                alert("Tafadhali ingia kwenye akaunti yako (Sign In / Register) kwanza ndipo uweze kupost bidhaa!");
+                openAuthModal('login');
+                return;
+            }
             document.getElementById('addProductModal').classList.remove('hidden');
         }
         function closeAddModal() {
@@ -410,6 +422,7 @@
             const price = document.getElementById('pPrice').value;
             const location = document.getElementById('pLocation').value;
             const category = document.getElementById('pCategory').value;
+            const phone = document.getElementById('pPhone').value;
             const fileInput = document.getElementById('pImageFile').files[0];
 
             if (fileInput) {
@@ -422,8 +435,10 @@
                     formattedPrice,
                     location,
                     category,
+                    phone,
                     image: compressedImageData,
-                    seller: currentUser ? currentUser.username : "Soko Merchant"
+                    seller: currentUser ? currentUser.username : "Soko Merchant",
+                    views: Math.floor(Math.random() * 15) + 1
                 };
 
                 let products = JSON.parse(localStorage.getItem('soko_products')) || [];
@@ -436,55 +451,76 @@
             }
         }
 
+        function incrementViews(id) {
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            products = products.map(p => {
+                if (p.id === id) {
+                    p.views = (p.views || 0) + 1;
+                }
+                return p;
+            });
+            localStorage.setItem('soko_products', JSON.stringify(products));
+        }
+
         function renderProducts() {
             const grid = document.getElementById('productGrid');
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
 
             if (products.length === 0) {
-                // Default Sample
                 products = [{
                     id: 1,
                     title: "Note 20",
                     formattedPrice: "TZS 780,000",
                     location: "Dodoma, TZ",
                     category: "Electronics & Gadgets",
+                    phone: "+255 700 000 000",
                     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
-                    seller: "BunguFX Store"
+                    seller: "BunguFX Store",
+                    views: 42
                 }];
             }
 
-            grid.innerHTML = products.map(p => `
-                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition group relative">
-                    <button onclick="deleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs backdrop-blur-md z-10 transition shadow" title="Delete Product">
-                        <i class="fa-solid fa-trash"></i>
-                    </button>
-                    <div class="relative h-64 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
-                        <img src="${p.image}" alt="${p.title}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
-                        <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${p.location}</span>
-                    </div>
-                    <div class="p-5">
-                        <div class="flex justify-between items-center mb-1">
-                            <span class="text-xs font-semibold text-brand-600 uppercase">${p.category}</span>
-                            <span class="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded">By: ${p.seller}</span>
+            grid.innerHTML = products.map(p => {
+                const isOwner = currentUser && currentUser.username === p.seller;
+                return `
+                    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition group relative">
+                        ${isOwner ? `
+                            <button onclick="deleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600/90 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs backdrop-blur-md z-10 transition shadow" title="Futa Bidhaa Yako">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        ` : ''}
+                        
+                        <div class="relative h-64 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
+                            <img src="${p.image}" alt="${p.title}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
+                            <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${p.location}</span>
+                            <span class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[11px] px-2 py-0.5 rounded-full font-medium"><i class="fa-solid fa-eye mr-1 text-cyan-400"></i> ${p.views || 1} views</span>
                         </div>
-                        <h3 class="font-bold text-gray-900 text-base mb-2 truncate">${p.title}</h3>
-                        <div class="flex items-baseline justify-between mb-4">
-                            <span class="text-xl font-black text-gray-900">${p.formattedPrice}</span>
-                            <span class="text-xs text-gray-500">Retail / Wholesale</span>
+                        <div class="p-5">
+                            <div class="flex justify-between items-center mb-1">
+                                <span class="text-xs font-semibold text-brand-600 uppercase">${p.category}</span>
+                                <span class="text-[10px] text-gray-500 bg-gray-100 px-2 py-0.5 rounded font-medium">By: ${p.seller}</span>
+                            </div>
+                            <h3 class="font-bold text-gray-900 text-base mb-2 truncate">${p.title}</h3>
+                            <div class="flex items-baseline justify-between mb-3">
+                                <span class="text-xl font-black text-gray-900">${p.formattedPrice}</span>
+                                <span class="text-xs text-gray-500">Retail / Wholesale</span>
+                            </div>
+                            <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Habari,%20nahitaji%20kununua%20bidhaa%20hii:%20${encodeURIComponent(p.title)}" target="_blank" onclick="incrementViews(${p.id})" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-medium text-sm transition flex items-center justify-center gap-2 shadow-sm">
+                                <i class="fa-brands fa-whatsapp text-lg"></i> Wasiliana na Muuzaji
+                            </a>
                         </div>
-                        <button class="w-full bg-gray-900 hover:bg-brand-600 text-white py-2.5 rounded-xl font-medium text-sm transition flex items-center justify-center gap-2">
-                            <i class="fa-solid fa-paper-plane"></i> Contact Supplier
-                        </button>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
         }
 
         function deleteProduct(id) {
-            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-            products = products.filter(p => p.id !== id);
-            localStorage.setItem('soko_products', JSON.stringify(products));
-            renderProducts();
+            if (confirm("Una uhakika unataka kufuta bidhaa hii kwenye duka lako?")) {
+                let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('soko_products', JSON.stringify(products));
+                renderProducts();
+            }
         }
 
         function addSponsorPrompt() {
