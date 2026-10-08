@@ -3,306 +3,154 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SokoFaster - Soko la Kisasa la Mtandaoni</title>
-    <!-- Supabase SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Google Fonts kwa ajili ya muonekano safi -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
-            --accent: #f97316;
-            --bg-color: #f8fafc;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
-            --white: #ffffff;
-            --border: #e2e8f0;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
-        body { background-color: var(--bg-color); color: var(--text-main); line-height: 1.5; }
-
-        /* Header / Navbar */
-        header { background: var(--white); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; }
-        .logo { font-size: 22px; font-weight: 700; color: var(--primary); display: flex; align-items: center; gap: 8px; }
-        .logo span { color: var(--accent); }
-        .user-nav { display: flex; align-items: center; gap: 15px; }
-
-        /* Main Container */
-        .main-wrapper { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 350px 1fr; gap: 30px; }
-        @media (max-width: 850px) { .main-wrapper { grid-template-columns: 1fr; } }
-
-        /* Cards & Boxes */
-        .card { background: var(--white); border: 1px solid var(--border); border-radius: 12px; padding: 25px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05); margin-bottom: 25px; }
-        .card h2, .card h3 { margin-bottom: 15px; font-size: 18px; color: var(--text-main); border-bottom: 2px solid var(--border); padding-bottom: 8px; }
-
-        /* Form Controls */
-        input, textarea, select { width: 100%; padding: 12px 15px; margin: 8px 0 16px 0; border: 1px solid var(--border); border-radius: 8px; font-size: 14px; outline: none; transition: border 0.2s; }
-        input:focus, textarea:focus { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-        
-        button { background-color: var(--primary); color: var(--white); border: none; padding: 12px 20px; border-radius: 8px; font-size: 15px; font-weight: 600; cursor: pointer; width: 100%; transition: background 0.2s; }
-        button:hover { background-color: var(--primary-dark); }
-        .btn-danger { background-color: #ef4444; }
-        .btn-danger:hover { background-color: #dc2626; }
-
-        /* Products Grid Layout (Kama Jiji / Alibaba) */
-        .marketplace-section h2 { font-size: 24px; margin-bottom: 20px; font-weight: 700; }
-        .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 20px; }
-        .product-card { background: var(--white); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; display: flex; flex-direction: column; }
-        .product-card:hover { transform: translateY(-4px); box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
-        .product-img { width: 100%; height: 180px; object-fit: cover; background: #e2e8f0; }
-        .product-body { padding: 15px; display: flex; flex-direction: column; flex-grow: 1; }
-        .product-title { font-size: 16px; font-weight: 600; margin-bottom: 6px; color: var(--text-main); }
-        .product-price { font-size: 17px; font-weight: 700; color: var(--accent); margin-bottom: 8px; }
-        .product-location { font-size: 13px; color: var(--text-muted); display: flex; align-items: center; gap: 4px; margin-top: auto; padding-top: 10px; border-top: 1px solid var(--border); }
-        
-        .hidden { display: none !important; }
-        .alert-msg { font-size: 13px; margin-top: 5px; font-weight: 500; }
-        .toggle-link { color: var(--primary); cursor: pointer; font-weight: 600; text-decoration: underline; }
-    </style>
+    <title>Soko faster - Nunua na Uuze Haraka</title>
+    <!-- Tailwind CSS kwa ajili ya muonekano mzuri -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Appwrite Web SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
 </head>
-<body>
+<body class="bg-gray-50 text-gray-800">
 
-    <!-- HEADER / NAVBAR YA KISASA -->
-    <header>
-        <div class="logo">Soko<span>Faster</span> 🛒</div>
-        <div class="user-nav" id="userNavSection">
-            <span id="navUserEmail" style="font-weight: 500; font-size: 14px;"></span>
-        </div>
-    </header>
-
-    <!-- WRAPPER KUBWA -->
-    <div class="main-wrapper">
-        
-        <!-- UPANDE WA KUSHOTO: AUTHENTICATION AU DASHBOARD YA KUPOSITI -->
-        <div>
-            <!-- AUTH CONTAINER (LOGIN & SIGNUP) -->
-            <div class="card" id="authContainer">
-                <!-- Login Form -->
-                <div id="loginForm">
-                    <h3>Ingia kwenye Akaunti</h3>
-                    <input type="email" id="loginEmail" placeholder="Barua pepe yako" />
-                    <input type="password" id="loginPassword" placeholder="Nenosiri lako" />
-                    <button onclick="loginUser()">Ingia Sasa</button>
-                    <p style="margin-top: 12px; font-size: 14px;">Hauna akaunti? <span class="toggle-link" onclick="toggleAuthForms()">Jisajili hapa</span></p>
-                </div>
-
-                <!-- Signup Form -->
-                <div id="signupForm" class="hidden">
-                    <h3>Fungua Akaunti Mpya</h3>
-                    <input type="text" id="signupName" placeholder="Jina Kamili" />
-                    <input type="email" id="signupEmail" placeholder="Barua pepe yako" />
-                    <input type="password" id="signupPassword" placeholder="Nenosiri (Angalau herufi 6)" />
-                    <button onclick="signupUser()">Fungua Akaunti</button>
-                    <p style="margin-top: 12px; font-size: 14px;">Una akaunti tayari? <span class="toggle-link" onclick="toggleAuthForms()">Ingia hapa</span></p>
-                </div>
-                <p class="alert-msg" id="authMsg"></p>
-            </div>
-
-            <!-- DASHBOARD YA KUPOSITI BIDHAA (INAONEKANA UKISHA-LOGIN) -->
-            <div class="card hidden" id="dashboardContainer">
-                <h3>Weka Bidhaa Mpya Sokoni</h3>
-                <input type="text" id="prodTitle" placeholder="Jina la Bidhaa (Mfano: iPhone 13 Pro)" />
-                <textarea id="prodDesc" placeholder="Maelezo kamili ya bidhaa..." rows="3"></textarea>
-                <input type="number" id="prodPrice" placeholder="Bei (Tsh) Mfano: 850000" />
-                <input type="text" id="prodLocation" placeholder="Eneo / Location (Mfano: Kariakoo, Dar es Salaam)" />
-                <input type="text" id="prodImage" placeholder="Kiungo cha Picha (Image URL)" />
-                <button onclick="postProduct()">Chapisha Bidhaa Hapa</button>
-                <button onclick="logoutUser()" class="btn-danger" style="margin-top: 10px;">Toka Nje (Logout)</button>
-                <p class="alert-msg" id="postMsg"></p>
+    <!-- Navbar -->
+    <nav class="bg-white shadow-md sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
+            <h1 class="text-2xl font-black text-rose-600">Soko<span class="text-gray-800">faster</span></h1>
+            <div id="auth-section">
+                <!-- Sehemu ya Login itabadilika mtumiaji akilogin -->
+                <button onclick="loginWithApple()" class="bg-black text-white px-4 py-2 rounded-full text-sm font-semibold flex items-center gap-2 hover:bg-gray-800 transition">
+                     Ingia kwa iCloud (Apple)
+                </button>
             </div>
         </div>
+    </nav>
 
-        <!-- UPANDE WA KULIA: ORODHA YA BIDHAA (MARKETPLACE GRID) -->
-        <div class="marketplace-section">
-            <h2>Bidhaa Zinazouzwa Sasa</h2>
-            <div class="products-grid" id="productsGrid">
-                <p style="color: var(--text-muted);">Inapakia bidhaa kutoka kwenye mfumo...</p>
-            </div>
-        </div>
-
+    <!-- Notification Bar -->
+    <div id="notification-bar" class="bg-rose-500 text-white text-center py-2 text-sm font-medium hidden">
+        🔔 Bidhaa mpya imepostiwa sokoni!
     </div>
 
-    <script>
-        // SUPABASE CONFIGURATION (IMEUNGANISHWA MOJA KWA MOJA)
-        const SUPABASE_URL = 'https://hrzjdbhciwxphchyyolk.supabase.co';
-        const SUPABASE_ANON_KEY = 'Sb_publishable_B1Kp32-6IaemD_7pMCHhKg_yxNMd8ii'; 
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
         
-        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+        <!-- Fomu ya Kuweka Bidhaa (Inaonekana kama umelogiwa) -->
+        <div id="add-product-section" class="bg-white p-6 rounded-2xl shadow-sm mb-8 hidden">
+            <h2 class="text-lg font-bold mb-4">Weka Bidhaa Mpya</h2>
+            <form id="product-form" class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <input type="text" id="p-name" placeholder="Jina la Bidhaa" required class="border p-3 rounded-xl focus:outline-rose-500">
+                <input type="number" id="p-price" placeholder="Bei (TZS)" required class="border p-3 rounded-xl focus:outline-rose-500">
+                <input type="text" id="p-location" placeholder="Location (Mf. Kariakoo, DSM)" required class="border p-3 rounded-xl focus:outline-rose-500">
+                <input type="text" id="p-image" placeholder="Picha Link (URL)" class="border p-3 rounded-xl focus:outline-rose-500">
+                <textarea id="p-desc" placeholder="Maelezo mafupi..." class="border p-3 rounded-xl md:col-span-2 focus:outline-rose-500"></textarea>
+                <button type="submit" class="bg-rose-600 text-white py-3 rounded-xl font-bold md:col-span-2 hover:bg-rose-700 transition">Chapisha Bidhaa</button>
+            </form>
+        </div>
 
-        // Kubadilisha fomu kati ya Login na Signup
-        function toggleAuthForms() {
-            document.getElementById('loginForm').classList.toggle('hidden');
-            document.getElementById('signupForm').classList.toggle('hidden');
-            document.getElementById('authMsg').textContent = '';
+        <!-- Orodha ya Bidhaa -->
+        <h2 class="text-xl font-bold mb-6">Bidhaa Mpya Zilizopo</h2>
+        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Hapa ndipo bidhaa zitakapojazwa na JavaScript kwa mpangilio wa mpya juu -->
+            <p class="text-gray-500">Inapakia bidhaa...</p>
+        </div>
+    </main>
+
+    <!-- JavaScript ya Kuunganisha Appwrite -->
+    <script>
+        const { Client, Databases, Account, ID, Query } = Appwrite;
+
+        const client = new Client()
+            .setEndpoint('https://cloud.appwrite.io/v1') // Endpoint yako ya Appwrite
+            .setProject('6ac7a5bc003737e...'); // Weka Project ID yako hapa
+
+        const databases = new Databases(client);
+        const account = new Account(client);
+
+        const DATABASE_ID = "Production TablesDB"; // Badilisha kama jina ni tofauti
+        const COLLECTION_ID = "Products";
+
+        // Kazi ya Kulogin kupitia Apple / iCloud
+        function loginWithApple() {
+            account.createOAuth2Session('apple', 'https://sokolako.com/success', 'https://sokolako.com/fail');
         }
 
-        // Kusajili Mtumiaji
-        async function signupUser() {
-            const name = document.getElementById('signupName').value;
-            const email = document.getElementById('signupEmail').value;
-            const password = document.getElementById('signupPassword').value;
-            const msg = document.getElementById('authMsg');
-
-            if(!name || !email || !password) {
-                msg.style.color = 'red';
-                msg.textContent = 'Tafadhali jaza nafasi zote wazi!';
-                return;
-            }
-
-            const { data, error } = await supabaseClient.auth.signUp({
-                email: email,
-                password: password,
-                options: { data: { full_name: name } }
-            });
-
-            if (error) {
-                msg.style.color = 'red';
-                msg.textContent = 'Kosa: ' + error.message;
-            } else {
-                msg.style.color = 'green';
-                msg.textContent = 'Umefanikiwa kujisajili! Sasa unaweza kuingia.';
-                toggleAuthForms();
-            }
-        }
-
-        // Kulogin Mtumiaji
-        async function loginUser() {
-            const email = document.getElementById('loginEmail').value;
-            const password = document.getElementById('loginPassword').value;
-            const msg = document.getElementById('authMsg');
-
-            if(!email || !password) {
-                msg.style.color = 'red';
-                msg.textContent = 'Weka barua pepe na nenosiri lako!';
-                return;
-            }
-
-            const { data, error } = await supabaseClient.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
-
-            if (error) {
-                msg.style.color = 'red';
-                msg.textContent = 'Imeshindikana kuingia: ' + error.message;
-            } else {
-                checkUserSession();
-            }
-        }
-
-        // Kutoka Nje (Logout)
-        async function logoutUser() {
-            await supabaseClient.auth.signOut();
-            checkUserSession();
-        }
-
-        // Kuangalia Hali ya Ulinzi / Session ya Mtumiaji
-        async function checkUserSession() {
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            const authContainer = document.getElementById('authContainer');
-            const dashboardContainer = document.getElementById('dashboardContainer');
-            const navUserEmail = document.getElementById('navUserEmail');
-
-            if (session) {
-                authContainer.classList.add('hidden');
-                dashboardContainer.classList.remove('hidden');
-                navUserEmail.textContent = '👤 ' + session.user.email;
-            } else {
-                authContainer.classList.remove('hidden');
-                dashboardContainer.classList.add('hidden');
-                navUserEmail.textContent = '';
-            }
-            loadProducts();
-        }
-
-        // Kuposti Bidhaa Pamoja na Location
-        async function postProduct() {
-            const title = document.getElementById('prodTitle').value;
-            const description = document.getElementById('prodDesc').value;
-            const price = document.getElementById('prodPrice').value;
-            const location = document.getElementById('prodLocation').value;
-            const image_url = document.getElementById('prodImage').value;
-            const postMsg = document.getElementById('postMsg');
-
-            if(!title || !price || !location) {
-                postMsg.style.color = 'red';
-                postMsg.textContent = 'Tafadhali jaza Jina la bidhaa, Bei, na Location!';
-                return;
-            }
-
-            const { data: { session } } = await supabaseClient.auth.getSession();
-            if (!session) {
-                alert('Tafadhali ingia kwenye akaunti yako kwanza!');
-                return;
-            }
-
-            const { error } = await supabaseClient.from('products').insert([
-                {
-                    title: title,
-                    description: description,
-                    price: parseFloat(price),
-                    location: location,
-                    image_url: image_url || 'https://via.placeholder.com/300?text=SokoFaster',
-                    user_id: session.user.id
-                }
-            ]);
-
-            if (error) {
-                postMsg.style.color = 'red';
-                postMsg.textContent = 'Imeshindikana kuposti: ' + error.message;
-            } else {
-                postMsg.style.color = 'green';
-                postMsg.textContent = 'Bidhaa imechapishwa kikamilifu sokoni!';
-                // Safisha fomu
-                document.getElementById('prodTitle').value = '';
-                document.getElementById('prodDesc').value = '';
-                document.getElementById('prodPrice').value = '';
-                document.getElementById('prodLocation').value = '';
-                document.getElementById('prodImage').value = '';
-                loadProducts();
-            }
-        }
-
-        // Kusoma na Kuonyesha Bidhaa Zote kwa Mtindo wa Grid (Marketplace)
+        // Kupakia Bidhaa (Zile mpya zinakuja juu kupitia orderDesc)
         async function loadProducts() {
-            const grid = document.getElementById('productsGrid');
-            const { data, error } = await supabaseClient.from('products').select('*').order('created_at', { ascending: false });
+            const grid = document.getElementById('products-grid');
+            try {
+                const response = await databases.listDocuments(
+                    DATABASE_ID,
+                    COLLECTION_ID,
+                    [Query.orderDesc('$createdAt')] // Amri inayofanya mpya ziwe juu na za zamani chini
+                );
 
-            if (error) {
-                grid.innerHTML = '<p style="color: red;">Imeshindikana kupakia bidhaa kutoka database.</p>';
-                return;
-            }
+                if (response.documents.length === 0) {
+                    grid.innerHTML = `<p class="text-gray-500">Hakuna bidhaa zilizowekwa bado.</p>`;
+                    return;
+                }
 
-            if (!data || data.length === 0) {
-                grid.innerHTML = '<p style="color: var(--text-muted);">Hakuna bidhaa zilizowekwa sokoni kwa sasa. Kuwa wa kwanza kuposti!</p>';
-                return;
-            }
-
-            let html = '';
-            data.forEach(prod => {
-                html += `
-                    <div class="product-card">
-                        <img src="${prod.image_url || 'https://via.placeholder.com/300?text=SokoFaster'}" alt="${prod.title}" class="product-img" />
-                        <div class="product-body">
-                            <div class="product-title">${prod.title}</div>
-                            <div class="product-price">Tsh ${Number(prod.price).toLocaleString()}</div>
-                            <p style="font-size: 13px; color: var(--text-muted); margin-bottom: 8px;">${prod.description ? prod.description.substring(0, 60) + '...' : ''}</p>
-                            <div class="product-location">
-                                📍 <span>${prod.location}</span>
+                grid.innerHTML = '';
+                response.documents.forEach(product => {
+                    grid.innerHTML += `
+                        <div class="bg-white rounded-2xl shadow-sm overflow-hidden border border-gray-100 flex flex-col justify-between">
+                            <img src="${product.image_url || 'https://via.placeholder.com/300'}" alt="${product.name}" class="h-48 w-full object-cover">
+                            <div class="p-4 flex-1 flex flex-col justify-between">
+                                <div>
+                                    <div class="flex justify-between items-start">
+                                        <h3 class="font-bold text-lg">${product.name}</h3>
+                                        <span class="text-xs bg-gray-100 px-2 py-1 rounded-md text-gray-600">📍 ${product.location || 'Tanzania'}</span>
+                                    </div>
+                                    <p class="text-rose-600 font-extrabold text-lg mt-1">TZS ${product.price.toLocaleString()}</p>
+                                    <p class="text-gray-600 text-sm mt-2 line-clamp-2">${product.description || ''}</p>
+                                </div>
+                                <div class="mt-4 pt-3 border-t flex justify-between items-center">
+                                    <span class="text-xs text-gray-400">${new Date(product.$createdAt).toLocaleDateString()}</span>
+                                    <!-- Kitufe cha kufuta kwa muuzaji -->
+                                    <button onclick="deleteProduct('${product.$id}')" class="text-red-500 text-xs font-semibold hover:underline">Futa (Imeuzwa)</button>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
-            });
-            grid.innerHTML = html;
+                    `;
+                });
+            } catch (error) {
+                console.error("Hitilafu:", error);
+                grid.innerHTML = `<p class="text-red-500">Imeshindikana kupakia bidhaa.</p>`;
+            }
         }
 
-        // Anzisha mfumo ukurasa unapofunguka
-        window.onload = function() {
-            checkUserSession();
-        };
+        // Kuweka Bidhaa Mpya
+        document.getElementById('product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('p-name').value;
+            const price = Number(document.getElementById('p-price').value);
+            const location = document.getElementById('p-location').value;
+            const image_url = document.getElementById('p-image').value;
+            const description = document.getElementById('p-desc').value;
+
+            try {
+                await databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
+                    name, price, location, image_url, description
+                });
+                alert('Bidhaa imetumwa mafanikio!');
+                document.getElementById('product-form').reset();
+                loadProducts(); // Pakia upya kuonyesha mpya juu kabisa
+            } catch (err) {
+                alert('Imeshindikana kuweka bidhaa: ' + err.message);
+            }
+        });
+
+        // Kazi ya Kufuta Bidhaa ikiuzwa
+        async function deleteProduct(id) {
+            if(confirm("Una uhakika unataka kufuta bidhaa hii kwa sababu imeuzwa?")) {
+                try {
+                    await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, id);
+                    loadProducts();
+                } catch(err) {
+                    alert("Imeshindikana kufuta: " + err.message);
+                }
+            }
+        }
+
+        // Endesha wakati ukurasa unapofunguka
+        loadProducts();
     </script>
 </body>
 </html>
