@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soko faster - Global Standard Marketplace</title>
+    <title>Soko faster - Free Marketplace</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
@@ -21,7 +21,7 @@
     <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <span><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Soko Faster Express - Android & iOS Compatible</span>
+                <span><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Soko Faster - Chapisha na Utazame Bure</span>
                 <span class="hidden md:inline text-slate-500">|</span>
                 <span class="hidden md:inline"><i class="fa-solid fa-headset mr-1"></i> Msaada 24/7</span>
             </div>
@@ -37,20 +37,20 @@
             <!-- Logo -->
             <div class="flex items-center gap-3">
                 <a href="#" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-                    Soko<span class="text-rose-600">faster</span><span class="text-xs ml-1 bg-rose-100 text-rose-600 px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">PRO</span>
+                    Soko<span class="text-rose-600">faster</span><span class="text-xs ml-1 bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">FREE</span>
                 </a>
             </div>
 
             <!-- Search Bar -->
             <div class="hidden md:flex flex-1 max-w-xl relative">
-                <input type="text" id="search-input" placeholder="Tafuta bidhaa, vifaa au huduma..." class="w-full bg-slate-100 border border-slate-200 rounded-full py-2.5 pl-12 pr-4 text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
+                <input type="text" id="search-input" placeholder="Tafuta bidhaa au vitu bure..." class="w-full bg-slate-100 border border-slate-200 rounded-full py-2.5 pl-12 pr-4 text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
             </div>
 
-            <!-- Auth & User Info Section (Android & Apple Universal Login) -->
+            <!-- Auth & User Info Section -->
             <div class="flex items-center gap-3">
                 <a href="#add-product-section" class="hidden sm:flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2.5 rounded-full text-sm font-semibold transition">
-                    <i class="fa-solid fa-plus text-rose-600"></i> Weka Bidhaa
+                    <i class="fa-solid fa-plus text-rose-600"></i> Weka Bidhaa Bure
                 </a>
                 <div id="auth-container">
                     <button onclick="openAuthModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-md transition">
@@ -66,17 +66,17 @@
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#e11d48_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div class="max-w-7xl mx-auto relative z-10 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8">
             <div class="max-w-2xl">
-                <span class="bg-rose-500/20 text-rose-400 border border-rose-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Soko Kuu la Dijitali</span>
+                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Soko Huria la Bure</span>
                 <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mt-4 leading-tight">
-                    Nunua na Uuze Haraka Zaidi na <span class="text-rose-500">Soko Faster</span>
+                    Chapisha na Utazame Vitu Bure na <span class="text-rose-500">Soko Faster</span>
                 </h1>
                 <p class="text-slate-300 mt-3 text-sm sm:text-base">
-                    Inapatikana kwa watumiaji wote wa Android na iOS. Malipo ya moja kwa moja kupitia M-Pesa.
+                    Weka tangazo lako kwa urahisi kabisa ukitumia simu yako ya Android au iPhone bila malipo yoyote.
                 </p>
             </div>
             <div class="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-2xl w-full sm:w-80 shadow-2xl">
-                <h3 class="font-bold text-lg mb-2 text-white"><i class="fa-solid fa-shield-halved text-emerald-400 mr-2"></i> Uhakika wa Biashara</h3>
-                <p class="text-xs text-slate-300 leading-relaxed">Weka bidhaa yako leo na ufikie maelfu ya wanunuzi nchi nzima.</p>
+                <h3 class="font-bold text-lg mb-2 text-white"><i class="fa-solid fa-face-smile text-amber-400 mr-2"></i> Ni Bure Kabisa</h3>
+                <p class="text-xs text-slate-300 leading-relaxed">Hakuna malipo yanayohitajika. Weka bidhaa yako leo na uonekane na wanunuzi.</p>
             </div>
         </div>
     </header>
@@ -84,15 +84,15 @@
     <!-- Main Content Area -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        <!-- Fomu ya Kuweka Bidhaa (Na File Picker na Image Compression ya MB bila kuharibu kipimo) -->
+        <!-- Fomu ya Kuweka Bidhaa (Bila M-Pesa) -->
         <section id="add-product-section" class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm mb-12">
             <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
                 <div class="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-lg">
                     <i class="fa-solid fa-store"></i>
                 </div>
                 <div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Chapisha Bidhaa Mpya Sokoni</h2>
-                    <p class="text-xs text-slate-500">Chagua picha kutoka kwenye simu yako. Ukubwa wa MB utapunguzwa kiotomatiki bila kupoteza muonekano.</p>
+                    <h2 class="text-xl font-extrabold text-slate-900">Chapisha Bidhaa Bure Sokoni</h2>
+                    <p class="text-xs text-slate-500">Chagua picha kwenye simu yako. Ukubwa utabana kiotomatiki bila kupoteza vipimo.</p>
                 </div>
             </div>
 
@@ -102,21 +102,16 @@
                     <input type="text" id="p-name" placeholder="Mf. Smart TV 43 inch" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Bei (TZS)</label>
-                    <input type="number" id="p-price" placeholder="Mf. 450000" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Bei / Maelezo ya Gharama</label>
+                    <input type="text" id="p-price" placeholder="Mf. Bure / Maelewano" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Location / Eneo</label>
                     <input type="text" id="p-location" placeholder="Mf. Posta, Dar es Salaam" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
                 </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Namba ya M-Pesa ya Malipo</label>
-                    <input type="text" id="p-mpesa" placeholder="Mf. 0765XXXXXX" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
-                </div>
-                <div class="sm:col-span-2">
+                <div class="sm:col-span-3">
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Chagua Picha kwenye Kifaa (File Picker)</label>
                     <input type="file" id="p-image-file" accept="image/*" required class="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-xl text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 transition">
-                    <p class="text-[11px] text-slate-400 mt-1">Picha itabana ukubwa wa MB (Compressed) huku ikibakiza ubora wake halisi.</p>
                 </div>
                 <div class="sm:col-span-3">
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Maelezo Kamili ya Bidhaa</label>
@@ -124,7 +119,7 @@
                 </div>
                 <div class="sm:col-span-3 flex justify-end">
                     <button type="submit" id="submit-btn" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-8 py-4 rounded-xl text-sm shadow-lg shadow-rose-600/20 transition transform active:scale-95 flex items-center gap-2">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Chapisha Sasa Hivi
+                        <i class="fa-solid fa-cloud-arrow-up"></i> Chapisha Sasa Hivi Bure
                     </button>
                 </div>
             </form>
@@ -133,7 +128,7 @@
         <!-- Sehemu ya Orodha ya Bidhaa -->
         <div class="flex justify-between items-center mb-6">
             <div>
-                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Bidhaa Moto Moto Sokoni</h2>
+                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Bidhaa za Bure Moto Moto Sokoni</h2>
                 <p class="text-xs text-slate-500">Zilizowekwa hivi karibuni ziko juu kabisa</p>
             </div>
             <span class="text-xs font-bold bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg">Newest First</span>
@@ -148,7 +143,7 @@
         </div>
     </main>
 
-    <!-- Modal ya Login/Register ya Universal (Android & iOS) -->
+    <!-- Modal ya Login/Register (Android & iOS) -->
     <div id="auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
@@ -197,7 +192,7 @@
 
         const client = new Client()
             .setEndpoint('https://cloud.appwrite.io/v1') 
-            .setProject('6ac7a5bc003737e...'); // Weka Project ID yako hapa
+            .setProject('6ac7a5bc003737e7aeeb'); 
 
         const databases = new Databases(client);
         const account = new Account(client);
@@ -205,7 +200,7 @@
 
         const DATABASE_ID = "Production TablesDB"; 
         const COLLECTION_ID = "6ac7a6b8001aa0ae99bb"; 
-        const BUCKET_ID = "6ac7a6b8001aa0ae99bb"; // Tumia ID ya Storage Bucket yako au rekebisha ikiwa tofauti
+        const BUCKET_ID = "6ac7a6b8001aa0ae99bb"; 
 
         // Modal Controls
         function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
@@ -260,7 +255,7 @@
             window.location.reload();
         }
 
-        // Kazi ya Kubana Uzito wa Picha (MB Compression) bila kupunguza wala kubadilisha vipimo (Height/Width original)
+        // Image Compression (Inapunguza MB bila kubadilisha vipimo vya picha)
         function compressImage(file, quality = 0.7) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -270,8 +265,8 @@
                     img.src = event.target.result;
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        canvas.width = img.width;   // Inabakisha kipimo halisi cha upana
-                        canvas.height = img.height; // Inabakisha kipimo halisi cha urefu
+                        canvas.width = img.width;   
+                        canvas.height = img.height; 
                         const ctx = canvas.getContext('2d');
                         ctx.drawImage(img, 0, 0, img.width, img.height);
                         
@@ -280,7 +275,6 @@
                                 reject(new Error('Imeshindikana kubana picha.'));
                                 return;
                             }
-                            // Inarudisha file jipya lenye MB ndogo lakini vipimo vilevile
                             const compressedFile = new File([blob], file.name, {
                                 type: 'image/jpeg',
                                 lastModified: Date.now()
@@ -294,7 +288,7 @@
             });
         }
 
-        // Kupakia Bidhaa na Picha iliyobanwa MB
+        // Kupakia Bidhaa na Picha (Bila M-Pesa)
         document.getElementById('product-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const btn = document.getElementById('submit-btn');
@@ -302,9 +296,8 @@
             btn.disabled = true;
 
             const name = document.getElementById('p-name').value;
-            const price = Number(document.getElementById('p-price').value);
+            const price = document.getElementById('p-price').value;
             const location = document.getElementById('p-location').value;
-            const mpesa_number = document.getElementById('p-mpesa').value;
             const description = document.getElementById('p-desc').value;
             const fileInput = document.getElementById('p-image-file');
 
@@ -312,32 +305,28 @@
                 let image_url = '';
                 if (fileInput.files.length > 0) {
                     const originalFile = fileInput.files[0];
-                    // Fanya compression ya MB bila kubadilisha vipimo
                     const compressedFile = await compressImage(originalFile, 0.7);
                     
-                    // Pakia kwenye Appwrite Storage
                     const uploadedFile = await storage.createFile(
                         BUCKET_ID,
                         ID.unique(),
                         compressedFile
                     );
                     
-                    // Pata URL ya picha
                     image_url = `https://cloud.appwrite.io/v1/storage/buckets/${BUCKET_ID}/files/${uploadedFile.$id}/view?project=${client.config.project}`;
                 }
 
-                // Hifadhi kwenye Database
                 await databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
-                    name, price, location, mpesa_number, image_url, description
+                    name, price, location, image_url, description
                 });
 
-                alert('Hongera! Bidhaa yako imechapishwa mafanikio.');
+                alert('Hongera! Bidhaa yako imechapishwa bure kwa mafanikio.');
                 document.getElementById('product-form').reset();
                 loadProducts(); 
             } catch (err) {
                 alert('Hitilafu: ' + err.message);
             } finally {
-                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Chapisha Sasa Hivi`;
+                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Chapisha Sasa Hivi Bure`;
                 btn.disabled = false;
             }
         });
@@ -377,15 +366,8 @@
                                 </div>
                                 <div class="p-4">
                                     <h3 class="font-bold text-slate-900 text-base line-clamp-1 group-hover:text-rose-600 transition">${product.name}</h3>
-                                    <p class="text-rose-600 font-extrabold text-lg mt-1">TZS ${Number(product.price).toLocaleString()}</p>
+                                    <p class="text-rose-600 font-extrabold text-lg mt-1">${product.price}</p>
                                     <p class="text-slate-500 text-xs mt-2 line-clamp-2 leading-relaxed">${product.description || 'Hakuna maelezo ya ziada.'}</p>
-                                    
-                                    <div class="mt-4 bg-emerald-50 border border-emerald-200/60 p-2.5 rounded-xl flex items-center justify-between">
-                                        <div class="flex items-center gap-1.5 text-emerald-800 text-xs font-bold">
-                                            <i class="fa-solid fa-mobile-screen-button text-emerald-600"></i> M-Pesa:
-                                        </div>
-                                        <span class="text-xs font-extrabold text-emerald-900 bg-white px-2.5 py-1 rounded-lg border border-emerald-100 shadow-sm">${product.mpesa_number || 'Wasiliana'}</span>
-                                    </div>
                                 </div>
                             </div>
                             <div class="p-4 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between text-xs text-slate-400">
@@ -414,7 +396,6 @@
             }
         }
 
-        // Anzisha kazi zote
         checkUserSession();
         loadProducts();
     </script>
