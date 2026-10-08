@@ -3,48 +3,51 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SokoHub Marketplace - (Alibaba + Shopify + Jiji Style)</title>
-    <!-- Tailwind CSS CDN for Modern Styling -->
+    <title>SokoLink - Soko la Mtandaoni Tanzania</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <style>
-        .product-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-    </style>
+    <!-- Supabase JS Client Library -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Browser Image Compression -->
+    <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.2/dist/browser-image-compression.js"></script>
 </head>
 <body class="bg-gray-50 font-sans text-gray-800 antialiased">
 
-    <!-- TOP NAVIGATION / HEADER (Shopify & Alibaba Navigation) -->
+    <!-- HEADER / NAVBAR -->
     <header class="sticky top-0 z-50 bg-white shadow-sm border-b">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex items-center justify-between h-16 gap-4">
+            <div class="flex items-center justify-between h-16 gap-3">
                 
                 <!-- Logo -->
                 <div class="flex-shrink-0 flex items-center">
-                    <a href="#" class="text-2xl font-black text-indigo-600 tracking-wider">SOKO<span class="text-orange-500">HUB</span></a>
+                    <a href="#" class="text-2xl font-black text-indigo-600 tracking-wider">SOKO<span class="text-orange-500">LINK</span></a>
                 </div>
 
-                <!-- Search Bar (Alibaba Style) -->
-                <div class="flex-1 max-w-2xl">
+                <!-- Search Bar -->
+                <div class="flex-1 max-w-xl">
                     <div class="relative">
-                        <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Tafuta bidhaa, simu, magari, nguo..." 
-                               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent text-sm">
-                        <i class="fa-solid font-bold fa-magnifying-glass absolute left-3 top-3 text-gray-400"></i>
+                        <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Tafuta bidhaa, simu, nguo, magari..." 
+                               class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-full focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3 top-3 text-gray-400"></i>
                     </div>
                 </div>
 
-                <!-- Actions / Cart / Add Listing (Jiji & Shopify Combo) -->
-                <div class="flex items-center gap-3">
-                    <button onclick="toggleModal('addProductModal')" class="bg-orange-500 hover:bg-orange-600 text-white font-medium text-sm px-4 py-2 rounded-full transition flex items-center gap-2">
-                        <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">Uza Bidhaa (Post Ad)</span>
+                <!-- User Auth & Post Buttons -->
+                <div class="flex items-center gap-2">
+                    <button onclick="openPostModal()" class="bg-orange-500 hover:bg-orange-600 text-white font-bold text-sm px-4 py-2 rounded-full transition flex items-center gap-1.5 shadow">
+                        <i class="fa-solid fa-plus"></i> <span class="hidden sm:inline">Uza Bidhaa</span>
                     </button>
                     
-                    <button onclick="toggleCartDrawer()" class="relative p-2 text-gray-600 hover:text-indigo-600 transition">
-                        <i class="fa-solid fa-cart-shopping text-xl"></i>
-                        <span id="cartCount" class="absolute -top-1 -right-1 bg-indigo-600 text-white text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">0</span>
+                    <!-- User Account Status -->
+                    <div id="userInfo" class="hidden flex items-center gap-2">
+                        <span id="userEmail" class="text-xs font-semibold bg-indigo-50 text-indigo-700 px-3 py-1.5 rounded-full border border-indigo-200"></span>
+                        <button onclick="logout()" class="text-xs bg-red-500 hover:bg-red-600 text-white px-3 py-1.5 rounded-full transition font-bold">Ondoka</button>
+                    </div>
+
+                    <button id="loginBtn" onclick="toggleModal('authModal')" class="bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs sm:text-sm px-4 py-2 rounded-full transition">
+                        Ingia / Jisajili
                     </button>
                 </div>
 
@@ -53,28 +56,28 @@
     </header>
 
     <!-- MAIN CONTAINER -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
         
-        <!-- HERO / BANNER -->
-        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-6 md:p-10 text-white mb-8 shadow-lg">
+        <!-- HERO BANNER -->
+        <div class="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-2xl p-6 md:p-8 text-white mb-8 shadow-lg">
             <div class="max-w-xl">
-                <span class="bg-indigo-500/30 text-indigo-100 text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">Soko la Kisasa Tanzania</span>
-                <h1 class="text-3xl md:text-4xl font-extrabold mt-2 mb-3">Nunua au Uza Bidhaa kwa Urahisi na Haraka!</h1>
-                <p class="text-indigo-100 text-sm md:text-base">Mchanganyiko wa kununua moja kwa moja mtandaoni au kuwasiliana na wauzaji moja kwa moja kupitia WhatsApp/Simu.</p>
+                <span class="bg-white/20 text-white text-xs font-semibold px-3 py-1 rounded-full uppercase tracking-wider">SOKO LA KISASA TANZANIA</span>
+                <h1 class="text-2xl md:text-3xl font-extrabold mt-2 mb-2">Nunua au Uza Bidhaa kwa Urahisi na Haraka!</h1>
+                <p class="text-indigo-100 text-sm">Posti bidhaa zako mtandaoni, au wasiliana moja kwa moja na wauzaji kupitia WhatsApp.</p>
             </div>
         </div>
 
         <!-- CATEGORY FILTERS & LAYOUT -->
         <div class="flex flex-col lg:flex-row gap-8">
             
-            <!-- SIDEBAR FILTERS (Shopify Style) -->
+            <!-- SIDEBAR CATEGORIES -->
             <aside class="w-full lg:w-64 flex-shrink-0">
                 <div class="bg-white p-5 rounded-xl border border-gray-200 shadow-sm sticky top-20">
-                    <h3 class="font-bold text-gray-900 mb-4 text-base flex items-center gap-2">
-                        <i class="fa-solid fa-filter text-indigo-600"></i> Aina za Bidhaa (Categories)
+                    <h3 class="font-bold text-gray-900 mb-4 text-sm uppercase tracking-wider flex items-center gap-2">
+                        <i class="fa-solid fa-filter text-indigo-600"></i> Aina za Bidhaa
                     </h3>
                     
-                    <ul class="space-y-2 text-sm" id="categoryList">
+                    <ul class="space-y-1 text-sm">
                         <li>
                             <button onclick="filterCategory('All')" class="category-btn w-full text-left px-3 py-2 rounded-lg font-medium text-indigo-600 bg-indigo-50 transition">
                                 Bidhaa Zote (All)
@@ -107,178 +110,420 @@
             <!-- PRODUCT GRID SECTION -->
             <section class="flex-1">
                 <div class="flex items-center justify-between mb-6">
-                    <h2 class="text-xl font-bold text-gray-900" id="sectionTitle">Bidhaa Zilizopo</h2>
-                    <span id="productCount" class="text-sm text-gray-500 font-medium">Pakua bidhaa...</span>
+                    <h2 class="text-xl font-bold text-gray-900" id="sectionTitle">Bidhaa Zilizopo Sokoni</h2>
+                    <span id="productCount" class="text-xs font-semibold bg-gray-200 px-3 py-1 rounded-full text-gray-700">0 Bidhaa</span>
                 </div>
 
-                <!-- PRODUCTS GRID -->
                 <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Products rendered dynamically via JavaScript -->
+                    <p class="col-span-full text-center text-gray-500 py-10">Inapakia bidhaa kutoka sokoni...</p>
                 </div>
             </section>
 
         </div>
     </main>
 
-    <!-- SHOPPING CART DRAWER (Shopify Style) -->
-    <div id="cartDrawer" class="fixed inset-0 bg-black/50 z-50 hidden transition-opacity">
-        <div class="fixed right-0 top-0 h-full w-full max-w-md bg-white shadow-2xl flex flex-col">
-            <div class="p-4 border-b flex items-center justify-between">
-                <h3 class="font-bold text-lg text-gray-900">Your Cart (Kikapu Chako)</h3>
-                <button onclick="toggleCartDrawer()" class="text-gray-400 hover:text-gray-600 text-xl">&times;</button>
-            </div>
+    <!-- MODAL 1: AUTHENTICATION -->
+    <div id="authModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="toggleModal('authModal')" class="absolute top-4 right-4 text-gray-400 hover:text-black text-2xl font-bold">&times;</button>
+            <h3 class="text-xl font-bold mb-4 text-gray-900" id="authTitle">Ingia kama Muuzaji</h3>
             
-            <div id="cartItems" class="flex-1 overflow-y-auto p-4 space-y-4">
-                <!-- Cart items rendered dynamically -->
-            </div>
-
-            <div class="p-4 border-t bg-gray-50">
-                <div class="flex justify-between font-bold text-lg mb-4">
-                    <span>Jumla (Total):</span>
-                    <span id="cartTotal" class="text-indigo-600">TZS 0</span>
+            <form id="authForm" onsubmit="handleAuth(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Barua Pepe (Email)</label>
+                    <input type="email" id="authEmail" required class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                 </div>
-                <button onclick="checkout()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg transition shadow-md">
-                    Kamilisha Oda (Checkout)
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Nywila (Password)</label>
+                    <input type="password" id="authPass" required class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                </div>
+                <button type="submit" id="authSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 rounded-lg transition">
+                    Ingia Sasa
                 </button>
-            </div>
+            </form>
+
+            <p class="text-xs text-center mt-4 text-gray-600">
+                <span id="authSwitchText">Huna akaunti ya kuuzia?</span> 
+                <button onclick="switchAuthMode()" class="text-indigo-600 font-bold underline" id="authSwitchBtn">Jisajili hapa</button>
+            </p>
         </div>
     </div>
 
-    <!-- ADD PRODUCT MODAL (Jiji / Marketplace Style) -->
-    <div id="addProductModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-4">
-                <h3 class="text-lg font-bold text-gray-900">Weka Bidhaa Mpya Sokoni</h3>
-                <button onclick="toggleModal('addProductModal')" class="text-gray-400 hover:text-gray-600 text-2xl">&times;</button>
-            </div>
+    <!-- MODAL 2: KUPOSTI BIDHAA MPYA -->
+    <div id="postModal" class="fixed inset-0 bg-black/50 z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleModal('postModal')" class="absolute top-4 right-4 text-gray-400 hover:text-black text-2xl font-bold">&times;</button>
+            <h3 class="text-xl font-bold mb-4 text-gray-900">Posti Bidhaa Yako Sokoni</h3>
             
-            <form id="addProductForm" onsubmit="handleAddProduct(event)" class="space-y-4">
+            <form id="postForm" onsubmit="handlePostProduct(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Jina la Bidhaa</label>
                     <input type="text" id="pTitle" required class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                 </div>
-                
+
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Bei (TZS)</label>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Bei (TSH)</label>
                         <input type="number" id="pPrice" required class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Category</label>
-                        <select id="pCategory" class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
-                            <option value="Electronics">Electronics</option>
-                            <option value="Fashion">Fashion</option>
-                            <option value="Vehicles">Vehicles</option>
-                            <option value="Home">Home</option>
+                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Aina (Category)</label>
+                        <select id="pCategory" required class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none bg-white">
+                            <option value="Electronics">Electronics & Simu</option>
+                            <option value="Fashion">Nguo & Mavazi</option>
+                            <option value="Vehicles">Magari & Vyombo</option>
+                            <option value="Home">Nyumba & Samani</option>
                         </select>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Image URL (Kiungo cha Picha)</label>
-                    <input type="url" id="pImage" required placeholder="https://images.unsplash.com/..." class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
+                    <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Namba ya WhatsApp/Simu</label>
+                    <input type="text" id="pPhone" required placeholder="Mfano: 07XXXXXXXX au 2557XXXXXXXX" class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
                 </div>
 
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Jina la Muuzaji (Vendor)</label>
-                        <input type="text" id="pVendor" required class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Namba ya WhatsApp</label>
-                        <input type="text" id="pPhone" required placeholder="2557XXXXXXXX" class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none">
-                    </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Chagua Picha ya Bidhaa</label>
+                    <input type="file" id="pImageFile" accept="image/*" required class="w-full border p-2 rounded-lg text-xs bg-gray-50 focus:outline-none">
+                    <p class="text-[11px] text-gray-400 mt-1">* Picha zote zita-compress-wa kiotomatiki ili isile bando nyingi.</p>
                 </div>
 
-                <button type="submit" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition shadow">
-                    Tangaza Bidhaa
+                <div>
+                    <label class="block text-xs font-semibold text-gray-600 uppercase mb-1">Maelezo Mfupi ya Bidhaa</label>
+                    <textarea id="pDesc" rows="3" required class="w-full border rounded-lg p-2.5 text-sm focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+                </div>
+
+                <button type="submit" id="postSubmitBtn" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 rounded-lg transition flex items-center justify-center gap-2">
+                    <span>Posti Sasa Sokoni</span>
                 </button>
             </form>
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC (State & Functionality) -->
+    <!-- JAVASCRIPT LOGIC & SUPABASE INTEGRATION -->
     <script>
-        // Default Sample Products Data (Initial Store Data)
-        const initialProducts = [
-            {
-                id: 1,
-                title: "iPhone 13 Pro Max - 256GB Gold",
-                price: 1850000,
-                category: "Electronics",
-                vendor: "BunguFX Tech",
-                phone: "255700000000",
-                image: "https://images.unsplash.com/photo-1632661674596-df8be070a5c5?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 2,
-                title: "Nike Air Force 1 Classic White",
-                price: 85000,
-                category: "Fashion",
-                vendor: "Euro Fashion Store",
-                phone: "255700000000",
-                image: "https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 3,
-                title: "Toyota Harrier New Model 2018",
-                price: 38000000,
-                category: "Vehicles",
-                vendor: "Dodoma Auto Sales",
-                phone: "255700000000",
-                image: "https://images.unsplash.com/photo-1549399542-7e3f8b79c341?auto=format&fit=crop&w=600&q=80"
-            },
-            {
-                id: 4,
-                title: "Sofa Set ya Kisasa (L-Shape)",
-                price: 1200000,
-                category: "Home",
-                vendor: "UDOM Furniture Mart",
-                phone: "255700000000",
-                image: "https://images.unsplash.com/photo-1555041469-a586c61ea9bc?auto=format&fit=crop&w=600&q=80"
-            }
-        ];
+        // =========================================================================
+        // 1. SUPABASE CONFIGURATION (Zilizounganishwa Kiotomatiki)
+        // =========================================================================
+        const SUPABASE_URL = "https://hrzjdbhciwxphchyyolk.supabase.co"; 
+        const SUPABASE_ANON_KEY = "sb_publishable_B1Kp32-6IaemD_7pMCHhKg_yxNMd8ii"; 
 
-        // State Management
-        let products = JSON.parse(localStorage.getItem('soko_products')) || initialProducts;
-        let cart = JSON.parse(localStorage.getItem('soko_cart')) || [];
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let currentUser = null;
+        let allProducts = [];
         let activeCategory = 'All';
+        let isSignUp = false;
 
-        // Save products state to LocalStorage
-        function saveProducts() {
-            localStorage.setItem('soko_products', JSON.stringify(products));
+        // =========================================================================
+        // 2. CHECK USER SESSION & AUTH LOGIC
+        // =========================================================================
+        async function checkUserSession() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            updateUserUI(session ? session.user : null);
+
+            supabaseClient.auth.onAuthStateChange((_event, session) => {
+                updateUserUI(session ? session.user : null);
+            });
         }
 
-        // Save cart state to LocalStorage
-        function saveCart() {
-            localStorage.setItem('soko_cart', JSON.stringify(cart));
-            updateCartUI();
+        function updateUserUI(user) {
+            currentUser = user;
+            const loginBtn = document.getElementById('loginBtn');
+            const userInfo = document.getElementById('userInfo');
+            const userEmail = document.getElementById('userEmail');
+
+            if (user) {
+                loginBtn.classList.add('hidden');
+                userInfo.classList.remove('hidden');
+                userEmail.innerText = user.email;
+            } else {
+                loginBtn.classList.remove('hidden');
+                userInfo.classList.add('hidden');
+            }
+            renderProducts();
         }
 
-        // Render Products to Screen
-        function renderProducts(itemsToRender = null) {
+        async function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const password = document.getElementById('authPass').value;
+            const btn = document.getElementById('authSubmitBtn');
+
+            btn.disabled = true;
+            btn.innerText = "Tafadhali subiri...";
+
+            try {
+                if (isSignUp) {
+                    const { data, error } = await supabaseClient.auth.signUp({ email, password });
+                    if (error) throw error;
+                    alert("Akaunti ya muuzaji imetengenezwa kikamilifu!");
+                } else {
+                    const { data, error } = await supabaseClient.auth.signInWithPassword({ email, password });
+                    if (error) throw error;
+                }
+                toggleModal('authModal');
+                document.getElementById('authForm').reset();
+            } catch (err) {
+                alert("Hitilafu: " + err.message);
+            } finally {
+                btn.disabled = false;
+                btn.innerText = isSignUp ? "Jisajili" : "Ingia";
+            }
+        }
+
+        async function logout() {
+            await supabaseClient.auth.signOut();
+        }
+
+        function switchAuthMode() {
+            isSignUp = !isSignUp;
+            document.getElementById('authTitle').innerText = isSignUp ? "Jisajili kama Muuzaji" : "Ingia kama Muuzaji";
+            document.getElementById('authSubmitBtn').innerText = isSignUp ? "Jisajili Sasa" : "Ingia Sasa";
+            document.getElementById('authSwitchText').innerText = isSignUp ? "Umeshajisajili?" : "Huna akaunti ya kuuzia?";
+            document.getElementById('authSwitchBtn').innerText = isSignUp ? "Ingia hapa" : "Jisajili hapa";
+        }
+
+        function openPostModal() {
+            if (!currentUser) {
+                alert("Tafadhali ingia au jisajili kama muuzaji ili kuposti bidhaa!");
+                toggleModal('authModal');
+                return;
+            }
+            toggleModal('postModal');
+        }
+
+        // =========================================================================
+        // 3. IMAGE COMPRESSION & UPLOAD TO SUPABASE STORAGE BUCKET
+        // =========================================================================
+        async function compressAndUploadImage(file) {
+            const options = {
+                maxSizeMB: 0.8,
+                maxWidthOrHeight: 1200,
+                useWebWorker: true
+            };
+
+            let fileToUpload = file;
+            try {
+                fileToUpload = await imageCompression(file, options);
+            } catch (error) {
+                console.log("Compression skipped, uploading original image:", error);
+            }
+
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${fileExt}`;
+            const filePath = `product-images/${fileName}`;
+
+            const { data, error } = await supabaseClient
+                .storage
+                .from('sokolink-images')
+                .upload(filePath, fileToUpload, { cacheControl: '3600', upsert: false });
+
+            if (error) throw error;
+
+            const { data: publicUrlData } = supabaseClient
+                .storage
+                .from('sokolink-images')
+                .getPublicUrl(filePath);
+
+            return publicUrlData.publicUrl;
+        }
+
+        // =========================================================================
+        // 4. POST PRODUCT TO DATABASE
+        // =========================================================================
+        async function handlePostProduct(e) {
+            e.preventDefault();
+            if (!currentUser) return;
+
+            const postBtn = document.getElementById('postSubmitBtn');
+            postBtn.disabled = true;
+            postBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Inaload & Inacompress...`;
+
+            try {
+                const fileInput = document.getElementById('pImageFile');
+                if (!fileInput.files || fileInput.files.length === 0) {
+                    alert("Tafadhali chagua picha ya bidhaa!");
+                    return;
+                }
+
+                const imageUrl = await compressAndUploadImage(fileInput.files[0]);
+
+                const productData = {
+                    title: document.getElementById('pTitle').value,
+                    category: document.getElementById('pCategory').value,
+                    price: parseFloat(document.getElementById('pPrice').value),
+                    phone: document.getElementById('pPhone').value,
+                    image_url: imageUrl,
+                    description: document.getElementById('pDesc').value,
+                    user_id: currentUser.id,
+                    user_email: currentUser.email
+                };
+
+                const { error } = await supabaseClient
+                    .from('products')
+                    .insert([productData]);
+
+                if (error) throw error;
+
+                alert("Bidhaa yako imepostiwa na kuhifadhiwa kikamilifu!");
+                document.getElementById('postForm').reset();
+                toggleModal('postModal');
+                fetchProducts();
+            } catch (err) {
+                alert("Imeshindwa kuposti: " + err.message);
+            } finally {
+                postBtn.disabled = false;
+                postBtn.innerHTML = `<span>Posti Sasa Sokoni</span>`;
+            }
+        }
+
+        // =========================================================================
+        // 5. FETCH & DISPLAY PRODUCTS
+        // =========================================================================
+        async function fetchProducts() {
+            try {
+                const { data, error } = await supabaseClient
+                    .from('products')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) throw error;
+
+                allProducts = data || [];
+                renderProducts();
+            } catch (err) {
+                console.error("Error fetching products:", err.message);
+            }
+        }
+
+        function renderProducts() {
             const grid = document.getElementById('productsGrid');
-            const list = itemsToRender || getFilteredProducts();
-            
-            document.getElementById('productCount').innerText = `${list.length} bidhaa zimepatikana`;
+            const filtered = activeCategory === 'All' 
+                ? allProducts 
+                : allProducts.filter(p => p.category === activeCategory);
+
+            document.getElementById('productCount').innerText = `${filtered.length} Bidhaa`;
             grid.innerHTML = '';
 
-            if (list.length === 0) {
-                grid.innerHTML = `
-                    <div class="col-span-full text-center py-12">
-                        <i class="fa-solid fa-box-open text-4xl text-gray-300 mb-3"></i>
-                        <p class="text-gray-500 font-medium">Hakuna bidhaa iliyopatikana kwenye kipengele hiki.</p>
-                    </div>
-                `;
+            if (filtered.length === 0) {
+                grid.innerHTML = '<p class="col-span-full text-center text-gray-500 py-10">Hakuna bidhaa iliyopatikana kwenye sehemu hii.</p>';
                 return;
             }
 
-            list.forEach(p => {
+            filtered.forEach(p => {
+                const isOwner = currentUser && (currentUser.id === p.user_id);
+
                 const card = document.createElement('div');
-                card.className = "bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm transition-all duration-200 product-card flex flex-col justify-between";
+                card.className = "bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between";
                 
                 card.innerHTML = `
                     <div>
-                        <div class="relative h-48 overflow-hidden bg-gray-100">
-                            <img src="${p.image}" alt="${p.title}" class="w-full h-full object-cover">
-                            <span class="absolute top-2 right-2 bg-white/90 backdrop-blur text-xs font-bold px-2 py-1 rounded text-gray-7
+                        <div class="relative h-48 bg-gray-100 overflow-hidden">
+                            <img src="${p.image_url}" alt="${p.title}" class="w-full h-full object-cover" onerror="this.src='https://via.placeholder.com/300?text=Picha+Haipatikani'">
+                            <span class="absolute top-2 right-2 bg-white/90 text-xs font-bold px-2 py-1 rounded text-gray-700 shadow-sm">${p.category}</span>
+                        </div>
+                        <div class="p-4">
+                            <p class="text-xs text-indigo-600 font-semibold mb-1 flex items-center gap-1">
+                                <i class="fa-solid fa-user text-[10px]"></i> ${p.user_email.split('@')[0]}
+                            </p>
+                            <h3 class="font-bold text-gray-900 text-sm mb-1 line-clamp-1">${p.title}</h3>
+                            <p class="text-gray-500 text-xs mb-3 line-clamp-2">${p.description}</p>
+                            <p class="text-green-600 font-black text-lg">TZS ${Number(p.price).toLocaleString()}</p>
+                        </div>
+                    </div>
+
+                    <div class="p-4 pt-0 flex items-center gap-2">
+                        <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Habari,%20ninaulizia%20kuhusu%20bidhaa%20yako%20ya%20${encodeURIComponent(p.title)}" 
+                           target="_blank" 
+                           class="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-2 rounded-lg text-xs text-center transition flex items-center justify-center gap-1">
+                            <i class="fa-brands fa-whatsapp text-sm"></i> WhatsApp
+                        </a>
+                        ${isOwner ? `
+                            <button onclick="deleteProduct('${p.id}')" class="bg-red-50 hover:bg-red-100 text-red-600 p-2 rounded-lg transition border border-red-200" title="Futa Bidhaa Yako">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        ` : ''}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        // =========================================================================
+        // 6. DELETE PRODUCT
+        // =========================================================================
+        async function deleteProduct(productId) {
+            if (!confirm("Je, una uhakika unataka kufuta bidhaa hii?")) return;
+
+            try {
+                const { error } = await supabaseClient
+                    .from('products')
+                    .delete()
+                    .eq('id', productId);
+
+                if (error) throw error;
+
+                alert("Bidhaa imefutwa kikamilifu!");
+                fetchProducts();
+            } catch (err) {
+                alert("Hitilafu wakati wa kufuta: " + err.message);
+            }
+        }
+
+        // =========================================================================
+        // 7. FILTERS & SEARCH
+        // =========================================================================
+        function filterCategory(cat) {
+            activeCategory = cat;
+            document.getElementById('sectionTitle').innerText = cat === 'All' ? 'Bidhaa Zilizopo Sokoni' : `Bidhaa: ${cat}`;
+            renderProducts();
+        }
+
+        function filterProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = allProducts.filter(p => 
+                p.title.toLowerCase().includes(query) || 
+                p.description.toLowerCase().includes(query)
+            );
+            
+            const grid = document.getElementById('productsGrid');
+            document.getElementById('productCount').innerText = `${filtered.length} Bidhaa`;
+            grid.innerHTML = '';
+
+            filtered.forEach(p => {
+                const isOwner = currentUser && (currentUser.id === p.user_id);
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-md transition flex flex-col justify-between";
+                card.innerHTML = `
+                    <div>
+                        <div class="relative h-48 bg-gray-100 overflow-hidden">
+                            <img src="${p.image_url}" alt="${p.title}" class="w-full h-full object-cover">
+                            <span class="absolute top-2 right-2 bg-white/90 text-xs font-bold px-2 py-1 rounded text-gray-700 shadow-sm">${p.category}</span>
+                        </div>
+                        <div class="p-4">
+                            <h3 class="font-bold text-gray-900 text-sm mb-1 line-clamp-1">${p.title}</h3>
+                            <p class="text-green-600 font-black text-lg">TZS ${Number(p.price).toLocaleString()}</p>
+                        </div>
+                    </div>
+                    <div class="p-4 pt-0 flex items-center gap-2">
+                        <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Habari,%20ninaulizia%20kuhusu%20${encodeURIComponent(p.title)}" target="_blank" class="flex-1 bg-emerald-500 text-white font-bold py-2 rounded-lg text-xs text-center">WhatsApp</a>
+                        ${isOwner ? `<button onclick="deleteProduct('${p.id}')" class="bg-red-50 text-red-600 p-2 rounded-lg"><i class="fa-solid fa-trash"></i></button>` : ''}
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function toggleModal(id) {
+            document.getElementById(id).classList.toggle('hidden');
+        }
+
+        // INITIALIZE
+        window.onload = () => {
+            checkUserSession();
+            fetchProducts();
+        };
+    </script>
+</body>
+</html>
