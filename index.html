@@ -18,40 +18,51 @@
             }
         }
     </script>
+    <style>
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+        .animate-sponsor-scroll {
+            display: flex;
+            width: max-content;
+            animation: scroll 30s linear infinite;
+        }
+        .animate-sponsor-scroll:hover {
+            animation-play-state: paused;
+        }
+    </style>
 </head>
 <body class="bg-gray-50 text-gray-800 font-sans antialiased">
 
     <!-- TOP NAVIGATION BAR -->
     <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <!-- Brand Logo: Soko Faster -->
             <div class="flex items-center space-x-3">
                 <a href="#" class="text-2xl font-black tracking-tight text-brand-600 flex items-center gap-2">
                     <i class="fa-solid fa-bolt-lightning text-amber-500"></i> Soko <span class="text-gray-900">Faster</span>
                 </a>
-                <span class="hidden md:inline-block text-xs uppercase bg-brand-50 text-brand-700 font-semibold px-2 py-1 rounded-full border border-brand-100">Secure Global Hub</span>
+                <span class="hidden md:inline-block text-xs uppercase bg-brand-50 text-brand-700 font-semibold px-2 py-1 rounded-full border border-brand-100">Global Hub</span>
             </div>
 
             <!-- Search Bar -->
             <div class="hidden md:flex flex-1 max-w-xl mx-8">
                 <div class="relative w-full flex items-center">
-                    <input type="text" placeholder="Search verified global products on Soko Faster..." class="w-full pl-4 pr-12 py-2.5 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                    <input type="text" placeholder="Search verified products & businesses..." class="w-full pl-4 pr-12 py-2.5 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
                     <button class="bg-brand-600 text-white px-6 py-2.5 rounded-r-lg hover:bg-brand-700 transition text-sm font-medium">
                         <i class="fa-solid fa-search"></i>
                     </button>
                 </div>
             </div>
 
-            <!-- Right Actions: Auth & Add Product Button -->
+            <!-- Right Actions -->
             <div class="flex items-center space-x-4">
-                <!-- Add Product Button (+) -->
-                <button onclick="openAddModal()" class="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-md hover:from-amber-600 hover:to-orange-600 transition transform hover:scale-105" title="List a New Product">
+                <button onclick="openAddModal()" class="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-md hover:from-amber-600 hover:to-orange-600 transition transform hover:scale-105">
                     <i class="fa-solid fa-plus text-base font-bold"></i>
                     <span class="hidden sm:inline">Sell Product</span>
                 </button>
 
-                <!-- Auth Links (Sign In / Register) -->
-                <div class="flex items-center space-x-3 border-l pl-4 border-gray-200 text-sm font-medium">
+                <div id="authNavArea" class="flex items-center space-x-3 border-l pl-4 border-gray-200 text-sm font-medium">
                     <button onclick="openAuthModal('login')" class="text-gray-600 hover:text-brand-600 transition">Sign In</button>
                     <span class="text-gray-300">/</span>
                     <button onclick="openAuthModal('register')" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition shadow-sm">Register</button>
@@ -60,12 +71,12 @@
         </div>
     </header>
 
-    <!-- HERO SECTION WITH COMPELLING GLOBAL COPYWRITING -->
+    <!-- HERO SECTION -->
     <section class="bg-gradient-to-r from-slate-900 via-indigo-950 to-brand-700 text-white py-20 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
         <div class="max-w-4xl mx-auto relative z-10">
             <span class="inline-block bg-white/10 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 border border-white/10 backdrop-blur-md">Trusted Worldwide Trade</span>
             <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">Empowering Secure Global Commerce on Soko Faster</h1>
-            <p class="text-lg sm:text-xl text-indigo-200 max-w-2xl mx-auto mb-10">Connect with verified manufacturers, wholesalers, and buyers worldwide. Protected by secure email verification and trusted authentication.</p>
+            <p class="text-lg sm:text-xl text-indigo-200 max-w-2xl mx-auto mb-10">Connect with verified businesses, wholesalers, and retail buyers worldwide with persistent accounts and secure listings.</p>
             <div class="flex flex-wrap justify-center gap-4">
                 <button onclick="openAuthModal('register')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-8 py-4 rounded-xl shadow-xl transition transform hover:-translate-y-0.5">Join Securely Free</button>
                 <button onclick="openAddModal()" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold px-8 py-4 rounded-xl transition backdrop-blur-md">Start Selling Now</button>
@@ -73,24 +84,51 @@
         </div>
     </section>
 
-    <!-- SPONSORS / TRUSTED PARTNERS SECTION (Vodacom, Coca-Cola, etc.) -->
-    <section class="bg-white border-b border-gray-200 py-8">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">Strategic Global Partners & Sponsors of Soko Faster</h3>
-            <div id="sponsorsContainer" class="flex flex-wrap justify-center items-center gap-8 sm:gap-16 opacity-80 hover:opacity-100 transition duration-300">
-                <div class="flex items-center gap-2 text-xl font-black text-red-600"><i class="fa-solid fa-bottle-droplet"></i> Coca-Cola</div>
-                <div class="flex items-center gap-2 text-xl font-black text-red-500"><i class="fa-solid fa-signal"></i> Vodacom</div>
-                <div class="flex items-center gap-2 text-xl font-black text-blue-700"><i class="fa-solid fa-credit-card"></i> Mastercard</div>
-                <div class="flex items-center gap-2 text-xl font-black text-amber-600"><i class="fa-solid fa-plane-departure"></i> DHL Express</div>
+    <!-- SPONSORS / 10 TOP GLOBAL & AFRICAN BRANDS ANIMATED CAROUSEL -->
+    <section class="bg-white border-b border-gray-200 py-6 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3 flex justify-between items-center">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400">Strategic Global Partners & Sponsors</h3>
+            <div id="adminControlPanel" class="hidden">
+                <button onclick="addSponsorPrompt()" class="text-xs bg-brand-50 text-brand-600 border border-brand-200 px-3 py-1 rounded-md hover:bg-brand-100 font-semibold transition">
+                    <i class="fa-solid fa-gear mr-1"></i> [Admin] Add Sponsor
+                </button>
             </div>
-            <!-- Admin Control Hint -->
-            <div class="mt-4">
-                <button onclick="addSponsorPrompt()" class="text-xs text-brand-600 hover:underline font-semibold"><i class="fa-solid fa-gear mr-1"></i> [Admin] Add New Sponsor</button>
+        </div>
+
+        <div class="w-full overflow-hidden relative">
+            <div id="sponsorsContainer" class="animate-sponsor-scroll flex items-center gap-16">
+                <!-- 10 Top Global & African Sponsors (Duplicated for seamless loop) -->
+                <div class="flex items-center gap-2 text-xl font-black text-red-500 shrink-0"><i class="fa-solid fa-signal"></i> Vodacom</div>
+                <div class="flex items-center gap-2 text-xl font-black text-blue-700 shrink-0"><i class="fa-solid fa-credit-card"></i> Mastercard</div>
+                <div class="flex items-center gap-2 text-xl font-black text-red-600 shrink-0"><i class="fa-solid fa-bottle-droplet"></i> Coca-Cola</div>
+                <div class="flex items-center gap-2 text-xl font-black text-amber-600 shrink-0"><i class="fa-solid fa-plane-departure"></i> DHL Express</div>
+                <div class="flex items-center gap-2 text-xl font-black text-blue-500 shrink-0"><i class="fa-solid fa-globe"></i> Visa</div>
+                <div class="flex items-center gap-2 text-xl font-black text-emerald-600 shrink-0"><i class="fa-solid fa-mobile-screen"></i> M-Pesa Africa</div>
+                <div class="flex items-center gap-2 text-xl font-black text-cyan-600 shrink-0"><i class="fa-solid fa-box"></i> Alibaba Group</div>
+                <div class="flex items-center gap-2 text-xl font-black text-indigo-600 shrink-0"><i class="fa-solid fa-store"></i> Jumia</div>
+                <div class="flex items-center gap-2 text-xl font-black text-blue-900 shrink-0"><i class="fa-solid fa-building-columns"></i> Equity Bank</div>
+                <div class="flex items-center gap-2 text-xl font-black text-orange-600 shrink-0"><i class="fa-solid fa-bolt"></i> Amazon Global</div>
+
+                <!-- Duplicate Loop Set -->
+                <div class="flex items-center gap-2 text-xl font-black text-red-500 shrink-0"><i class="fa-solid fa-signal"></i> Vodacom</div>
+                <div class="flex items-center gap-2 text-xl font-black text-blue-700 shrink-0"><i class="fa-solid fa-credit-card"></i> Mastercard</div>
+                <div class="flex items-center gap-2 text-xl font-black text-red-600 shrink-0"><i class="fa-solid fa-bottle-droplet"></i> Coca-Cola</div>
+                <div class="flex items-center gap-2 text-xl font-black text-amber-600 shrink-0"><i class="fa-solid fa-plane-departure"></i> DHL Express</div>
+                <div class="flex items-center gap-2 text-xl font-black text-blue-500 shrink-0"><i class="fa-solid fa-globe"></i> Visa</div>
+                <div class="flex items-center gap-2 text-xl font-black text-emerald-600 shrink-0"><i class="fa-solid fa-mobile-screen"></i> M-Pesa Africa</div>
+                <div class="flex items-center gap-2 text-xl font-black text-cyan-600 shrink-0"><i class="fa-solid fa-box"></i> Alibaba Group</div>
+                <div class="flex items-center gap-2 text-xl font-black text-indigo-600 shrink-0"><i class="fa-solid fa-store"></i> Jumia</div>
+                <div class="flex items-center gap-2 text-xl font-black text-blue-900 shrink-0"><i class="fa-solid fa-building-columns"></i> Equity Bank</div>
+                <div class="flex items-center gap-2 text-xl font-black text-orange-600 shrink-0"><i class="fa-solid fa-bolt"></i> Amazon Global</div>
             </div>
+        </div>
+        
+        <div class="text-right max-w-7xl mx-auto px-4 mt-2">
+            <button onclick="verifyAdminAccess()" class="text-[10px] text-gray-300 hover:text-gray-500">Admin Access</button>
         </div>
     </section>
 
-    <!-- MAIN PRODUCT CATALOGUE SECTION -->
+    <!-- MAIN PRODUCT CATALOGUE -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div class="flex justify-between items-center mb-8">
             <div>
@@ -99,51 +137,40 @@
             </div>
         </div>
 
-        <!-- Product Grid -->
         <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Sample Product Card with Delete Capability -->
-            <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition group relative">
-                <button onclick="this.closest('.bg-white').remove()" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs backdrop-blur-md z-10 transition shadow" title="Delete Product">
-                    <i class="fa-solid fa-trash"></i>
-                </button>
-                <div class="relative h-56 bg-gray-100 overflow-hidden">
-                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" alt="Product" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                    <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> Shenzhen, China</span>
-                </div>
-                <div class="p-5">
-                    <div class="text-xs font-semibold text-brand-600 uppercase mb-1">Electronics</div>
-                    <h3 class="font-bold text-gray-900 text-base mb-2 truncate">Smart Watch Ultra Series 8</h3>
-                    <div class="flex items-baseline justify-between mb-4">
-                        <span class="text-xl font-black text-gray-900">$45.00</span>
-                        <span class="text-xs text-gray-500">MOQ: 1 Unit</span>
-                    </div>
-                    <button class="w-full bg-gray-900 hover:bg-brand-600 text-white py-2.5 rounded-xl font-medium text-sm transition flex items-center justify-center gap-2">
-                        <i class="fa-solid fa-paper-plane"></i> Contact Supplier
-                    </button>
-                </div>
-            </div>
+            <!-- Dynamically populated and loaded from localStorage -->
         </div>
     </main>
 
-    <!-- AUTH MODAL WITH EMAIL ACTIVATION SECURITY -->
+    <!-- AUTH MODAL (Username, Email, Password, Confirm Password with Show/Hide) -->
     <div id="authModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
             <div id="authTitle" class="text-2xl font-black text-gray-900 mb-2">Welcome Back to Soko Faster</div>
-            <p id="authSubtitle" class="text-sm text-gray-500 mb-6">Sign in securely with verified email credentials.</p>
+            <p id="authSubtitle" class="text-sm text-gray-500 mb-6">Sign in securely to manage your business storefront.</p>
             
             <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
-                <div id="nameFieldContainer" class="hidden">
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Full Name</label>
-                    <input type="text" id="authName" placeholder="Emmanuel Mwakabungu" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
+                <div id="businessUsernameContainer" class="hidden">
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Business Store Username</label>
+                    <input type="text" id="authUsername" placeholder="e.g. BunguFX Store" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Email Address (Requires Activation)</label>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Email Address</label>
                     <input type="email" id="authEmail" required placeholder="name@example.com" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
                 </div>
                 <div>
                     <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Password</label>
-                    <input type="password" id="authPass" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
+                    <div class="relative">
+                        <input type="password" id="authPass" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm pr-10">
+                        <button type="button" onclick="togglePasswordVisibility('authPass', this)" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-eye"></i></button>
+                    </div>
+                </div>
+                <div id="confirmPassContainer" class="hidden">
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Confirm Password</label>
+                    <div class="relative">
+                        <input type="password" id="authConfirmPass" placeholder="••••••••" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm pr-10">
+                        <button type="button" onclick="togglePasswordVisibility('authConfirmPass', this)" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-eye"></i></button>
+                    </div>
                 </div>
                 <button type="submit" id="authSubmitBtn" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-3 rounded-xl transition shadow-md mt-2">Sign In</button>
             </form>
@@ -155,7 +182,7 @@
         </div>
     </div>
 
-    <!-- ADD PRODUCT MODAL (With Image Compressor & Delete Support) -->
+    <!-- ADD PRODUCT MODAL (Currency Selector: TZS & USD + Whole Image Contain) -->
     <div id="addProductModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6 border-b pb-4">
@@ -166,17 +193,23 @@
             <form id="productForm" onsubmit="handleProductSubmit(event)" class="space-y-4">
                 <div>
                     <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Title</label>
-                    <input type="text" id="pTitle" required placeholder="e.g., Wireless Bluetooth Earbuds" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
+                    <input type="text" id="pTitle" required placeholder="e.g., Note 20 / Smart Watch" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
                 </div>
                 
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Price (USD)</label>
-                        <input type="number" step="0.01" id="pPrice" required placeholder="29.99" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Currency & Price</label>
+                        <div class="flex gap-2">
+                            <select id="pCurrency" class="px-2 py-2.5 rounded-lg border border-gray-300 text-xs bg-gray-50 font-bold focus:outline-none">
+                                <option value="TZS">TZS (Shilingi)</option>
+                                <option value="USD">USD ($)</option>
+                            </select>
+                            <input type="number" step="0.01" id="pPrice" required placeholder="250000" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
+                        </div>
                     </div>
                     <div>
                         <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Location (City, Country)</label>
-                        <input type="text" id="pLocation" required placeholder="e.g., Dar es Salaam, TZ" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
+                        <input type="text" id="pLocation" required placeholder="e.g., Dodoma, TZ" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
                     </div>
                 </div>
 
@@ -190,11 +223,10 @@
                     </select>
                 </div>
 
-                <!-- Image Upload with Auto-Compressor -->
                 <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Image (Auto-Compressed)</label>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Image (Displayed Whole)</label>
                     <input type="file" id="pImageFile" accept="image/*" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
-                    <p class="text-xs text-gray-400 mt-1">Images are optimized automatically for high performance without losing resolution.</p>
+                    <p class="text-xs text-gray-400 mt-1">Image remains complete and preserved without cropping.</p>
                 </div>
 
                 <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-3 rounded-xl transition shadow-md mt-4">Publish Product</button>
@@ -202,9 +234,31 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- ROBUST JAVASCRIPT LOGIC -->
     <script>
         let isRegisterMode = false;
+        let currentUser = JSON.parse(localStorage.getItem('soko_current_user')) || null;
+        let isAdminActive = localStorage.getItem('soko_admin_active') === 'true';
+
+        window.addEventListener('DOMContentLoaded', () => {
+            if (isAdminActive) {
+                document.getElementById('adminControlPanel').classList.remove('hidden');
+            }
+            updateNavigationUI();
+            renderProducts();
+        });
+
+        function verifyAdminAccess() {
+            const pass = prompt("Weka neno la siri la Admin:");
+            if (pass === "BunguAdmin2026" || pass === "admin") {
+                isAdminActive = true;
+                localStorage.setItem('soko_admin_active', 'true');
+                document.getElementById('adminControlPanel').classList.remove('hidden');
+                alert("Umefanikiwa kuingia kama Admin!");
+            } else {
+                alert("Neno la siri si sahihi!");
+            }
+        }
 
         function openAuthModal(mode) {
             isRegisterMode = (mode === 'register');
@@ -218,26 +272,45 @@
             isRegisterMode = !isRegisterMode;
             updateAuthModalUI();
         }
+        
+        function togglePasswordVisibility(fieldId, btn) {
+            const input = document.getElementById(fieldId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+            } else {
+                input.type = 'password';
+                btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+            }
+        }
+
         function updateAuthModalUI() {
             const title = document.getElementById('authTitle');
             const subtitle = document.getElementById('authSubtitle');
             const btn = document.getElementById('authSubmitBtn');
-            const nameContainer = document.getElementById('nameFieldContainer');
+            const usernameContainer = document.getElementById('businessUsernameContainer');
+            const confirmPassContainer = document.getElementById('confirmPassContainer');
             const switchText = document.getElementById('authSwitchText');
             const switchBtn = document.getElementById('authSwitchBtn');
 
             if (isRegisterMode) {
-                title.innerText = "Create Secure Account";
-                subtitle.innerText = "Register on Soko Faster. Email activation link will be required.";
-                btn.innerText = "Register & Send Activation";
-                nameContainer.classList.remove('hidden');
+                title.innerText = "Create Store Account";
+                subtitle.innerText = "Register your business username & credentials.";
+                btn.innerText = "Register Store";
+                usernameContainer.classList.remove('hidden');
+                confirmPassContainer.classList.remove('hidden');
+                document.getElementById('authUsername').setAttribute('required', 'true');
+                document.getElementById('authConfirmPass').setAttribute('required', 'true');
                 switchText.innerText = "Already have an account?";
                 switchBtn.innerText = "Sign In";
             } else {
                 title.innerText = "Welcome Back to Soko Faster";
-                subtitle.innerText = "Sign in securely with your verified account.";
+                subtitle.innerText = "Sign in securely with your email and password.";
                 btn.innerText = "Sign In";
-                nameContainer.classList.add('hidden');
+                usernameContainer.classList.add('hidden');
+                confirmPassContainer.classList.add('hidden');
+                document.getElementById('authUsername').removeAttribute('required');
+                document.getElementById('authConfirmPass').removeAttribute('required');
                 switchText.innerText = "Don't have an account?";
                 switchBtn.innerText = "Register";
             }
@@ -246,12 +319,53 @@
         function handleAuthSubmit(e) {
             e.preventDefault();
             const email = document.getElementById('authEmail').value;
+            const pass = document.getElementById('authPass').value;
+
             if (isRegisterMode) {
-                alert(`Registration successful! An activation link has been sent to (${email}). Please verify your email to activate your account on Soko Faster.`);
+                const username = document.getElementById('authUsername').value;
+                const confirmPass = document.getElementById('authConfirmPass').value;
+
+                if (pass !== confirmPass) {
+                    alert("Password hazifanani! Tafadhali hakiki tena.");
+                    return;
+                }
+
+                currentUser = { username: username, email: email };
+                localStorage.setItem('soko_current_user', JSON.stringify(currentUser));
+                alert(`Akaunti ya biashara (${username}) imetengenezwa kikamilifu!`);
             } else {
-                alert("Signed in successfully to Soko Faster!");
+                const username = email.split('@')[0];
+                currentUser = { username: username, email: email };
+                localStorage.setItem('soko_current_user', JSON.stringify(currentUser));
             }
+
+            updateNavigationUI();
             closeAuthModal();
+        }
+
+        function handleLogout() {
+            currentUser = null;
+            localStorage.removeItem('soko_current_user');
+            updateNavigationUI();
+        }
+
+        function updateNavigationUI() {
+            const navArea = document.getElementById('authNavArea');
+            if (currentUser) {
+                navArea.innerHTML = `
+                    <div class="flex items-center gap-2 text-sm font-bold text-gray-900 bg-gray-100 px-3 py-1.5 rounded-lg">
+                        <i class="fa-solid fa-store text-brand-600"></i>
+                        <span>${currentUser.username}</span>
+                    </div>
+                    <button onclick="handleLogout()" class="text-xs text-red-600 hover:underline font-semibold ml-2">Logout</button>
+                `;
+            } else {
+                navArea.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="text-gray-600 hover:text-brand-600 transition">Sign In</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="openAuthModal('register')" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition shadow-sm">Register</button>
+                `;
+            }
         }
 
         function openAddModal() {
@@ -261,7 +375,6 @@
             document.getElementById('addProductModal').classList.add('hidden');
         }
 
-        // Client-side Image Compressor
         function compressImage(file, quality = 0.75, maxWidth = 1200) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
@@ -290,10 +403,10 @@
             });
         }
 
-        // Handle Product Submission with Delete Button
         async function handleProductSubmit(e) {
             e.preventDefault();
             const title = document.getElementById('pTitle').value;
+            const currency = document.getElementById('pCurrency').value;
             const price = document.getElementById('pPrice').value;
             const location = document.getElementById('pLocation').value;
             const category = document.getElementById('pCategory').value;
@@ -301,43 +414,85 @@
 
             if (fileInput) {
                 const compressedImageData = await compressImage(fileInput, 0.75);
+                const formattedPrice = currency === 'TZS' ? `TZS ${Number(price).toLocaleString()}` : `$${Number(price).toFixed(2)}`;
 
-                const grid = document.getElementById('productGrid');
-                const card = document.createElement('div');
-                card.className = "bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition group relative";
-                card.innerHTML = `
-                    <button onclick="this.closest('.bg-white').remove()" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs backdrop-blur-md z-10 transition shadow" title="Delete Product">
+                const newProduct = {
+                    id: Date.now(),
+                    title,
+                    formattedPrice,
+                    location,
+                    category,
+                    image: compressedImageData,
+                    seller: currentUser ? currentUser.username : "Soko Merchant"
+                };
+
+                let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+                products.unshift(newProduct);
+                localStorage.setItem('soko_products', JSON.stringify(products));
+
+                renderProducts();
+                closeAddModal();
+                document.getElementById('productForm').reset();
+            }
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+
+            if (products.length === 0) {
+                // Default Sample
+                products = [{
+                    id: 1,
+                    title: "Note 20",
+                    formattedPrice: "TZS 780,000",
+                    location: "Dodoma, TZ",
+                    category: "Electronics & Gadgets",
+                    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
+                    seller: "BunguFX Store"
+                }];
+            }
+
+            grid.innerHTML = products.map(p => `
+                <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition group relative">
+                    <button onclick="deleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs backdrop-blur-md z-10 transition shadow" title="Delete Product">
                         <i class="fa-solid fa-trash"></i>
                     </button>
-                    <div class="relative h-56 bg-gray-100 overflow-hidden">
-                        <img src="${compressedImageData}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                        <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${location}</span>
+                    <div class="relative h-64 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
+                        <img src="${p.image}" alt="${p.title}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
+                        <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${p.location}</span>
                     </div>
                     <div class="p-5">
-                        <div class="text-xs font-semibold text-brand-600 uppercase mb-1">${category}</div>
-                        <h3 class="font-bold text-gray-900 text-base mb-2 truncate">${title}</h3>
+                        <div class="flex justify-between items-center mb-1">
+                            <span class="text-xs font-semibold text-brand-600 uppercase">${p.category}</span>
+                            <span class="text-[10px] text-gray-400 bg-gray-100 px-2 py-0.5 rounded">By: ${p.seller}</span>
+                        </div>
+                        <h3 class="font-bold text-gray-900 text-base mb-2 truncate">${p.title}</h3>
                         <div class="flex items-baseline justify-between mb-4">
-                            <span class="text-xl font-black text-gray-900">$${Number(price).toFixed(2)}</span>
+                            <span class="text-xl font-black text-gray-900">${p.formattedPrice}</span>
                             <span class="text-xs text-gray-500">Retail / Wholesale</span>
                         </div>
                         <button class="w-full bg-gray-900 hover:bg-brand-600 text-white py-2.5 rounded-xl font-medium text-sm transition flex items-center justify-center gap-2">
                             <i class="fa-solid fa-paper-plane"></i> Contact Supplier
                         </button>
                     </div>
-                `;
-                grid.prepend(card);
-                closeAddModal();
-                document.getElementById('productForm').reset();
-            }
+                </div>
+            `).join('');
         }
 
-        // Admin Function to Add Sponsors Dynamically
+        function deleteProduct(id) {
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            products = products.filter(p => p.id !== id);
+            localStorage.setItem('soko_products', JSON.stringify(products));
+            renderProducts();
+        }
+
         function addSponsorPrompt() {
-            const sponsorName = prompt("Enter Sponsor / Partner Name for Soko Faster:");
+            const sponsorName = prompt("Ingiza jina la Sponsor mpya duniani:");
             if (sponsorName) {
                 const container = document.getElementById('sponsorsContainer');
                 const div = document.createElement('div');
-                div.className = "flex items-center gap-2 text-xl font-black text-gray-700";
+                div.className = "flex items-center gap-2 text-xl font-black text-gray-700 shrink-0";
                 div.innerHTML = `<i class="fa-solid fa-handshake text-brand-600"></i> ${sponsorName}`;
                 container.appendChild(div);
             }
