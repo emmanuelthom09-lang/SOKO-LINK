@@ -17,11 +17,11 @@
 </head>
 <body class="bg-slate-50 text-slate-900 antialiased selection:bg-rose-500 selection:text-white">
 
-    <!-- Top Announcement Bar (Alibaba/Shopify Style) -->
+    <!-- Top Announcement Bar -->
     <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-4">
-                <span><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Soko Faster Express - Nunua na Uuze kwa Usalama</span>
+                <span><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Soko Faster Express - Android & iOS Compatible</span>
                 <span class="hidden md:inline text-slate-500">|</span>
                 <span class="hidden md:inline"><i class="fa-solid fa-headset mr-1"></i> Msaada 24/7</span>
             </div>
@@ -41,27 +41,27 @@
                 </a>
             </div>
 
-            <!-- Search Bar (Shopify/Alibaba style) -->
+            <!-- Search Bar -->
             <div class="hidden md:flex flex-1 max-w-xl relative">
                 <input type="text" id="search-input" placeholder="Tafuta bidhaa, vifaa au huduma..." class="w-full bg-slate-100 border border-slate-200 rounded-full py-2.5 pl-12 pr-4 text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
                 <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
             </div>
 
-            <!-- Actions & Auth (Apple Sign In) -->
+            <!-- Auth & User Info Section (Android & Apple Universal Login) -->
             <div class="flex items-center gap-3">
                 <a href="#add-product-section" class="hidden sm:flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2.5 rounded-full text-sm font-semibold transition">
                     <i class="fa-solid fa-plus text-rose-600"></i> Weka Bidhaa
                 </a>
-                <div id="auth-section">
-                    <button onclick="loginWithApple()" class="bg-black hover:bg-slate-800 text-white px-5 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-md transition transform active:scale-95">
-                        <i class="fa-brands fa-apple text-lg"></i> <span>Ingia iCloud</span>
+                <div id="auth-container">
+                    <button onclick="openAuthModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-md transition">
+                        <i class="fa-solid fa-user-circle"></i> <span>Ingia / Jisajili</span>
                     </button>
                 </div>
             </div>
         </div>
     </nav>
 
-    <!-- Hero Banner / Marketplace Header -->
+    <!-- Hero Banner -->
     <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#e11d48_1px,transparent_1px)] [background-size:16px_16px]"></div>
         <div class="max-w-7xl mx-auto relative z-10 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8">
@@ -71,12 +71,12 @@
                     Nunua na Uuze Haraka Zaidi na <span class="text-rose-500">Soko Faster</span>
                 </h1>
                 <p class="text-slate-300 mt-3 text-sm sm:text-base">
-                    Unganisha wanunuzi na wauzaji papo hapo. Malipo ya moja kwa moja kupitia M-Pesa na usalama wa kiwango cha juu.
+                    Inapatikana kwa watumiaji wote wa Android na iOS. Malipo ya moja kwa moja kupitia M-Pesa.
                 </p>
             </div>
             <div class="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-2xl w-full sm:w-80 shadow-2xl">
                 <h3 class="font-bold text-lg mb-2 text-white"><i class="fa-solid fa-shield-halved text-emerald-400 mr-2"></i> Uhakika wa Biashara</h3>
-                <p class="text-xs text-slate-300 leading-relaxed">Bidhaa mpya zilizowekwa zinaonekana juu mara moja. Wateja wanaona namba halisi za malipo ya M-Pesa kwa urahisi.</p>
+                <p class="text-xs text-slate-300 leading-relaxed">Weka bidhaa yako leo na ufikie maelfu ya wanunuzi nchi nzima.</p>
             </div>
         </div>
     </header>
@@ -84,7 +84,7 @@
     <!-- Main Content Area -->
     <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
 
-        <!-- Fomu ya Kuweka Bidhaa (Add Product - Shopify/Alibaba Merchant Portal style) -->
+        <!-- Fomu ya Kuweka Bidhaa (Na File Picker na Image Compression ya MB bila kuharibu kipimo) -->
         <section id="add-product-section" class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm mb-12">
             <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
                 <div class="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-lg">
@@ -92,37 +92,38 @@
                 </div>
                 <div>
                     <h2 class="text-xl font-extrabold text-slate-900">Chapisha Bidhaa Mpya Sokoni</h2>
-                    <p class="text-xs text-slate-500">Jaza fomu hii kwa umakini ili wanunuzi waweze kukuona haraka.</p>
+                    <p class="text-xs text-slate-500">Chagua picha kutoka kwenye simu yako. Ukubwa wa MB utapunguzwa kiotomatiki bila kupoteza muonekano.</p>
                 </div>
             </div>
 
             <form id="product-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Jina la Bidhaa</label>
-                    <input type="text" id="p-name" placeholder="Mf. iPhone 13 Pro Max" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
+                    <input type="text" id="p-name" placeholder="Mf. Smart TV 43 inch" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Bei (TZS)</label>
-                    <input type="number" id="p-price" placeholder="Mf. 1200000" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
+                    <input type="number" id="p-price" placeholder="Mf. 450000" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Location / Eneo</label>
-                    <input type="text" id="p-location" placeholder="Mf. Kariakoo, Dar es Salaam" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
+                    <input type="text" id="p-location" placeholder="Mf. Posta, Dar es Salaam" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
                 </div>
                 <div>
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Namba ya M-Pesa ya Malipo</label>
-                    <input type="text" id="p-mpesa" placeholder="Mf. 0765XXXXXX au Jina" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
+                    <input type="text" id="p-mpesa" placeholder="Mf. 0765XXXXXX" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
                 </div>
                 <div class="sm:col-span-2">
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Kiungo cha Picha (Image URL)</label>
-                    <input type="text" id="p-image" placeholder="Weka link ya picha ya bidhaa hapa..." class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
+                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Chagua Picha kwenye Kifaa (File Picker)</label>
+                    <input type="file" id="p-image-file" accept="image/*" required class="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-xl text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 transition">
+                    <p class="text-[11px] text-slate-400 mt-1">Picha itabana ukubwa wa MB (Compressed) huku ikibakiza ubora wake halisi.</p>
                 </div>
                 <div class="sm:col-span-3">
                     <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Maelezo Kamili ya Bidhaa</label>
-                    <textarea id="p-desc" rows="3" placeholder="Eleza ubora wa bidhaa yako, hali yake, n.k..." class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition"></textarea>
+                    <textarea id="p-desc" rows="3" placeholder="Eleza ubora wa bidhaa yako..." class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition"></textarea>
                 </div>
                 <div class="sm:col-span-3 flex justify-end">
-                    <button type="submit" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-8 py-4 rounded-xl text-sm shadow-lg shadow-rose-600/20 transition transform active:scale-95 flex items-center gap-2">
+                    <button type="submit" id="submit-btn" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-8 py-4 rounded-xl text-sm shadow-lg shadow-rose-600/20 transition transform active:scale-95 flex items-center gap-2">
                         <i class="fa-solid fa-cloud-arrow-up"></i> Chapisha Sasa Hivi
                     </button>
                 </div>
@@ -138,15 +139,46 @@
             <span class="text-xs font-bold bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg">Newest First</span>
         </div>
 
-        <!-- Grid ya Bidhaa (Alibaba & Shopify Marketplace Cards Grid) -->
+        <!-- Grid ya Bidhaa -->
         <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Hapa ndipo bidhaa zitakapojazwa moja kwa moja kupitia Appwrite -->
             <div class="col-span-full py-16 text-center text-slate-400">
                 <i class="fa-solid fa-spinner fa-spin text-3xl text-rose-500 mb-3"></i>
                 <p class="text-sm font-medium">Inapakia bidhaa kutoka Appwrite...</p>
             </div>
         </div>
     </main>
+
+    <!-- Modal ya Login/Register ya Universal (Android & iOS) -->
+    <div id="auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
+            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
+                <i class="fa-solid fa-xmark text-xl"></i>
+            </button>
+            <div class="text-center mb-6">
+                <h3 class="text-2xl font-black text-slate-900">Karibu Soko Faster</h3>
+                <p class="text-xs text-slate-500 mt-1">Ingia au jisajili kutumia Email na Nenosiri (Android & iPhone)</p>
+            </div>
+            
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Barua Pepe (Email)</label>
+                    <input type="email" id="auth-email" placeholder="mteja@gmail.com" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl text-sm focus:outline-none focus:border-rose-500">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Nenosiri (Password)</label>
+                    <input type="password" id="auth-password" placeholder="******" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl text-sm focus:outline-none focus:border-rose-500">
+                </div>
+                <div class="grid grid-cols-2 gap-3 pt-2">
+                    <button onclick="handleLogin()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-sm transition">
+                        Ingia
+                    </button>
+                    <button onclick="handleRegister()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl text-sm transition">
+                        Jisajili
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-slate-900 text-slate-400 mt-20 border-t border-slate-800 py-10 px-4 text-center text-xs">
@@ -155,39 +187,169 @@
             <div class="flex gap-6">
                 <a href="#" class="hover:text-white transition">Sheria na Masharti</a>
                 <a href="#" class="hover:text-white transition">Faragha</a>
-                <a href="#" class="hover:text-white transition">Msaada</a>
             </div>
         </div>
     </footer>
 
-    <!-- JavaScript - Appwrite Logic & Dynamic Rendering -->
+    <!-- JavaScript - Appwrite & Image Compression Logic -->
     <script>
-        const { Client, Databases, Account, ID, Query } = Appwrite;
+        const { Client, Databases, Account, Storage, ID, Query } = Appwrite;
 
-        // Anzisha Appwrite Client
         const client = new Client()
             .setEndpoint('https://cloud.appwrite.io/v1') 
-            .setProject('6ac7a5bc003737e...'); // Weka Project ID yako sahihi hapa
+            .setProject('6ac7a5bc003737e...'); // Weka Project ID yako hapa
 
         const databases = new Databases(client);
         const account = new Account(client);
+        const storage = new Storage(client);
 
         const DATABASE_ID = "Production TablesDB"; 
-        const COLLECTION_ID = "6ac7a6b8001aa0ae99bb"; // Collection ID yako sahihi
+        const COLLECTION_ID = "6ac7a6b8001aa0ae99bb"; 
+        const BUCKET_ID = "6ac7a6b8001aa0ae99bb"; // Tumia ID ya Storage Bucket yako au rekebisha ikiwa tofauti
 
-        // Kazi ya Kulogin kupitia Apple / iCloud
-        function loginWithApple() {
-            account.createOAuth2Session('apple', window.location.href, window.location.href);
+        // Modal Controls
+        function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
+        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
+
+        // Universal Auth (Email & Password for Android/iOS)
+        async function handleRegister() {
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            try {
+                await account.create(ID.unique(), email, password);
+                alert('Usajili umefanikiwa! Sasa ingia (Login).');
+            } catch(err) {
+                alert('Hitilafu ya usajili: ' + err.message);
+            }
         }
 
-        // Kazi ya Kupakia Bidhaa kutoka Appwrite (Mpya zinakaa juu kupitia orderDesc)
+        async function handleLogin() {
+            const email = document.getElementById('auth-email').value;
+            const password = document.getElementById('auth-password').value;
+            try {
+                await account.createEmailPasswordSession(email, password);
+                alert('Umeingia kwa mafanikio!');
+                closeAuthModal();
+                checkUserSession();
+            } catch(err) {
+                alert('Imeshindikana kuingia: ' + err.message);
+            }
+        }
+
+        async function checkUserSession() {
+            const container = document.getElementById('auth-container');
+            try {
+                const user = await account.get();
+                container.innerHTML = `
+                    <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-full text-xs font-bold text-emerald-800">
+                        <i class="fa-solid fa-user-check text-emerald-600"></i> ${user.email.split('@')[0]}
+                        <button onclick="logout()" class="text-rose-500 hover:underline ml-2">Toka</button>
+                    </div>
+                `;
+            } catch(e) {
+                container.innerHTML = `
+                    <button onclick="openAuthModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-md transition">
+                        <i class="fa-solid fa-user-circle"></i> <span>Ingia / Jisajili</span>
+                    </button>
+                `;
+            }
+        }
+
+        async function logout() {
+            await account.deleteSession('current');
+            window.location.reload();
+        }
+
+        // Kazi ya Kubana Uzito wa Picha (MB Compression) bila kupunguza wala kubadilisha vipimo (Height/Width original)
+        function compressImage(file, quality = 0.7) {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = img.width;   // Inabakisha kipimo halisi cha upana
+                        canvas.height = img.height; // Inabakisha kipimo halisi cha urefu
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, img.width, img.height);
+                        
+                        canvas.toBlob((blob) => {
+                            if (!blob) {
+                                reject(new Error('Imeshindikana kubana picha.'));
+                                return;
+                            }
+                            // Inarudisha file jipya lenye MB ndogo lakini vipimo vilevile
+                            const compressedFile = new File([blob], file.name, {
+                                type: 'image/jpeg',
+                                lastModified: Date.now()
+                            });
+                            resolve(compressedFile);
+                        }, 'image/jpeg', quality);
+                    };
+                    img.onerror = (err) => reject(err);
+                };
+                reader.onerror = (err) => reject(err);
+            });
+        }
+
+        // Kupakia Bidhaa na Picha iliyobanwa MB
+        document.getElementById('product-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = document.getElementById('submit-btn');
+            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Inapakia...`;
+            btn.disabled = true;
+
+            const name = document.getElementById('p-name').value;
+            const price = Number(document.getElementById('p-price').value);
+            const location = document.getElementById('p-location').value;
+            const mpesa_number = document.getElementById('p-mpesa').value;
+            const description = document.getElementById('p-desc').value;
+            const fileInput = document.getElementById('p-image-file');
+
+            try {
+                let image_url = '';
+                if (fileInput.files.length > 0) {
+                    const originalFile = fileInput.files[0];
+                    // Fanya compression ya MB bila kubadilisha vipimo
+                    const compressedFile = await compressImage(originalFile, 0.7);
+                    
+                    // Pakia kwenye Appwrite Storage
+                    const uploadedFile = await storage.createFile(
+                        BUCKET_ID,
+                        ID.unique(),
+                        compressedFile
+                    );
+                    
+                    // Pata URL ya picha
+                    image_url = `https://cloud.appwrite.io/v1/storage/buckets/${BUCKET_ID}/files/${uploadedFile.$id}/view?project=${client.config.project}`;
+                }
+
+                // Hifadhi kwenye Database
+                await databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
+                    name, price, location, mpesa_number, image_url, description
+                });
+
+                alert('Hongera! Bidhaa yako imechapishwa mafanikio.');
+                document.getElementById('product-form').reset();
+                loadProducts(); 
+            } catch (err) {
+                alert('Hitilafu: ' + err.message);
+            } finally {
+                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Chapisha Sasa Hivi`;
+                btn.disabled = false;
+            }
+        });
+
+        // Kupakia Orodha ya Bidhaa
         async function loadProducts() {
             const grid = document.getElementById('products-grid');
             try {
                 const response = await databases.listDocuments(
                     DATABASE_ID,
                     COLLECTION_ID,
-                    [Query.orderDesc('$createdAt')] // Amri ya kupanga mpya ziwe juu
+                    [Query.orderDesc('$createdAt')]
                 );
 
                 if (response.documents.length === 0) {
@@ -195,7 +357,6 @@
                         <div class="col-span-full bg-white border border-slate-200 rounded-3xl p-12 text-center">
                             <i class="fa-solid fa-box-open text-4xl text-slate-300 mb-3"></i>
                             <p class="text-slate-600 font-bold">Hakuna bidhaa zilizowekwa sokoni bado.</p>
-                            <p class="text-xs text-slate-400 mt-1">Kuwa wa kwanza kuweka bidhaa kupitia fomu hapo juu!</p>
                         </div>
                     `;
                     return;
@@ -203,7 +364,6 @@
 
                 grid.innerHTML = '';
                 response.documents.forEach(product => {
-                    // Kushughulikia jina la picha endapo iliandikwa image_url
                     const imgSrc = product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60';
                     
                     grid.innerHTML += `
@@ -218,57 +378,33 @@
                                 <div class="p-4">
                                     <h3 class="font-bold text-slate-900 text-base line-clamp-1 group-hover:text-rose-600 transition">${product.name}</h3>
                                     <p class="text-rose-600 font-extrabold text-lg mt-1">TZS ${Number(product.price).toLocaleString()}</p>
-                                    <p class="text-slate-500 text-xs mt-2 line-clamp-2 leading-relaxed">${product.description || 'Hakuna maelezo ya ziada yaliyowekwa na muuzaji.'}</p>
+                                    <p class="text-slate-500 text-xs mt-2 line-clamp-2 leading-relaxed">${product.description || 'Hakuna maelezo ya ziada.'}</p>
                                     
-                                    <!-- M-Pesa payment indicator (Alibaba/Shopify trust badge style) -->
                                     <div class="mt-4 bg-emerald-50 border border-emerald-200/60 p-2.5 rounded-xl flex items-center justify-between">
                                         <div class="flex items-center gap-1.5 text-emerald-800 text-xs font-bold">
                                             <i class="fa-solid fa-mobile-screen-button text-emerald-600"></i> M-Pesa:
                                         </div>
-                                        <span class="text-xs font-extrabold text-emerald-900 bg-white px-2.5 py-1 rounded-lg border border-emerald-100 shadow-sm">${product.mpesa_number || 'Wasiliana na Muuzaji'}</span>
+                                        <span class="text-xs font-extrabold text-emerald-900 bg-white px-2.5 py-1 rounded-lg border border-emerald-100 shadow-sm">${product.mpesa_number || 'Wasiliana'}</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="p-4 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between text-xs text-slate-400">
                                 <span><i class="fa-regular fa-clock mr-1"></i> ${new Date(product.$createdAt).toLocaleDateString()}</span>
                                 <button onclick="deleteProduct('${product.$id}')" class="text-rose-500 hover:text-rose-700 font-bold transition flex items-center gap-1 bg-rose-50 px-2.5 py-1.5 rounded-lg">
-                                    <i class="fa-solid fa-trash-can"></i> Futa (Imeuzwa)
+                                    <i class="fa-solid fa-trash-can"></i> Futa
                                 </button>
                             </div>
                         </div>
                     `;
                 });
             } catch (error) {
-                console.error("Hitilafu ya Kupakia:", error);
-                grid.innerHTML = `<div class="col-span-full text-center text-rose-500 py-10 bg-white rounded-2xl border border-rose-100">Imeshindikana kupakia bidhaa. Angalia IDs zako za Appwrite.</div>`;
+                console.error("Hitilafu:", error);
+                grid.innerHTML = `<div class="col-span-full text-center text-rose-500 py-10 bg-white rounded-2xl border border-rose-100">Imeshindikana kupakia bidhaa. Angalia IDs zako za Appwrite na Storage Bucket ID.</div>`;
             }
         }
 
-        // Kazi ya Kuweka Document Mpya kwenye Appwrite
-        document.getElementById('product-form').addEventListener('submit', async (e) => {
-            e.preventDefault();
-            const name = document.getElementById('p-name').value;
-            const price = Number(document.getElementById('p-price').value);
-            const location = document.getElementById('p-location').value;
-            const mpesa_number = document.getElementById('p-mpesa').value;
-            const image_url = document.getElementById('p-image').value;
-            const description = document.getElementById('p-desc').value;
-
-            try {
-                await databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
-                    name, price, location, mpesa_number, image_url, description
-                });
-                alert('Hongera! Bidhaa yako imechapishwa mafanikio na inaonekana juu kabisa.');
-                document.getElementById('product-form').reset();
-                loadProducts(); 
-            } catch (err) {
-                alert('Imeshindikana kuweka bidhaa: ' + err.message);
-            }
-        });
-
-        // Kazi ya Kufuta Bidhaa ikiwa imeuzwa
         async function deleteProduct(id) {
-            if(confirm("Una uhakika unataka kufuta bidhaa hii kwa sababu tayari imeuzwa?")) {
+            if(confirm("Una uhakika unataka kufuta bidhaa hii?")) {
                 try {
                     await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, id);
                     loadProducts();
@@ -278,7 +414,8 @@
             }
         }
 
-        // Anzisha upakiaji wa bidhaa pindi ukurasa unapofunguka
+        // Anzisha kazi zote
+        checkUserSession();
         loadProducts();
     </script>
 </body>
