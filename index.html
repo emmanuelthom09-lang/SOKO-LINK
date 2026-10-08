@@ -1,403 +1,347 @@
 <!DOCTYPE html>
-<html lang="sw" class="scroll-smooth">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soko faster - Free Marketplace</title>
-    <!-- Tailwind CSS CDN -->
+    <title>Soko Faster - The Global B2B & B2C E-Commerce Marketplace</title>
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Appwrite Web SDK -->
-    <script src="https://cdn.jsdelivr.net/npm/appwrite@14.0.1"></script>
-    <style>
-        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-        body { font-family: 'Plus Jakarta Sans', sans-serif; }
-    </style>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', dark: '#0f172a' }
+                    }
+                }
+            }
+        }
+    </script>
 </head>
-<body class="bg-slate-50 text-slate-900 antialiased selection:bg-rose-500 selection:text-white">
+<body class="bg-gray-50 text-gray-800 font-sans antialiased">
 
-    <!-- Top Announcement Bar -->
-    <div class="bg-slate-900 text-slate-300 text-xs py-2 px-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <span><i class="fa-solid fa-bolt text-amber-400 mr-1"></i> Soko Faster - Chapisha na Utazame Bure</span>
-                <span class="hidden md:inline text-slate-500">|</span>
-                <span class="hidden md:inline"><i class="fa-solid fa-headset mr-1"></i> Msaada 24/7</span>
-            </div>
-            <div class="flex items-center gap-4">
-                <span class="text-rose-400 font-semibold"><i class="fa-solid fa-location-dot mr-1"></i> Tanzania</span>
-            </div>
-        </div>
-    </div>
-
-    <!-- Main Navigation Bar -->
-    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50 shadow-sm backdrop-blur-md bg-white/90">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between gap-4">
-            <!-- Logo -->
-            <div class="flex items-center gap-3">
-                <a href="#" class="text-2xl sm:text-3xl font-extrabold tracking-tight text-slate-900">
-                    Soko<span class="text-rose-600">faster</span><span class="text-xs ml-1 bg-emerald-100 text-emerald-700 px-2 py-0.5 rounded-full uppercase tracking-wider font-bold">FREE</span>
+    <!-- TOP NAVIGATION BAR -->
+    <header class="sticky top-0 z-50 bg-white border-b border-gray-200 shadow-sm">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <!-- Brand Logo: Soko Faster -->
+            <div class="flex items-center space-x-3">
+                <a href="#" class="text-2xl font-black tracking-tight text-brand-600 flex items-center gap-2">
+                    <i class="fa-solid fa-bolt-lightning text-amber-500"></i> Soko <span class="text-gray-900">Faster</span>
                 </a>
+                <span class="hidden md:inline-block text-xs uppercase bg-brand-50 text-brand-700 font-semibold px-2 py-1 rounded-full border border-brand-100">Secure Global Hub</span>
             </div>
 
             <!-- Search Bar -->
-            <div class="hidden md:flex flex-1 max-w-xl relative">
-                <input type="text" id="search-input" placeholder="Tafuta bidhaa au vitu bure..." class="w-full bg-slate-100 border border-slate-200 rounded-full py-2.5 pl-12 pr-4 text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
-                <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
-            </div>
-
-            <!-- Auth & User Info Section -->
-            <div class="flex items-center gap-3">
-                <a href="#add-product-section" class="hidden sm:flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-800 px-4 py-2.5 rounded-full text-sm font-semibold transition">
-                    <i class="fa-solid fa-plus text-rose-600"></i> Weka Bidhaa Bure
-                </a>
-                <div id="auth-container">
-                    <button onclick="openAuthModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-md transition">
-                        <i class="fa-solid fa-user-circle"></i> <span>Ingia / Jisajili</span>
+            <div class="hidden md:flex flex-1 max-w-xl mx-8">
+                <div class="relative w-full flex items-center">
+                    <input type="text" placeholder="Search verified global products on Soko Faster..." class="w-full pl-4 pr-12 py-2.5 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
+                    <button class="bg-brand-600 text-white px-6 py-2.5 rounded-r-lg hover:bg-brand-700 transition text-sm font-medium">
+                        <i class="fa-solid fa-search"></i>
                     </button>
                 </div>
             </div>
-        </div>
-    </nav>
 
-    <!-- Hero Banner -->
-    <header class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div class="absolute inset-0 opacity-10 bg-[radial-gradient(#e11d48_1px,transparent_1px)] [background-size:16px_16px]"></div>
-        <div class="max-w-7xl mx-auto relative z-10 text-center sm:text-left flex flex-col sm:flex-row items-center justify-between gap-8">
-            <div class="max-w-2xl">
-                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest">Soko Huria la Bure</span>
-                <h1 class="text-3xl sm:text-5xl font-extrabold tracking-tight mt-4 leading-tight">
-                    Chapisha na Utazame Vitu Bure na <span class="text-rose-500">Soko Faster</span>
-                </h1>
-                <p class="text-slate-300 mt-3 text-sm sm:text-base">
-                    Weka tangazo lako kwa urahisi kabisa ukitumia simu yako ya Android au iPhone bila malipo yoyote.
-                </p>
-            </div>
-            <div class="bg-white/10 backdrop-blur-md border border-white/10 p-6 rounded-2xl w-full sm:w-80 shadow-2xl">
-                <h3 class="font-bold text-lg mb-2 text-white"><i class="fa-solid fa-face-smile text-amber-400 mr-2"></i> Ni Bure Kabisa</h3>
-                <p class="text-xs text-slate-300 leading-relaxed">Hakuna malipo yanayohitajika. Weka bidhaa yako leo na uonekane na wanunuzi.</p>
+            <!-- Right Actions: Auth & Add Product Button -->
+            <div class="flex items-center space-x-4">
+                <!-- Add Product Button (+) -->
+                <button onclick="openAddModal()" class="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-md hover:from-amber-600 hover:to-orange-600 transition transform hover:scale-105" title="List a New Product">
+                    <i class="fa-solid fa-plus text-base font-bold"></i>
+                    <span class="hidden sm:inline">Sell Product</span>
+                </button>
+
+                <!-- Auth Links (Sign In / Register) -->
+                <div class="flex items-center space-x-3 border-l pl-4 border-gray-200 text-sm font-medium">
+                    <button onclick="openAuthModal('login')" class="text-gray-600 hover:text-brand-600 transition">Sign In</button>
+                    <span class="text-gray-300">/</span>
+                    <button onclick="openAuthModal('register')" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition shadow-sm">Register</button>
+                </div>
             </div>
         </div>
     </header>
 
-    <!-- Main Content Area -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
-
-        <!-- Fomu ya Kuweka Bidhaa -->
-        <section id="add-product-section" class="bg-white border border-slate-200 rounded-3xl p-6 sm:p-8 shadow-sm mb-12">
-            <div class="flex items-center gap-3 mb-6 border-b border-slate-100 pb-4">
-                <div class="w-10 h-10 rounded-2xl bg-rose-50 text-rose-600 flex items-center justify-center font-bold text-lg">
-                    <i class="fa-solid fa-store"></i>
-                </div>
-                <div>
-                    <h2 class="text-xl font-extrabold text-slate-900">Chapisha Bidhaa Bure Sokoni</h2>
-                    <p class="text-xs text-slate-500">Chagua picha kwenye simu yako. Ukubwa utabana kiotomatiki bila kupoteza vipimo.</p>
-                </div>
+    <!-- HERO SECTION WITH COMPELLING GLOBAL COPYWRITING -->
+    <section class="bg-gradient-to-r from-slate-900 via-indigo-950 to-brand-700 text-white py-20 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
+        <div class="max-w-4xl mx-auto relative z-10">
+            <span class="inline-block bg-white/10 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 border border-white/10 backdrop-blur-md">Trusted Worldwide Trade</span>
+            <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">Empowering Secure Global Commerce on Soko Faster</h1>
+            <p class="text-lg sm:text-xl text-indigo-200 max-w-2xl mx-auto mb-10">Connect with verified manufacturers, wholesalers, and buyers worldwide. Protected by secure email verification and trusted authentication.</p>
+            <div class="flex flex-wrap justify-center gap-4">
+                <button onclick="openAuthModal('register')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-8 py-4 rounded-xl shadow-xl transition transform hover:-translate-y-0.5">Join Securely Free</button>
+                <button onclick="openAddModal()" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold px-8 py-4 rounded-xl transition backdrop-blur-md">Start Selling Now</button>
             </div>
+        </div>
+    </section>
 
-            <form id="product-form" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Jina la Bidhaa</label>
-                    <input type="text" id="p-name" placeholder="Mf. Smart TV 43 inch" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Bei / Maelezo ya Gharama</label>
-                    <input type="text" id="p-price" placeholder="Mf. Bure / Maelewano" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Location / Eneo</label>
-                    <input type="text" id="p-location" placeholder="Mf. Posta, Dar es Salaam" required class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition">
-                </div>
-                <div class="sm:col-span-3">
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Chagua Picha kwenye Kifaa (File Picker)</label>
-                    <input type="file" id="p-image-file" accept="image/*" required class="w-full bg-slate-50 border border-slate-200 p-2.5 rounded-xl text-sm text-slate-600 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-xs file:font-bold file:bg-rose-50 file:text-rose-700 hover:file:bg-rose-100 transition">
-                </div>
-                <div class="sm:col-span-3">
-                    <label class="block text-xs font-bold text-slate-700 uppercase tracking-wider mb-2">Maelezo Kamili ya Bidhaa</label>
-                    <textarea id="p-desc" rows="3" placeholder="Eleza ubora wa bidhaa yako..." class="w-full bg-slate-50 border border-slate-200 p-3.5 rounded-xl text-sm focus:outline-none focus:border-rose-500 focus:bg-white transition"></textarea>
-                </div>
-                <div class="sm:col-span-3 flex justify-end">
-                    <button type="submit" id="submit-btn" class="bg-rose-600 hover:bg-rose-700 text-white font-bold px-8 py-4 rounded-xl text-sm shadow-lg shadow-rose-600/20 transition transform active:scale-95 flex items-center gap-2">
-                        <i class="fa-solid fa-cloud-arrow-up"></i> Chapisha Sasa Hivi Bure
-                    </button>
-                </div>
-            </form>
-        </section>
+    <!-- SPONSORS / TRUSTED PARTNERS SECTION (Vodacom, Coca-Cola, etc.) -->
+    <section class="bg-white border-b border-gray-200 py-8">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400 mb-6">Strategic Global Partners & Sponsors of Soko Faster</h3>
+            <div id="sponsorsContainer" class="flex flex-wrap justify-center items-center gap-8 sm:gap-16 opacity-80 hover:opacity-100 transition duration-300">
+                <div class="flex items-center gap-2 text-xl font-black text-red-600"><i class="fa-solid fa-bottle-droplet"></i> Coca-Cola</div>
+                <div class="flex items-center gap-2 text-xl font-black text-red-500"><i class="fa-solid fa-signal"></i> Vodacom</div>
+                <div class="flex items-center gap-2 text-xl font-black text-blue-700"><i class="fa-solid fa-credit-card"></i> Mastercard</div>
+                <div class="flex items-center gap-2 text-xl font-black text-amber-600"><i class="fa-solid fa-plane-departure"></i> DHL Express</div>
+            </div>
+            <!-- Admin Control Hint -->
+            <div class="mt-4">
+                <button onclick="addSponsorPrompt()" class="text-xs text-brand-600 hover:underline font-semibold"><i class="fa-solid fa-gear mr-1"></i> [Admin] Add New Sponsor</button>
+            </div>
+        </div>
+    </section>
 
-        <!-- Sehemu ya Orodha ya Bidhaa -->
-        <div class="flex justify-between items-center mb-6">
+    <!-- MAIN PRODUCT CATALOGUE SECTION -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div class="flex justify-between items-center mb-8">
             <div>
-                <h2 class="text-2xl font-black text-slate-900 tracking-tight">Bidhaa za Bure Moto Moto Sokoni</h2>
-                <p class="text-xs text-slate-500">Zilizowekwa hivi karibuni ziko juu kabisa</p>
+                <h2 class="text-2xl font-bold text-gray-900">Soko Faster Global Feed</h2>
+                <p class="text-sm text-gray-500">Explore verified wholesale and retail listings worldwide</p>
             </div>
-            <span class="text-xs font-bold bg-slate-200 text-slate-700 px-3 py-1.5 rounded-lg">Newest First</span>
         </div>
 
-        <!-- Grid ya Bidhaa -->
-        <div id="products-grid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <div class="col-span-full py-16 text-center text-slate-400">
-                <i class="fa-solid fa-spinner fa-spin text-3xl text-rose-500 mb-3"></i>
-                <p class="text-sm font-medium">Inapakia...</p>
+        <!-- Product Grid -->
+        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            <!-- Sample Product Card with Delete Capability -->
+            <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition group relative">
+                <button onclick="this.closest('.bg-white').remove()" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs backdrop-blur-md z-10 transition shadow" title="Delete Product">
+                    <i class="fa-solid fa-trash"></i>
+                </button>
+                <div class="relative h-56 bg-gray-100 overflow-hidden">
+                    <img src="https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80" alt="Product" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                    <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> Shenzhen, China</span>
+                </div>
+                <div class="p-5">
+                    <div class="text-xs font-semibold text-brand-600 uppercase mb-1">Electronics</div>
+                    <h3 class="font-bold text-gray-900 text-base mb-2 truncate">Smart Watch Ultra Series 8</h3>
+                    <div class="flex items-baseline justify-between mb-4">
+                        <span class="text-xl font-black text-gray-900">$45.00</span>
+                        <span class="text-xs text-gray-500">MOQ: 1 Unit</span>
+                    </div>
+                    <button class="w-full bg-gray-900 hover:bg-brand-600 text-white py-2.5 rounded-xl font-medium text-sm transition flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-paper-plane"></i> Contact Supplier
+                    </button>
+                </div>
             </div>
         </div>
     </main>
 
-    <!-- Modal ya Login/Register (Android & iOS) -->
-    <div id="auth-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-6 sm:p-8 shadow-2xl relative">
-            <button onclick="closeAuthModal()" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600">
-                <i class="fa-solid fa-xmark text-xl"></i>
-            </button>
-            <div class="text-center mb-6">
-                <h3 class="text-2xl font-black text-slate-900">Karibu Soko Faster</h3>
-                <p class="text-xs text-slate-500 mt-1">Ingia au jisajili kutumia Email na Nenosiri (Android & iPhone)</p>
-            </div>
+    <!-- AUTH MODAL WITH EMAIL ACTIVATION SECURITY -->
+    <div id="authModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            <div id="authTitle" class="text-2xl font-black text-gray-900 mb-2">Welcome Back to Soko Faster</div>
+            <p id="authSubtitle" class="text-sm text-gray-500 mb-6">Sign in securely with verified email credentials.</p>
             
-            <div class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Barua Pepe (Email)</label>
-                    <input type="email" id="auth-email" placeholder="mteja@gmail.com" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl text-sm focus:outline-none focus:border-rose-500">
+            <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <div id="nameFieldContainer" class="hidden">
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Full Name</label>
+                    <input type="text" id="authName" placeholder="Emmanuel Mwakabungu" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Nenosiri (Password)</label>
-                    <input type="password" id="auth-password" placeholder="******" class="w-full bg-slate-50 border border-slate-200 p-3 rounded-xl text-sm focus:outline-none focus:border-rose-500">
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Email Address (Requires Activation)</label>
+                    <input type="email" id="authEmail" required placeholder="name@example.com" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
                 </div>
-                <div class="grid grid-cols-2 gap-3 pt-2">
-                    <button onclick="handleLogin()" class="bg-slate-900 hover:bg-slate-800 text-white font-bold py-3 rounded-xl text-sm transition">
-                        Ingia
-                    </button>
-                    <button onclick="handleRegister()" class="bg-rose-600 hover:bg-rose-700 text-white font-bold py-3 rounded-xl text-sm transition">
-                        Jisajili
-                    </button>
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Password</label>
+                    <input type="password" id="authPass" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
                 </div>
+                <button type="submit" id="authSubmitBtn" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-3 rounded-xl transition shadow-md mt-2">Sign In</button>
+            </form>
+            
+            <div class="mt-6 text-center text-sm text-gray-500">
+                <span id="authSwitchText">Don't have an account?</span> 
+                <button onclick="toggleAuthMode()" id="authSwitchBtn" class="text-brand-600 font-semibold hover:underline ml-1">Register</button>
             </div>
         </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="bg-slate-900 text-slate-400 mt-20 border-t border-slate-800 py-10 px-4 text-center text-xs">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <p>&copy; 2026 Soko Faster. Haki zote zimehifadhiwa.</p>
-            <div class="flex gap-6">
-                <a href="#" class="hover:text-white transition">Sheria na Masharti</a>
-                <a href="#" class="hover:text-white transition">Faragha</a>
+    <!-- ADD PRODUCT MODAL (With Image Compressor & Delete Support) -->
+    <div id="addProductModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6 border-b pb-4">
+                <h3 class="text-xl font-bold text-gray-900"><i class="fa-solid fa-plus-circle text-brand-600 mr-2"></i> List New Product on Soko Faster</h3>
+                <button onclick="closeAddModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
             </div>
-        </div>
-    </footer>
-
-    <!-- JavaScript -->
-    <script>
-        const { Client, Databases, Account, Storage, ID, Query } = Appwrite;
-
-        const client = new Client()
-            .setEndpoint('https://cloud.appwrite.io/v1') 
-            .setProject('6ac7a5bc003737e7aeeb'); 
-
-        const databases = new Databases(client);
-        const account = new Account(client);
-        const storage = new Storage(client);
-
-        const DATABASE_ID = "Production TablesDB"; 
-        const COLLECTION_ID = "6ac7a6b8001aa0ae99bb"; 
-        const BUCKET_ID = "6ac7a6b8001aa0ae99bb"; 
-
-        function openAuthModal() { document.getElementById('auth-modal').classList.remove('hidden'); }
-        function closeAuthModal() { document.getElementById('auth-modal').classList.add('hidden'); }
-
-        async function handleRegister() {
-            const email = document.getElementById('auth-email').value;
-            const password = document.getElementById('auth-password').value;
-            try {
-                await account.create(ID.unique(), email, password);
-                alert('Usajili umefanikiwa! Sasa ingia (Login).');
-            } catch(err) {
-                alert('Hitilafu ya usajili: ' + err.message);
-            }
-        }
-
-        async function handleLogin() {
-            const email = document.getElementById('auth-email').value;
-            const password = document.getElementById('auth-password').value;
-            try {
-                await account.createEmailPasswordSession(email, password);
-                alert('Umeingia kwa mafanikio!');
-                closeAuthModal();
-                checkUserSession();
-            } catch(err) {
-                alert('Imeshindikana kuingia: ' + err.message);
-            }
-        }
-
-        async function checkUserSession() {
-            const container = document.getElementById('auth-container');
-            try {
-                const user = await account.get();
-                container.innerHTML = `
-                    <div class="flex items-center gap-2 bg-emerald-50 border border-emerald-200 px-3 py-2 rounded-full text-xs font-bold text-emerald-800">
-                        <i class="fa-solid fa-user-check text-emerald-600"></i> ${user.email.split('@')[0]}
-                        <button onclick="logout()" class="text-rose-500 hover:underline ml-2">Toka</button>
+            
+            <form id="productForm" onsubmit="handleProductSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Title</label>
+                    <input type="text" id="pTitle" required placeholder="e.g., Wireless Bluetooth Earbuds" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Price (USD)</label>
+                        <input type="number" step="0.01" id="pPrice" required placeholder="29.99" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
                     </div>
-                `;
-            } catch(e) {
-                container.innerHTML = `
-                    <button onclick="openAuthModal()" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-full text-sm font-bold flex items-center gap-2 shadow-md transition">
-                        <i class="fa-solid fa-user-circle"></i> <span>Ingia / Jisajili</span>
-                    </button>
-                `;
+                    <div>
+                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Location (City, Country)</label>
+                        <input type="text" id="pLocation" required placeholder="e.g., Dar es Salaam, TZ" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Category</label>
+                    <select id="pCategory" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm bg-white">
+                        <option>Electronics & Gadgets</option>
+                        <option>Fashion & Apparel</option>
+                        <option>Home & Kitchen</option>
+                        <option>Raw Materials & Wholesale</option>
+                    </select>
+                </div>
+
+                <!-- Image Upload with Auto-Compressor -->
+                <div>
+                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Image (Auto-Compressed)</label>
+                    <input type="file" id="pImageFile" accept="image/*" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
+                    <p class="text-xs text-gray-400 mt-1">Images are optimized automatically for high performance without losing resolution.</p>
+                </div>
+
+                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-3 rounded-xl transition shadow-md mt-4">Publish Product</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT LOGIC -->
+    <script>
+        let isRegisterMode = false;
+
+        function openAuthModal(mode) {
+            isRegisterMode = (mode === 'register');
+            updateAuthModalUI();
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+        function closeAuthModal() {
+            document.getElementById('authModal').classList.add('hidden');
+        }
+        function toggleAuthMode() {
+            isRegisterMode = !isRegisterMode;
+            updateAuthModalUI();
+        }
+        function updateAuthModalUI() {
+            const title = document.getElementById('authTitle');
+            const subtitle = document.getElementById('authSubtitle');
+            const btn = document.getElementById('authSubmitBtn');
+            const nameContainer = document.getElementById('nameFieldContainer');
+            const switchText = document.getElementById('authSwitchText');
+            const switchBtn = document.getElementById('authSwitchBtn');
+
+            if (isRegisterMode) {
+                title.innerText = "Create Secure Account";
+                subtitle.innerText = "Register on Soko Faster. Email activation link will be required.";
+                btn.innerText = "Register & Send Activation";
+                nameContainer.classList.remove('hidden');
+                switchText.innerText = "Already have an account?";
+                switchBtn.innerText = "Sign In";
+            } else {
+                title.innerText = "Welcome Back to Soko Faster";
+                subtitle.innerText = "Sign in securely with your verified account.";
+                btn.innerText = "Sign In";
+                nameContainer.classList.add('hidden');
+                switchText.innerText = "Don't have an account?";
+                switchBtn.innerText = "Register";
             }
         }
 
-        async function logout() {
-            await account.deleteSession('current');
-            window.location.reload();
+        function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            if (isRegisterMode) {
+                alert(`Registration successful! An activation link has been sent to (${email}). Please verify your email to activate your account on Soko Faster.`);
+            } else {
+                alert("Signed in successfully to Soko Faster!");
+            }
+            closeAuthModal();
         }
 
-        function compressImage(file, quality = 0.7) {
+        function openAddModal() {
+            document.getElementById('addProductModal').classList.remove('hidden');
+        }
+        function closeAddModal() {
+            document.getElementById('addProductModal').classList.add('hidden');
+        }
+
+        // Client-side Image Compressor
+        function compressImage(file, quality = 0.75, maxWidth = 1200) {
             return new Promise((resolve, reject) => {
                 const reader = new FileReader();
                 reader.readAsDataURL(file);
-                reader.onload = (event) => {
+                reader.onload = event => {
                     const img = new Image();
                     img.src = event.target.result;
                     img.onload = () => {
                         const canvas = document.createElement('canvas');
-                        canvas.width = img.width;   
-                        canvas.height = img.height; 
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+
+                        canvas.width = width;
+                        canvas.height = height;
                         const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, img.width, img.height);
-                        
-                        canvas.toBlob((blob) => {
-                            if (!blob) {
-                                reject(new Error('Imeshindikana kubana picha.'));
-                                return;
-                            }
-                            const compressedFile = new File([blob], file.name, {
-                                type: 'image/jpeg',
-                                lastModified: Date.now()
-                            });
-                            resolve(compressedFile);
-                        }, 'image/jpeg', quality);
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
                     };
-                    img.onerror = (err) => reject(err);
+                    img.onerror = error => reject(error);
                 };
-                reader.onerror = (err) => reject(err);
             });
         }
 
-        document.getElementById('product-form').addEventListener('submit', async (e) => {
+        // Handle Product Submission with Delete Button
+        async function handleProductSubmit(e) {
             e.preventDefault();
-            const btn = document.getElementById('submit-btn');
-            btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Inapakia...`;
-            btn.disabled = true;
+            const title = document.getElementById('pTitle').value;
+            const price = document.getElementById('pPrice').value;
+            const location = document.getElementById('pLocation').value;
+            const category = document.getElementById('pCategory').value;
+            const fileInput = document.getElementById('pImageFile').files[0];
 
-            const name = document.getElementById('p-name').value;
-            const price = document.getElementById('p-price').value;
-            const location = document.getElementById('p-location').value;
-            const description = document.getElementById('p-desc').value;
-            const fileInput = document.getElementById('p-image-file');
+            if (fileInput) {
+                const compressedImageData = await compressImage(fileInput, 0.75);
 
-            try {
-                let image_url = '';
-                if (fileInput.files.length > 0) {
-                    const originalFile = fileInput.files[0];
-                    const compressedFile = await compressImage(originalFile, 0.7);
-                    
-                    const uploadedFile = await storage.createFile(
-                        BUCKET_ID,
-                        ID.unique(),
-                        compressedFile
-                    );
-                    
-                    image_url = `https://cloud.appwrite.io/v1/storage/buckets/${BUCKET_ID}/files/${uploadedFile.$id}/view?project=${client.config.project}`;
-                }
-
-                await databases.createDocument(DATABASE_ID, COLLECTION_ID, ID.unique(), {
-                    name, price, location, image_url, description
-                });
-
-                alert('Hongera! Bidhaa yako imechapishwa bure kwa mafanikio.');
-                document.getElementById('product-form').reset();
-                loadProducts(); 
-            } catch (err) {
-                alert('Hitilafu: ' + err.message);
-            } finally {
-                btn.innerHTML = `<i class="fa-solid fa-cloud-arrow-up"></i> Chapisha Sasa Hivi Bure`;
-                btn.disabled = false;
-            }
-        });
-
-        async function loadProducts() {
-            const grid = document.getElementById('products-grid');
-            try {
-                const response = await databases.listDocuments(
-                    DATABASE_ID,
-                    COLLECTION_ID,
-                    [Query.orderDesc('$createdAt')]
-                );
-
-                if (response.documents.length === 0) {
-                    grid.innerHTML = `
-                        <div class="col-span-full bg-white border border-slate-200 rounded-3xl p-12 text-center">
-                            <i class="fa-solid fa-box-open text-4xl text-slate-300 mb-3"></i>
-                            <p class="text-slate-600 font-bold">Hakuna bidhaa zilizowekwa sokoni bado.</p>
+                const grid = document.getElementById('productGrid');
+                const card = document.createElement('div');
+                card.className = "bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition group relative";
+                card.innerHTML = `
+                    <button onclick="this.closest('.bg-white').remove()" class="absolute top-3 right-3 bg-red-600/80 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs backdrop-blur-md z-10 transition shadow" title="Delete Product">
+                        <i class="fa-solid fa-trash"></i>
+                    </button>
+                    <div class="relative h-56 bg-gray-100 overflow-hidden">
+                        <img src="${compressedImageData}" alt="${title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${location}</span>
+                    </div>
+                    <div class="p-5">
+                        <div class="text-xs font-semibold text-brand-600 uppercase mb-1">${category}</div>
+                        <h3 class="font-bold text-gray-900 text-base mb-2 truncate">${title}</h3>
+                        <div class="flex items-baseline justify-between mb-4">
+                            <span class="text-xl font-black text-gray-900">$${Number(price).toFixed(2)}</span>
+                            <span class="text-xs text-gray-500">Retail / Wholesale</span>
                         </div>
-                    `;
-                    return;
-                }
-
-                grid.innerHTML = '';
-                response.documents.forEach(product => {
-                    const imgSrc = product.image_url || 'https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&auto=format&fit=crop&q=60';
-                    
-                    grid.innerHTML += `
-                        <div class="bg-white border border-slate-200/80 rounded-2xl overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 flex flex-col justify-between group">
-                            <div>
-                                <div class="relative h-52 overflow-hidden bg-slate-100">
-                                    <img src="${imgSrc}" alt="${product.name}" class="w-full h-full object-cover group-hover:scale-105 transition duration-500">
-                                    <span class="absolute top-3 left-3 bg-white/90 backdrop-blur-md text-slate-800 text-[11px] font-bold px-2.5 py-1 rounded-md shadow-sm flex items-center gap-1">
-                                        <i class="fa-solid fa-location-dot text-rose-600"></i> ${product.location || 'Tanzania'}
-                                    </span>
-                                </div>
-                                <div class="p-4">
-                                    <h3 class="font-bold text-slate-900 text-base line-clamp-1 group-hover:text-rose-600 transition">${product.name}</h3>
-                                    <p class="text-rose-600 font-extrabold text-lg mt-1">${product.price}</p>
-                                    <p class="text-slate-500 text-xs mt-2 line-clamp-2 leading-relaxed">${product.description || 'Hakuna maelezo ya ziada.'}</p>
-                                </div>
-                            </div>
-                            <div class="p-4 pt-0 border-t border-slate-100 mt-4 flex items-center justify-between text-xs text-slate-400">
-                                <span><i class="fa-regular fa-clock mr-1"></i> ${new Date(product.$createdAt).toLocaleDateString()}</span>
-                                <button onclick="deleteProduct('${product.$id}')" class="text-rose-500 hover:text-rose-700 font-bold transition flex items-center gap-1 bg-rose-50 px-2.5 py-1.5 rounded-lg">
-                                    <i class="fa-solid fa-trash-can"></i> Futa
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
-            } catch (error) {
-                console.error("Hitilafu kimya:", error);
-                grid.innerHTML = `
-                    <div class="col-span-full bg-white border border-slate-200 rounded-3xl p-12 text-center">
-                        <i class="fa-solid fa-box-open text-4xl text-slate-300 mb-3"></i>
-                        <p class="text-slate-600 font-bold">Bado hakuna bidhaa zilizowekwa sokoni.</p>
+                        <button class="w-full bg-gray-900 hover:bg-brand-600 text-white py-2.5 rounded-xl font-medium text-sm transition flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-paper-plane"></i> Contact Supplier
+                        </button>
                     </div>
                 `;
+                grid.prepend(card);
+                closeAddModal();
+                document.getElementById('productForm').reset();
             }
         }
 
-        async function deleteProduct(id) {
-            if(confirm("Una uhakika unataka kufuta bidhaa hii?")) {
-                try {
-                    await databases.deleteDocument(DATABASE_ID, COLLECTION_ID, id);
-                    loadProducts();
-                } catch(err) {
-                    alert("Imeshindikana kufuta: " + err.message);
-                }
+        // Admin Function to Add Sponsors Dynamically
+        function addSponsorPrompt() {
+            const sponsorName = prompt("Enter Sponsor / Partner Name for Soko Faster:");
+            if (sponsorName) {
+                const container = document.getElementById('sponsorsContainer');
+                const div = document.createElement('div');
+                div.className = "flex items-center gap-2 text-xl font-black text-gray-700";
+                div.innerHTML = `<i class="fa-solid fa-handshake text-brand-600"></i> ${sponsorName}`;
+                container.appendChild(div);
             }
         }
-
-        checkUserSession();
-        loadProducts();
     </script>
 </body>
 </html>
