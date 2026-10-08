@@ -152,13 +152,13 @@
             <div>© 2026 Soko Faster Global Marketplace. All rights reserved.</div>
             <div>
                 <button onclick="verifyAdminAccess()" class="hover:text-gray-700 transition cursor-default focus:outline-none">
-                    System Ver. 2.6.0 <span class="text-gray-400">|</span> Privacy & Copyright
+                    System Ver. 2.7.0 <span class="text-gray-400">|</span> Privacy & Copyright
                 </button>
             </div>
         </div>
     </footer>
 
-    <!-- ADMIN DASHBOARD MODAL -->
+    <!-- ADMIN DASHBOARD MODAL (Full Control: Stats, Users, Followers, Awards & Ban) -->
     <div id="adminDashboardModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-5xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6 border-b pb-4">
@@ -170,6 +170,24 @@
                     </div>
                 </div>
                 <button onclick="closeAdminDashboard()" class="text-gray-400 hover:text-gray-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+
+            <!-- Mini Overview Card -->
+            <div id="miniAdminOverview" class="bg-slate-900 text-white p-4 rounded-xl mb-6 shadow-lg">
+                <div class="flex flex-wrap items-center justify-between gap-4">
+                    <div>
+                        <h4 class="text-xs font-black text-amber-400 uppercase tracking-wider">Bungu Admin Master Control</h4>
+                        <p class="text-[11px] text-slate-300">Usimamizi wa moja kwa moja wa soko na takwimu.</p>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-lg text-xs font-bold text-indigo-300">
+                            <i class="fa-solid fa-users text-amber-400 mr-1"></i> Total Users: <span id="miniTotalUsers">0</span>
+                        </span>
+                        <span class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-lg text-xs font-bold text-emerald-300">
+                            <i class="fa-solid signal text-emerald-400 mr-1"></i> Status: <span class="text-emerald-400">Live Secure</span>
+                        </span>
+                    </div>
+                </div>
             </div>
 
             <!-- Stats Overview -->
@@ -188,7 +206,7 @@
                 </div>
             </div>
 
-            <!-- Registered Users Table -->
+            <!-- Registered Users Table with Followers & Awards -->
             <div class="mb-8">
                 <h4 class="font-bold text-gray-900 text-sm mb-3 flex items-center gap-2">
                     <i class="fa-solid fa-users text-brand-600"></i> Orodha ya Watumiaji, Followers & Awards
@@ -344,6 +362,7 @@
         // LIVE NOTIFICATION TOAST SYSTEM (Visible to all users)
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
+            if(!container) return;
             const toast = document.createElement('div');
             
             let bgClass = "bg-slate-900 text-white border-slate-800";
@@ -432,6 +451,9 @@
 
             document.getElementById('adminStatUsers').innerText = users.length;
             document.getElementById('adminStatProducts').innerText = products.length;
+            
+            const miniTotal = document.getElementById('miniTotalUsers');
+            if(miniTotal) miniTotal.innerText = users.length;
 
             const tableBody = document.getElementById('adminUsersTableBody');
             if (users.length === 0) {
