@@ -7,7 +7,14 @@
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Lucide Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://unpkg.com/lucide@latest"></script><!-- Supabase Library na Connection -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<script>
+  const SUPABASE_URL = 'https://mshhrtegxuabgtiajxnv.supabase.co';
+  const SUPABASE_ANON_KEY = 'sb_publishable_hSlo8t9OIXIpN3qTeZYOWw_g49nRgSa';
+  const _supabase = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+</script>
+
     <script>
         tailwind.config = {
             darkMode: 'class',
@@ -271,13 +278,29 @@
         </div>
       `;
 
-      productGrid.prepend(newCard);
-      alert("Tangazo lako limerushwa sokoni successfully!");
-      document.querySelector('form').reset();
+            // Kuhifadhi bidhaa kwenye Supabase
+      const { data, error } = await _supabase
+        .from('products')
+        .insert([
+          {
+            title: jina,
+            price: parseFloat(bei),
+            description: maelezo,
+            phone_number: simu,
+            image_url: pichaUrl
+          }
+        ]);
+
+      if (error) {
+        alert("Kuna hitilafu wakati wa kurusha tangazo: " + error.message);
+        console.error('Supabase Error:', error);
+      } else {
+        alert("Tangazo lako limerushwa sokoni na kuhifadhiwa vizuri!");
+        productGrid.prepend(newCard);
+        document.querySelector('form').reset();
+      }
     }
   });
 </script>
 
-</html><script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-<script src="supabase.js"></script>
 
