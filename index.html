@@ -238,7 +238,6 @@
             </form>
         </div>
     </div>
-
     <!-- JAVASCRIPT LOGIC -->
     <script>
         let isRegisterMode = false;
@@ -438,7 +437,7 @@
                     phone,
                     image: compressedImageData,
                     seller: currentUser ? currentUser.username : "Soko Merchant",
-                    views: Math.floor(Math.random() * 15) + 1
+                    views: 0 // Real views starting at 0
                 };
 
                 let products = JSON.parse(localStorage.getItem('soko_products')) || [];
@@ -460,6 +459,7 @@
                 return p;
             });
             localStorage.setItem('soko_products', JSON.stringify(products));
+            renderProducts();
         }
 
         function renderProducts() {
@@ -476,7 +476,7 @@
                     phone: "+255 700 000 000",
                     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
                     seller: "BunguFX Store",
-                    views: 42
+                    views: 0
                 }];
             }
 
@@ -493,7 +493,7 @@
                         <div class="relative h-64 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
                             <img src="${p.image}" alt="${p.title}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
                             <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${p.location}</span>
-                            <span class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[11px] px-2 py-0.5 rounded-full font-medium"><i class="fa-solid fa-eye mr-1 text-cyan-400"></i> ${p.views || 1} views</span>
+                            <span class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[11px] px-2 py-0.5 rounded-full font-medium"><i class="fa-solid fa-eye mr-1 text-cyan-400"></i> ${p.views || 0} views</span>
                         </div>
                         <div class="p-5">
                             <div class="flex justify-between items-center mb-1">
