@@ -3,185 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>SokoLink - Soko Kuu la Mtandaoni Tanzania</title>
+    <title>SokoLink - Soko la Kisasa la Mtandaoni</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Supabase JS Client Library -->
+    <!-- Supabase JS -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Browser Image Compression -->
+    <!-- Image Compressor -->
     <script src="https://cdn.jsdelivr.net/npm/browser-image-compression@2.0.1/dist/browser-image-compression.js"></script>
 </head>
-<body class="bg-slate-100 font-sans text-slate-900 antialiased min-h-screen flex flex-col justify-between selection:bg-indigo-600 selection:text-white">
+<body class="bg-slate-100 font-sans text-slate-900 min-h-screen flex flex-col justify-between">
 
     <!-- TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
     <div>
-        <!-- NAVBAR / HEADER YA KIBIASHARA -->
-        <header class="sticky top-0 z-40 bg-white/90 backdrop-blur-md shadow-sm border-b border-slate-200">
-            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="flex items-center justify-between h-20">
-                    <!-- Logo & Brand -->
-                    <div class="flex items-center gap-3">
-                        <div class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center text-white font-black text-xl shadow-md">S</div>
-                        <a href="#" class="text-2xl font-extrabold text-slate-900 tracking-tight">Soko<span class="text-indigo-600">Link</span></a>
-                    </div>
-
-                    <!-- Search Bar ya Kisasa -->
-                    <div class="flex-1 max-w-xl mx-6 hidden md:block">
-                        <div class="relative">
-                            <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tafuta bidhaa, simu, nguo, au eneo..." class="w-full pl-11 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:bg-white focus:border-indigo-600 transition shadow-sm">
-                            <i class="fa-solid fa-magnifying-glass absolute left-4 top-3.5 text-slate-400"></i>
-                        </div>
-                    </div>
-
-                    <!-- Actions & Auth -->
-                    <div class="flex items-center gap-3">
-                        <button onclick="openPostModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-5 py-2.5 rounded-2xl text-sm font-bold flex items-center gap-2 shadow-lg shadow-indigo-200 transition-all transform hover:-translate-y-0.5">
-                            <i class="fa-solid fa-plus-circle text-base"></i> <span>Posti Bidhaa</span>
-                        </button>
-
-                        <div id="userInfo" class="hidden items-center gap-2 bg-slate-50 px-3 py-1.5 rounded-2xl border border-slate-200">
-                            <span id="userEmail" class="text-xs font-semibold text-slate-700 hidden lg:inline"></span>
-                            <button onclick="logout()" class="text-xs text-red-600 hover:text-red-800 font-bold p-1 transition" title="Toka kwenye akaunti"><i class="fa-solid fa-power-off text-sm"></i></button>
-                        </div>
-
-                        <button id="loginBtn" onclick="toggleModal('authModal')" class="text-sm font-bold text-indigo-600 hover:text-indigo-800 px-4 py-2 bg-indigo-50 rounded-2xl transition">
-                            Ingia
-                        </button>
-                    </div>
+        <!-- NAVBAR -->
+        <header class="sticky top-0 z-40 bg-white shadow-sm border-b border-slate-200">
+            <div class="max-w-7xl mx-auto px-4 h-16 flex items-center justify-between">
+                <a href="#" class="text-2xl font-black text-indigo-600">Soko<span class="text-slate-900">Link</span></a>
+                
+                <div class="flex-1 max-w-md mx-4 hidden sm:block">
+                    <input type="text" id="searchInput" oninput="handleSearch()" placeholder="Tafuta bidhaa au eneo..." class="w-full px-4 py-2 bg-slate-100 rounded-full text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
                 </div>
-                <!-- Search bar ndogo ya simu -->
-                <div class="pb-3 md:hidden">
-                    <div class="relative">
-                        <input type="text" id="searchMobile" oninput="handleSearch()" placeholder="Tafuta bidhaa au eneo..." class="w-full pl-11 pr-4 py-2.5 bg-slate-50 border border-slate-200 rounded-xl text-sm focus:outline-none focus:bg-white focus:border-indigo-600 transition">
-                        <i class="fa-solid fa-magnifying-glass absolute left-4 top-3 text-slate-400"></i>
+
+                <div class="flex items-center gap-3">
+                    <button onclick="openPostModal()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-sm font-bold flex items-center gap-2 shadow">
+                        <i class="fa-solid fa-plus"></i> <span>Posti</span>
+                    </button>
+                    <div id="userInfo" class="hidden items-center gap-2 text-xs font-semibold text-slate-700">
+                        <span id="userEmail"></span>
+                        <button onclick="logout()" class="text-red-600 underline">Toka</button>
                     </div>
+                    <button id="loginBtn" onclick="toggleModal('authModal')" class="text-sm font-bold text-indigo-600">Ingia</button>
                 </div>
             </div>
         </header>
 
         <!-- MAIN CONTAINER -->
-        <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            
-            <!-- HERO BANNER YA KIBIASHARA -->
-            <div class="bg-gradient-to-r from-indigo-900 via-indigo-800 to-purple-900 rounded-3xl p-8 sm:p-12 text-white mb-10 shadow-2xl relative overflow-hidden">
-                <div class="absolute -right-16 -bottom-16 w-80 h-80 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none"></div>
-                <div class="max-w-2xl relative z-10">
-                    <span class="bg-indigo-500/30 text-indigo-200 text-xs font-bold px-3.5 py-1.5 rounded-full uppercase tracking-wider border border-indigo-400/20 backdrop-blur-md">Soko Kuu La Uhakika Tanzania</span>
-                    <h1 class="text-3xl sm:text-5xl font-black mt-4 mb-4 tracking-tight leading-tight">Nunua na Uuze Kila Kitu kwa Kasi na Usalama</h1>
-                    <p class="text-slate-300 text-sm sm:text-base leading-relaxed">Weka bidhaa yako sokoni leo kwa picha halisi zisizokatwa, pata wanunuzi na wauzaji waaminifu nchi nzima.</p>
+        <main class="max-w-7xl mx-auto px-4 py-6">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+                <!-- CATEGORIES -->
+                <div class="bg-white p-4 rounded-2xl border border-slate-200 h-fit">
+                    <h3 class="font-bold text-sm mb-3 text-slate-700">Kategoria</h3>
+                    <ul class="space-y-1 text-sm font-medium" id="categoryList">
+                        <li><button onclick="filterCategory('All')" class="w-full text-left px-3 py-2 rounded-xl text-indigo-600 bg-indigo-50 cat-btn active" data-cat="All">Zote</button></li>
+                        <li><button onclick="filterCategory('Electronics')" class="w-full text-left px-3.5 py-2 rounded-xl text-slate-600 hover:bg-slate-50 cat-btn" data-cat="Electronics">Electronics</button></li>
+                        <li><button onclick="filterCategory('Fashion')" class="w-full text-left px-3.5 py-2 rounded-xl text-slate-600 hover:bg-slate-50 cat-btn" data-cat="Fashion">Nguo & Mavazi</button></li>
+                        <li><button onclick="filterCategory('Vehicles')" class="w-full text-left px-3.5 py-2 rounded-xl text-slate-600 hover:bg-slate-50 cat-btn" data-cat="Vehicles">Magari</button></li>
+                        <li><button onclick="filterCategory('Home')" class="w-full text-left px-3.5 py-2 rounded-xl text-slate-600 hover:bg-slate-50 cat-btn" data-cat="Home">Nyumba & Samani</button></li>
+                    </ul>
                 </div>
-            </div>
 
-            <!-- LAYOUT: CATEGORIES & PRODUCT GRID -->
-            <div class="flex flex-col lg:flex-row gap-8">
-                
-                <!-- SIDEBAR CATEGORIES -->
-                <aside class="w-full lg:w-72 flex-shrink-0">
-                    <div class="bg-white p-6 rounded-3xl border border-slate-200 shadow-sm sticky top-28">
-                        <h3 class="font-extrabold text-slate-900 mb-4 text-sm flex items-center gap-2.5">
-                            <i class="fa-solid fa-layer-group text-indigo-600 text-base"></i> Kategoria za Bidhaa
-                        </h3>
-                        <ul class="space-y-2 text-sm font-semibold" id="categoryList">
-                            <li><button onclick="filterCategory('All')" class="w-full text-left px-4 py-3 rounded-2xl text-indigo-600 bg-indigo-50 transition cat-btn active flex items-center justify-between" data-cat="All"><span>Bidhaa Zote</span> <i class="fa-solid fa-chevron-right text-xs"></i></button></li>
-                            <li><button onclick="filterCategory('Electronics')" class="w-full text-left px-4 py-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition cat-btn flex items-center justify-between" data-cat="Electronics"><span>Electronics & Simu</span> <i class="fa-solid fa-chevron-right text-xs"></i></button></li>
-                            <li><button onclick="filterCategory('Fashion')" class="w-full text-left px-4 py-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition cat-btn flex items-center justify-between" data-cat="Fashion"><span>Nguo & Mavazi</span> <i class="fa-solid fa-chevron-right text-xs"></i></button></li>
-                            <li><button onclick="filterCategory('Vehicles')" class="w-full text-left px-4 py-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition cat-btn flex items-center justify-between" data-cat="Vehicles"><span>Magari & Vyombo</span> <i class="fa-solid fa-chevron-right text-xs"></i></button></li>
-                            <li><button onclick="filterCategory('Home')" class="w-full text-left px-4 py-3 rounded-2xl text-slate-600 hover:bg-slate-50 hover:text-indigo-600 transition cat-btn flex items-center justify-between" data-cat="Home"><span>Nyumba & Samani</span> <i class="fa-solid fa-chevron-right text-xs"></i></button></li>
-                        </ul>
+                <!-- PRODUCTS GRID -->
+                <div class="md:col-span-3">
+                    <div class="flex justify-between items-center mb-4 bg-white p-4 rounded-2xl border border-slate-200">
+                        <h2 class="font-bold text-slate-800" id="sectionTitle">Bidhaa Zote</h2>
+                        <span id="productCount" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3 py-1 rounded-full">0 zimepatikana</span>
                     </div>
-                </aside>
-
-                <!-- PRODUCT GRID SECTION -->
-                <section class="flex-1">
-                    <div class="flex items-center justify-between mb-6 bg-white px-6 py-4 rounded-2xl border border-slate-200 shadow-sm">
-                        <h2 class="text-lg font-black text-slate-900" id="sectionTitle">Bidhaa Zilizopo</h2>
-                        <span id="productCount" class="text-xs font-bold text-indigo-600 bg-indigo-50 px-3.5 py-1.5 rounded-xl border border-indigo-100">0 zimepatikana</span>
+                    <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                        <p class="col-span-full text-center py-10 text-slate-400 text-sm">Inapakia bidhaa...</p>
                     </div>
-
-                    <!-- Products Grid -->
-                    <div id="productsGrid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
-                        <div class="col-span-full text-center py-20 text-slate-400">
-                            <i class="fa-solid fa-spinner fa-spin text-4xl mb-3 text-indigo-600"></i>
-                            <p class="text-sm font-semibold">Inapakia bidhaa kutoka kwenye hifadhidata...</p>
-                        </div>
-                    </div>
-                </section>
+                </div>
             </div>
         </main>
     </div>
 
     <!-- FOOTER -->
-    <footer class="bg-white border-t border-slate-200 mt-20 py-8 text-center text-xs font-semibold text-slate-500">
-        <p>&copy; 2026 SokoLink Tanzania. Haki zote zimehifadhiwa.</p>
+    <footer class="bg-white border-t border-slate-200 mt-12 py-4 text-center text-xs text-slate-500">
+        <p>&copy; 2026 SokoLink Tanzania</p>
     </footer>
 
     <!-- AUTH MODAL -->
-    <div id="authModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-md w-full p-8 shadow-2xl relative border border-slate-100 animate-in fade-in zoom-in duration-200">
-            <button onclick="toggleModal('authModal')" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button>
-            <h3 id="authTitle" class="text-2xl font-black mb-2 text-slate-900">Ingia kwenye Akaunti</h3>
-            <p class="text-xs text-slate-500 mb-6">Weka barua pepe na neno lako la siri kuendelea.</p>
-            
-            <form id="authForm" onsubmit="handleAuth(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Barua Pepe (Email)</label>
-                    <input type="email" id="authEmail" required class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-indigo-600 shadow-sm transition">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Neno la Siri (Password)</label>
-                    <input type="password" id="authPass" required class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-indigo-600 shadow-sm transition">
-                </div>
-                <button type="submit" id="authSubmitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-extrabold py-3.5 rounded-2xl text-sm transition shadow-lg shadow-indigo-200 mt-2">Ingia Sasa</button>
+    <div id="authModal" class="fixed inset-0 bg-slate-950/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl max-w-sm w-full p-6 relative">
+            <button onclick="toggleModal('authModal')" class="absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+            <h3 id="authTitle" class="text-lg font-bold mb-4">Ingia kwenye Akaunti</h3>
+            <form id="authForm" onsubmit="handleAuth(event)" class="space-y-3">
+                <input type="email" id="authEmail" placeholder="Email" required class="w-full px-3 py-2 border rounded-xl text-sm">
+                <input type="password" id="authPass" placeholder="Password" required class="w-full px-3 py-2 border rounded-xl text-sm">
+                <button type="submit" id="authSubmitBtn" class="w-full bg-indigo-600 text-white py-2 rounded-xl text-sm font-bold">Ingia</button>
             </form>
-            <div class="mt-6 text-center">
-                <button onclick="switchAuthMode()" id="switchAuthText" class="text-xs text-indigo-600 font-bold hover:underline">Hauna akaunti? Jisajili hapa</button>
-            </div>
+            <button onclick="switchAuthMode()" id="switchAuthText" class="w-full text-center text-xs text-indigo-600 mt-3 font-semibold">Hauna akaunti? Jisajili</button>
         </div>
     </div>
 
-    <!-- POST PRODUCT MODAL -->
-    <div id="postModal" class="fixed inset-0 bg-slate-950/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-3xl max-w-lg w-full p-8 shadow-2xl relative max-h-[90vh] overflow-y-auto border border-slate-100">
-            <button onclick="toggleModal('postModal')" class="absolute top-5 right-5 text-slate-400 hover:text-slate-600 w-8 h-8 rounded-full bg-slate-100 flex items-center justify-center transition"><i class="fa-solid fa-xmark"></i></button>
-            <h3 class="text-2xl font-black mb-2 text-slate-900">Posti Bidhaa Mpya</h3>
-            <p class="text-xs text-slate-500 mb-6">Jaza taarifa za bidhaa yako kwa usahihi.</p>
-
-            <form id="postForm" onsubmit="handlePostProduct(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1.5">Jina la Bidhaa</label>
-                    <input type="text" id="pTitle" required class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-indigo-600 shadow-sm" placeholder="Mf: iPhone 13 Pro Max">
+    <!-- POST MODAL -->
+    <div id="postModal" class="fixed inset-0 bg-slate-950/50 hidden flex items-center justify-center p-4 z-50">
+        <div class="bg-white rounded-3xl max-w-md w-full p-6 relative max-h-[90vh] overflow-y-auto">
+            <button onclick="toggleModal('postModal')" class="absolute top-4 right-4 text-slate-400"><i class="fa-solid fa-xmark"></i></button>
+            <h3 class="text-lg font-bold mb-4">Posti Bidhaa</h3>
+            <form id="postForm" onsubmit="handlePostProduct(event)" class="space-y-3">
+                <input type="text" id="pTitle" placeholder="Jina la Bidhaa" required class="w-full px-3 py-2 border rounded-xl text-sm">
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="number" id="pPrice" placeholder="Bei (TZS)" required class="w-full px-3 py-2 border rounded-xl text-sm">
+                    <select id="pCategory" class="w-full px-3 py-2 border rounded-xl text-sm bg-white">
+                        <option value="Electronics">Electronics</option>
+                        <option value="Fashion">Fashion</option>
+                        <option value="Vehicles">Magari</option>
+                        <option value="Home">Nyumba</option>
+                    </select>
                 </div>
-                
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Bei (TZS)</label>
-                        <input type="number" id="pPrice" required class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-indigo-600 shadow-sm" placeholder="1200000">
+                <div class="grid grid-cols-2 gap-2">
+                    <input type="text" id="pPhone" placeholder="Namba ya Simu" required class="w-full px-3 py-2 border rounded-xl text-sm">
+                    <input type="text" id="pLocation" placeholder="Eneo / Location" required class="w-full px-3 py-2 border rounded-xl text-sm">
+                </div>
+                <input type="file" id="pImageFile" accept="image/*" required class="w-full text-xs text-slate-500 border rounded-xl p-2">
+                <textarea id="pDesc" rows="2" placeholder="Maelezo..." required class="w-full px-3 py-2 border rounded-xl text-sm"></textarea>
+                <button type="submit" id="postSubmitBtn" class="w-full bg-indigo-600 text-white py-2 rounded-xl text-sm font-bold">Posti Sasa</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- SCRIPT -->
+    <script>
+        const SUPABASE_URL = "https://hrzjdbhciwxphchyyolk.supabase.co";
+        const SUPABASE_ANON_KEY = "Sb_publishable_B1Kp32-6IaemD_7pMCHhKg_yxNMd8ii";
+        const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+
+        let currentUser = null;
+        let allProducts = [];
+        let isSignUp = false;
+
+        window.addEventListener('DOMContentLoaded', () => {
+            checkUserSession();
+            fetchProducts();
+        });
+
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `px-4 py-2 rounded-xl text-white text-xs font-bold shadow-lg ${type === 'success' ? 'bg-emerald-600' : 'bg-red-600'}`;
+            toast.textContent = message;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        async function checkUserSession() {
+            const { data: { session } } = await supabaseClient.auth.getSession();
+            updateUserUI(session ? session.user : null);
+            supabaseClient.auth.onAuthStateChange((_, session) => updateUserUI(session ? session.user : null));
+        }
+
+        function updateUserUI(user) {
+            currentUser = user;
+            document.getElementById('loginBtn').classList.toggle('hidden', !!user);
+            document.getElementById('userInfo').classList.toggle('hidden', !user);
+            if (user) document.getElementById('userEmail').textContent = user.email;
+        }
+
+        function toggleModal(id) {
+            document.getElementById(id).classList.toggle('hidden');
+        }
+
+        function switchAuthMode() {
+            isSignUp = !isSignUp;
+            document.getElementById('authTitle').textContent = isSignUp ? "Jisajili" : "Ingia";
+            document.getElementById('authSubmitBtn').textContent = isSignUp ? "Jisajili" : "Ingia";
+            document.getElementById('switchAuthText').textContent = isSignUp ? "Una akaunti? Ingia" : "Hauna akaunti? Jisajili";
+        }
+
+        async function handleAuth(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const pass = document.getElementById('authPass').value;
+            try {
+                const res = isSignUp ? await supabaseClient.auth.signUp({ email, password: pass }) : await supabaseClient.auth.signInWithPassword({ email, password: pass });
+                if (res.error) throw res.error;
+                showToast("Imefanikiwa!");
+                toggleModal('authModal');
+            } catch (err) {
+                showToast(err.message, 'error');
+            }
+        }
+
+        async function logout() {
+            await supabaseClient.auth.signOut();
+            showToast("Umetoka");
+        }
+
+        function openPostModal() {
+            if (!currentUser) {
+                showToast("Ingia kwanza!", 'error');
+                toggleModal('authModal');
+                return;
+            }
+            toggleModal('postModal');
+        }
+
+        async function compressAndUploadImage(file) {
+            let fileToUpload = file;
+            try {
+                fileToUpload = await imageCompression(file, { maxSizeMB: 1.0, useWebWorker: true });
+            } catch (e) {}
+
+            const fileName = `${Date.now()}_${Math.random().toString(36).substring(2)}.${file.name.split('.').pop()}`;
+            const { error } = await supabaseClient.storage.from('sokolink-images').upload(`product-images/${fileName}`, fileToUpload);
+            if (error) throw error;
+
+            const { data } = supabaseClient.storage.from('sokolink-images').getPublicUrl(`product-images/${fileName}`);
+            return data.publicUrl;
+        }
+
+        async function handlePostProduct(e) {
+            e.preventDefault();
+            const btn = document.getElementById('postSubmitBtn');
+            btn.disabled = true;
+            btn.textContent = "Inatuma...";
+
+            try {
+                const imageUrl = await compressAndUploadImage(document.getElementById('pImageFile').files[0]);
+                const { error } = await supabaseClient.from('products').insert([{
+                    title: document.getElementById('pTitle').value,
+                    price: parseFloat(document.getElementById('pPrice').value),
+                    category: document.getElementById('pCategory').value,
+                    phone: document.getElementById('pPhone').value,
+                    location: document.getElementById('pLocation').value,
+                    description: document.getElementById('pDesc').value,
+                    image_url: imageUrl,
+                    publisher: currentUser.email,
+                    views: 0
+                }]);
+
+                if (error) throw error;
+                showToast("Bidhaa imewekwa sokoni!");
+                toggleModal('postModal');
+                document.getElementById('postForm').reset();
+                fetchProducts();
+            } catch (err) {
+                showToast(err.message, 'error');
+            } finally {
+                btn.disabled = false;
+                btn.textContent = "Posti Sasa";
+            }
+        }
+
+        async function fetchProducts() {
+            const { data, error } = await supabaseClient.from('products').select('*').order('created_at', { ascending: false });
+            if (!error) {
+                allProducts = data || [];
+                renderProducts(allProducts);
+            }
+        }
+
+        async function viewProduct(id, views) {
+            await supabaseClient.from('products').update({ views: (views || 0) + 1 }).eq('id', id);
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('productsGrid');
+            document.getElementById('productCount').textContent = `${products.length} zimepatikana`;
+            if (products.length === 0) {
+                grid.innerHTML = `<p class="col-span-full text-center py-10 text-slate-400">Hakuna bidhaa.</p>`;
+                return;
+            }
+
+            grid.innerHTML = products.map(p => `
+                <div onclick="viewProduct('${p.id}', ${p.views || 0})" class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-md flex flex-col cursor-pointer">
+                    <div class="bg-slate-50 h-48 flex items-center justify-center p-2 border-b">
+                        <img src="${p.image_url}" alt="${p.title}" class="w-full h-full object-contain">
                     </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Kategoria</label>
-                        <select id="pCategory" required class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm bg-white focus:outline-none focus:border-indigo-600 shadow-sm">
-                            <option value="Electronics">Electronics & Simu</option>
-                            <option value="Fashion">Nguo & Mavazi</option>
-                            <option value="Vehicles">Magari & Vyombo</option>
-                            <option value="Home">Nyumba & Samani</option>
-                        </select>
+                    <div class="p-4 flex-1 flex flex-col justify-between">
+                        <div>
+                            <div class="flex justify-between text-[11px] text-slate-400 mb-1">
+                                <span><i class="fa-solid fa-location-dot"></i> ${p.location}</span>
+                                <span><i class="fa-solid fa-eye"></i> ${p.views || 0}</span>
+                            </div>
+                            <h3 class="font-bold text-slate-900 text-sm line-clamp-1">${p.title}</h3>
+                            <p class="text-indigo-600 font-extrabold text-base mt-1">TZS ${Number(p.price).toLocaleString()}</p>
+                            <p class="text-xs text-slate-500 mt-1 line-clamp-2">${p.description}</p>
+                        </div>
+                        <div class="mt-4 pt-3 border-t flex justify-between items-center">
+                            <span class="text-[10px] text-slate-400">${p.publisher ? p.publisher.split('@')[0] : ''}</span>
+                            <a href="tel:${p.phone}" onclick="event.stopPropagation()" class="bg-emerald-600 text-white text-xs px-3 py-1.5 rounded-xl font-bold flex items-center gap-1">
+                                <i class="fa-solid fa-phone"></i> Piga
+                            </a>
+                        </div>
                     </div>
                 </div>
+            `).join('');
+        }
 
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Namba ya Simu</label>
-                        <input type="text" id="pPhone" placeholder="07XXXXXXXX" required class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-indigo-600 shadow-sm">
-                    </div>
-                    <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1.5">Eneo / Location</label>
-                        <input type="text" id="pLocation" placeholder="Mf: Kariakoo, Dar es Salaam" required class="w-full px-4 py-3 border border-slate-200 rounded-2xl text-sm focus:outline-none focus:border-indigo-600 shadow-sm">
-                    </div>
-                </div>
+        function filterCategory(cat) {
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                const match = btn.getAttribute('data-cat') === cat;
+                btn.classList.toggle('text-indigo-600', match);
+                btn.classList.toggle('bg-indigo-50', match);
+                btn.classList.toggle('text-slate-600', !match);
+            });
+            renderProducts(cat === 'All' ? allProducts : allProducts.filter(p => p.category === cat));
+            document.getElementById('sectionTitle').textContent = cat === 'All' ? "Bidhaa Zote" : `Kategoria: ${cat}`;
+        }
 
-                <div>
-                    <label
+        function handleSearch() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            renderProducts(allProducts.filter(p => p.title.toLowerCase().includes(q) || p.description.toLowerCase().includes(q) || p.location.toLowerCase().includes(q)));
+        }
+    </script>
+</body>
+</html>
