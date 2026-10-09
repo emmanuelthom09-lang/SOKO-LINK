@@ -1,349 +1,381 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soko Faster - The Global B2B & B2C E-Commerce Marketplace</title>
-    <!-- Tailwind CSS -->
+    <title>Soko Faster | Global Marketplace Powered by Bungu</title>
+    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     colors: {
-                        brand: { 50: '#eef2ff', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', dark: '#0f172a' }
+                        brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' }
                     }
                 }
             }
         }
     </script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
-        @keyframes scroll {
-            0% { transform: translateX(0); }
-            100% { transform: translateX(-50%); }
-        }
-        .animate-sponsor-scroll {
-            display: flex;
-            width: max-content;
-            animation: scroll 30s linear infinite;
-        }
-        .animate-sponsor-scroll:hover {
-            animation-play-state: paused;
-        }
-        @keyframes slideIn {
-            from { transform: translateX(100%); opacity: 0; }
-            to { transform: translateX(0); opacity: 1; }
-        }
-        .toast-animation {
-            animation: slideIn 0.3s ease-out forwards;
-        }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        .toast-animation { animation: fadeIn 0.3s ease-out forwards; }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-800 font-sans antialiased flex flex-col min-h-screen relative">
+<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- LIVE NOTIFICATION TOAST CONTAINER -->
-    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-3 pointer-events-none"></div>
+    <!-- TOAST NOTIFICATION CONTAINER -->
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
-    <!-- TOP NAVIGATION BAR -->
-    <header class="sticky top-0 z-40 bg-white border-b border-gray-200 shadow-sm">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
-            <div class="flex items-center space-x-3">
-                <a href="#" class="text-2xl font-black tracking-tight text-brand-600 flex items-center gap-2">
-                    <i class="fa-solid fa-bolt-lightning text-amber-500"></i> Soko <span class="text-gray-900">Faster</span>
-                </a>
-                <span class="hidden md:inline-block text-xs uppercase bg-brand-50 text-brand-700 font-semibold px-2 py-1 rounded-full border border-brand-100">Global Hub</span>
-            </div>
-
-            <!-- Working Search Bar -->
-            <div class="hidden md:flex flex-1 max-w-xl mx-8">
-                <div class="relative w-full flex items-center">
-                    <input type="text" id="searchInput" onkeyup="filterProducts()" placeholder="Search products by title, category, or store name..." class="w-full pl-4 pr-12 py-2.5 rounded-l-lg border border-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500 text-sm">
-                    <button onclick="filterProducts()" class="bg-brand-600 text-white px-6 py-2.5 rounded-r-lg hover:bg-brand-700 transition text-sm font-medium">
-                        <i class="fa-solid fa-search"></i>
+    <div>
+        <!-- TOP FOUNDER & AZAMPAY MERCHANT BAR -->
+        <div class="bg-slate-900 text-slate-300 py-1.5 px-4 text-xs border-b border-slate-800">
+            <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
+                <div class="flex items-center gap-2">
+                    <span class="bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">FOUNDER: BUNGU</span>
+                    <span>Global B2B & B2C E-commerce Platform</span>
+                </div>
+                <div class="flex items-center gap-4">
+                    <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> AzamPay Merchant: 0798033596</span>
+                    <button onclick="verifyAdminAccess()" id="adminControlPanel" class="text-amber-400 hover:text-amber-300 font-bold transition">
+                        <i class="fa-solid fa-lock-open mr-1"></i> Admin Panel
                     </button>
                 </div>
             </div>
+        </div>
 
-            <!-- Header Actions -->
-            <div class="flex items-center space-x-3">
-                <button onclick="openAddModal()" class="flex items-center gap-2 bg-gradient-to-r from-amber-500 to-orange-500 text-white px-4 py-2 rounded-lg font-medium text-sm shadow-md hover:from-amber-600 hover:to-orange-600 transition transform hover:scale-105">
-                    <i class="fa-solid fa-plus text-base font-bold"></i>
-                    <span class="hidden sm:inline">Sell Product</span>
-                </button>
+        <!-- ALIBABA STYLE HEADER & TOP AUTH -->
+        <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+            <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
+                <div class="flex items-center gap-3 shrink-0">
+                    <div class="w-11 h-11 bg-gradient-to-tr from-amber-500 to-orange-600 rounded-xl flex items-center justify-center text-white font-black text-2xl shadow-md">
+                        SF
+                    </div>
+                    <div>
+                        <h1 class="font-black text-xl text-slate-900 tracking-tight leading-none">SOKO FASTER</h1>
+                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-0.5">International Trade Hub</p>
+                    </div>
+                </div>
 
-                <div id="authNavArea" class="flex items-center space-x-3 border-l pl-4 border-gray-200 text-sm font-medium">
-                    <button onclick="openAuthModal('login')" class="text-gray-600 hover:text-brand-600 transition">Sign In</button>
-                    <span class="text-gray-300">/</span>
-                    <button onclick="openAuthModal('register')" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition shadow-sm">Register</button>
+                <div class="flex-1 max-w-2xl hidden md:flex">
+                    <div class="flex w-full border-2 border-emerald-600 rounded-xl overflow-hidden shadow-sm">
+                        <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search products, locations, or sellers..." class="w-full px-4 py-2.5 text-xs focus:outline-none">
+                        <button onclick="filterProducts()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 font-bold text-xs transition flex items-center gap-2">
+                            <i class="fa-solid fa-magnifying-glass"></i> Search
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3 shrink-0">
+                    <button onclick="openVipModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-black transition shadow-sm flex items-center gap-1.5">
+                        <i class="fa-solid fa-crown"></i> VIP
+                    </button>
+                    <button onclick="openAffiliateModal()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-3 py-2 rounded-xl text-xs font-bold transition hidden sm:flex items-center gap-1">
+                        <i class="fa-solid fa-share-nodes"></i> Affiliate
+                    </button>
+                    <div id="authNavArea" class="flex items-center gap-2 border-l border-slate-200 pl-3">
+                        <!-- Populated by JS -->
+                    </div>
                 </div>
             </div>
-        </div>
-    </header>
+        </header>
+        <!-- HERO SECTION & DYNAMIC SPONSORS / ANNOUNCEMENTS -->
+        <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-10 px-4 shadow-inner">
+            <div class="max-w-5xl mx-auto text-center">
+                <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">
+                    Global Wholesale & Retail Marketplace
+                </span>
+                <h2 class="text-3xl md:text-5xl font-black mt-3 mb-3 tracking-tight">Source Smarter, Trade Faster Worldwide</h2>
+                <p class="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto mb-6">
+                    Connect directly with verified suppliers, secure your transactions, scale visibility with VIP packages, and earn lucrative referral commissions.
+                </p>
 
-    <!-- HERO SECTION -->
-    <section class="bg-gradient-to-r from-slate-900 via-indigo-950 to-brand-700 text-white py-20 px-4 sm:px-6 lg:px-8 text-center relative overflow-hidden">
-        <div class="max-w-4xl mx-auto relative z-10">
-            <span class="inline-block bg-white/10 text-amber-400 text-xs font-bold px-3 py-1 rounded-full uppercase tracking-widest mb-4 border border-white/10 backdrop-blur-md">Trusted Worldwide Trade</span>
-            <h1 class="text-4xl sm:text-6xl font-black tracking-tight mb-6 leading-tight">Empowering Secure Global Commerce on Soko Faster</h1>
-            <p class="text-lg sm:text-xl text-indigo-200 max-w-2xl mx-auto mb-10">Connect with verified businesses, follow stores, interact through comments, and trade globally.</p>
-            <div class="flex flex-wrap justify-center gap-4">
-                <button onclick="openAuthModal('register')" class="bg-amber-500 hover:bg-amber-600 text-slate-950 font-bold px-8 py-4 rounded-xl shadow-xl transition transform hover:-translate-y-0.5">Join Securely Free</button>
-                <button onclick="openAddModal()" class="bg-white/10 hover:bg-white/20 text-white border border-white/20 font-semibold px-8 py-4 rounded-xl transition backdrop-blur-md">Start Selling Now</button>
+                <!-- Post Listing Action CTA -->
+                <div class="flex justify-center gap-3">
+                    <button onclick="openAddModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-bold text-xs transition shadow-lg flex items-center gap-2">
+                        <i class="fa-solid fa-plus-circle text-base"></i> Post New Listing
+                    </button>
+                </div>
+
+                <!-- Dynamic Sponsor / Announcement Banner Area -->
+                <div id="announcementBannerArea" class="mt-6 bg-slate-800/80 border border-slate-700 rounded-2xl p-4 text-left hidden shadow-lg max-w-3xl mx-auto">
+                    <div class="flex items-center justify-between mb-1">
+                        <span id="announcementBadge" class="text-[10px] bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded uppercase">Announcement</span>
+                        <span id="announcementDate" class="text-[10px] text-slate-400"></span>
+                    </div>
+                    <h4 id="announcementTitle" class="font-bold text-sm text-white"></h4>
+                    <p id="announcementMessage" class="text-xs text-slate-300 mt-1"></p>
+                </div>
             </div>
-        </div>
-    </section>
+        </section>
 
-    <!-- SPONSORS ANIMATED CAROUSEL -->
-    <section class="bg-white border-b border-gray-200 py-6 overflow-hidden relative">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-3 flex justify-between items-center">
-            <h3 class="text-xs font-bold uppercase tracking-widest text-gray-400">Strategic Global Partners & Sponsors</h3>
-            <div id="adminControlPanel" class="hidden">
-                <button onclick="addSponsorPrompt()" class="text-xs bg-brand-50 text-brand-600 border border-brand-200 px-3 py-1 rounded-md hover:bg-brand-100 font-semibold transition">
-                    <i class="fa-solid fa-gear mr-1"></i> [Admin] Add Sponsor
-                </button>
+        <!-- MAIN PRODUCT GRID SECTION -->
+        <main class="max-w-7xl mx-auto px-4 py-8">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-200 pb-3">
+                <h3 class="text-lg font-black text-slate-900 tracking-tight flex items-center gap-2">
+                    <i class="fa-solid fa-globe text-emerald-600"></i> Featured Global Listings
+                </h3>
+                <span class="text-xs text-slate-500 font-bold" id="totalProductsCount">Loading listings...</span>
             </div>
-        </div>
 
-        <div class="w-full overflow-hidden relative">
-            <div id="sponsorsContainer" class="animate-sponsor-scroll flex items-center gap-16">
-                <div class="flex items-center gap-2 text-xl font-black text-red-500 shrink-0"><i class="fa-solid fa-signal"></i> Vodacom</div>
-                <div class="flex items-center gap-2 text-xl font-black text-blue-700 shrink-0"><i class="fa-solid fa-credit-card"></i> Mastercard</div>
-                <div class="flex items-center gap-2 text-xl font-black text-red-600 shrink-0"><i class="fa-solid fa-bottle-droplet"></i> Coca-Cola</div>
-                <div class="flex items-center gap-2 text-xl font-black text-amber-600 shrink-0"><i class="fa-solid fa-plane-departure"></i> DHL Express</div>
-                <div class="flex items-center gap-2 text-xl font-black text-blue-500 shrink-0"><i class="fa-solid fa-globe"></i> Visa</div>
-                <div class="flex items-center gap-2 text-xl font-black text-emerald-600 shrink-0"><i class="fa-solid fa-mobile-screen"></i> M-Pesa Africa</div>
-                <div class="flex items-center gap-2 text-xl font-black text-cyan-600 shrink-0"><i class="fa-solid fa-box"></i> Alibaba Group</div>
-                <div class="flex items-center gap-2 text-xl font-black text-indigo-600 shrink-0"><i class="fa-solid fa-store"></i> Jumia</div>
-                <div class="flex items-center gap-2 text-xl font-black text-blue-900 shrink-0"><i class="fa-solid fa-building-columns"></i> Equity Bank</div>
-                <div class="flex items-center gap-2 text-xl font-black text-orange-600 shrink-0"><i class="fa-solid fa-bolt"></i> Amazon Global</div>
-
-                <!-- Duplicate Loop Set -->
-                <div class="flex items-center gap-2 text-xl font-black text-red-500 shrink-0"><i class="fa-solid fa-signal"></i> Vodacom</div>
-                <div class="flex items-center gap-2 text-xl font-black text-blue-700 shrink-0"><i class="fa-solid fa-credit-card"></i> Mastercard</div>
-                <div class="flex items-center gap-2 text-xl font-black text-red-600 shrink-0"><i class="fa-solid fa-bottle-droplet"></i> Coca-Cola</div>
-                <div class="flex items-center gap-2 text-xl font-black text-amber-600 shrink-0"><i class="fa-solid fa-plane-departure"></i> DHL Express</div>
-                <div class="flex items-center gap-2 text-xl font-black text-blue-500 shrink-0"><i class="fa-solid fa-globe"></i> Visa</div>
-                <div class="flex items-center gap-2 text-xl font-black text-emerald-600 shrink-0"><i class="fa-solid fa-mobile-screen"></i> M-Pesa Africa</div>
-                <div class="flex items-center gap-2 text-xl font-black text-cyan-600 shrink-0"><i class="fa-solid fa-box"></i> Alibaba Group</div>
-                <div class="flex items-center gap-2 text-xl font-black text-indigo-600 shrink-0"><i class="fa-solid fa-store"></i> Jumia</div>
-                <div class="flex items-center gap-2 text-xl font-black text-blue-900 shrink-0"><i class="fa-solid fa-building-columns"></i> Equity Bank</div>
-                <div class="flex items-center gap-2 text-xl font-black text-orange-600 shrink-0"><i class="fa-solid fa-bolt"></i> Amazon Global</div>
+            <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+                <!-- Rendered by JavaScript -->
             </div>
-        </div>
-    </section>
-    <!-- MAIN PRODUCT CATALOGUE -->
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 flex-grow">
-        <div class="flex justify-between items-center mb-8">
+        </main>
+    </div>
+
+    <!-- FOOTER WITH FOUNDER COPYRIGHT -->
+    <footer class="bg-slate-900 text-slate-400 py-8 px-4 border-t border-slate-800 text-center text-xs mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div>
-                <h2 class="text-2xl font-bold text-gray-900">Soko Faster Global Feed</h2>
-                <p class="text-sm text-gray-500">Explore verified wholesale, retail listings, store followers & real comments worldwide</p>
+                <p class="font-bold text-white">Soko Faster &copy; 2026. All rights reserved.</p>
+                <p class="text-[11px] text-slate-500 mt-0.5">Architected & Founded by Bungu (Global E-commerce Ecosystem)</p>
             </div>
-        </div>
-
-        <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            <!-- Dynamically populated -->
-        </div>
-    </main>
-
-    <!-- FOOTER WITH HIDDEN COPYRIGHT ADMIN TRIGGER -->
-    <footer class="bg-white border-t border-gray-200 py-6 mt-12 text-center text-xs text-gray-500">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div>© 2026 Soko Faster Global Marketplace. All rights reserved.</div>
-            <div>
-                <button onclick="verifyAdminAccess()" class="hover:text-gray-700 transition cursor-default focus:outline-none">
-                    System Ver. 2.7.0 <span class="text-gray-400">|</span> Privacy & Copyright
-                </button>
+            <div class="flex gap-4 text-sm">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
             </div>
         </div>
     </footer>
 
-    <!-- ADMIN DASHBOARD MODAL (Full Control: Stats, Users, Followers, Awards & Ban) -->
-    <div id="adminDashboardModal" class="fixed inset-0 z-50 hidden bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-5xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6 border-b pb-4">
+
+    <!-- MODAL 1: AUTHENTICATION (SIGN IN / REGISTER) -->
+    <div id="authModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 id="authTitle" class="text-xl font-black text-slate-900 mb-1">Create Store Account</h3>
+            <p id="authSubtitle" class="text-xs text-slate-500 mb-6">Register your store credentials securely.</p>
+
+            <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
+                <div id="businessUsernameContainer">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Store Username</label>
+                    <input type="text" id="authUsername" placeholder="e.g. BunguGlobalStore" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
+                    <input type="email" id="authEmail" required placeholder="name@example.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+                    <div class="relative">
+                        <input type="password" id="authPass" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <button type="button" onclick="togglePasswordVisibility('authPass', this)" class="absolute right-3 top-2.5 text-slate-400 text-xs"><i class="fa-solid fa-eye"></i></button>
+                    </div>
+                </div>
+                <div id="confirmPassContainer">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Confirm Password</label>
+                    <input type="password" id="authConfirmPass" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <div id="dpContainer">
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Store Profile Picture (Optional DP)</label>
+                    <input type="file" id="authDpFile" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+                </div>
+                <button type="submit" id="authSubmitBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-xs font-bold transition shadow-md">Register Store</button>
+            </form>
+
+            <div class="mt-4 text-center text-xs text-slate-500">
+                <span id="authSwitchText">Already have an account?</span>
+                <button onclick="toggleAuthMode()" id="authSwitchBtn" class="text-emerald-600 font-bold ml-1 hover:underline">Sign In</button>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL 2: ADD PRODUCT LISTING MODAL -->
+    <div id="addProductModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeAddModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <h3 class="text-xl font-black text-slate-900 mb-1">Post New Listing</h3>
+            <p class="text-xs text-slate-500 mb-6">List your product for international wholesale and retail buyers.</p>
+
+            <form id="productForm" onsubmit="handleProductSubmit(event)" class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Product Title</label>
+                    <input type="text" id="pTitle" required placeholder="e.g. Smart Watch Series 8" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Currency</label>
+                        <select id="pCurrency" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="TZS">TZS</option>
+                            <option value="USD">USD ($)</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Price</label>
+                        <input type="number" id="pPrice" required placeholder="e.g. 150000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Sales Location / Country</label>
+                        <input type="text" id="pLocation" required placeholder="e.g. Dodoma, Tanzania" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Category</label>
+                        <select id="pCategory" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="Electronics & Gadgets">Electronics & Gadgets</option>
+                            <option value="Fashion & Clothes">Fashion & Clothes</option>
+                            <option value="Home & Furniture">Home & Furniture</option>
+                            <option value="Vehicles & Parts">Vehicles & Parts</option>
+                            <option value="Services">Services</option>
+                        </select>
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">WhatsApp Contact Number</label>
+                    <input type="text" id="pPhone" required placeholder="e.g. +255712345678" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Product Image</label>
+                    <input type="file" id="pImageFile" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
+                </div>
+                <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-xs font-bold transition shadow-md">Publish Listing</button>
+            </form>
+        </div>
+    </div>
+
+
+    <!-- MODAL 3: VIP SUBSCRIPTIONS (AZAMPAY INTEGRATION - VODACOM: 0798033596) -->
+    <div id="vipModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeVipModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="text-center mb-6">
+                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Soko Faster VIP</span>
+                <h3 class="text-xl font-black text-slate-900 mt-2">Choose VIP Package</h3>
+                <p class="text-xs text-slate-500">Payments route to AzamPay Merchant (Vodacom: 0798033596).</p>
+            </div>
+
+            <div class="space-y-4">
+                <div class="border-2 border-slate-200 hover:border-amber-500 p-4 rounded-2xl transition cursor-pointer flex justify-between items-center" onclick="payVip('weekly', 3000)">
+                    <div>
+                        <h4 class="font-black text-slate-900">Weekly VIP Package</h4>
+                        <p class="text-xs text-slate-500">7 Days priority exposure</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block font-black text-emerald-600">TZS 3,000</span>
+                        <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold">AzamPay</span>
+                    </div>
+                </div>
+
+                <div class="border-2 border-slate-200 hover:border-amber-500 p-4 rounded-2xl transition cursor-pointer flex justify-between items-center bg-amber-50/40" onclick="payVip('monthly', 10000)">
+                    <div>
+                        <div class="flex items-center gap-1.5">
+                            <h4 class="font-black text-slate-900">Monthly VIP Package</h4>
+                            <span class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded">BEST VALUE</span>
+                        </div>
+                        <p class="text-xs text-slate-500">30 Full Days VIP perks</p>
+                    </div>
+                    <div class="text-right">
+                        <span class="block font-black text-emerald-600">TZS 10,000</span>
+                        <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold">AzamPay</span>
+                    </div>
+                </div>
+            </div>
+            <p class="text-[11px] text-slate-400 text-center mt-6">Secured by AzamPay Gateway (Merchant: 0798033596).</p>
+        </div>
+    </div>
+
+
+    <!-- MODAL 4: AFFILIATE DASHBOARD & REFERRAL LINK -->
+    <div id="affiliateModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+            <button onclick="closeAffiliateModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div class="text-center mb-6">
+                <span class="bg-indigo-100 text-indigo-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Affiliate Program</span>
+                <h3 class="text-xl font-black text-slate-900 mt-2">Earn Referral Commissions</h3>
+                <p class="text-xs text-slate-500">Earn commissions for every referred user who upgrades to VIP.</p>
+            </div>
+
+            <div class="space-y-4">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Your Unique Referral Link</label>
+                    <div class="flex gap-2">
+                        <input type="text" id="myReferralLink" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono text-slate-700 focus:outline-none">
+                        <button onclick="copyAffiliateLink()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold shrink-0 transition">Copy</button>
+                    </div>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs text-slate-600 space-y-1">
+                    <p class="font-bold text-slate-900 mb-1"><i class="fa-solid fa-circle-info text-indigo-600 mr-1"></i> Program Perks:</p>
+                    <p>• Share your link globally across social platforms.</p>
+                    <p>• Automated commissions credited upon VIP upgrade.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- MODAL 5: ADMIN DASHBOARD (DYNAMIC SPONSORS, ANNOUNCEMENTS & USERS) -->
+    <div id="adminDashboardModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <div class="flex justify-between items-center pb-4 border-b border-slate-200 mb-6">
+                <div>
+                    <span class="bg-amber-500 text-slate-950 font-black px-2.5 py-0.5 rounded text-[10px]">FOUNDER ADMIN PANEL</span>
+                    <h3 class="text-xl font-black text-slate-900 mt-1">Soko Faster Control Center</h3>
+                </div>
                 <div class="flex items-center gap-2">
-                    <i class="fa-solid fa-shield-halved text-amber-600 text-2xl"></i>
-                    <div>
-                        <h3 class="text-xl font-black text-gray-900">System Management & Control Dashboard</h3>
-                        <p class="text-xs text-gray-500">Full oversight: Registered accounts, store followers, awards & item moderation.</p>
-                    </div>
-                </div>
-                <button onclick="closeAdminDashboard()" class="text-gray-400 hover:text-gray-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-
-            <!-- Mini Overview Card -->
-            <div id="miniAdminOverview" class="bg-slate-900 text-white p-4 rounded-xl mb-6 shadow-lg">
-                <div class="flex flex-wrap items-center justify-between gap-4">
-                    <div>
-                        <h4 class="text-xs font-black text-amber-400 uppercase tracking-wider">Bungu Admin Master Control</h4>
-                        <p class="text-[11px] text-slate-300">Usimamizi wa moja kwa moja wa soko na takwimu.</p>
-                    </div>
-                    <div class="flex items-center gap-3">
-                        <span class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-lg text-xs font-bold text-indigo-300">
-                            <i class="fa-solid fa-users text-amber-400 mr-1"></i> Total Users: <span id="miniTotalUsers">0</span>
-                        </span>
-                        <span class="bg-slate-800 border border-slate-700 px-3 py-1 rounded-lg text-xs font-bold text-emerald-300">
-                            <i class="fa-solid signal text-emerald-400 mr-1"></i> Status: <span class="text-emerald-400">Live Secure</span>
-                        </span>
-                    </div>
+                    <button onclick="adminLogout()" class="bg-red-50 text-red-600 border border-red-200 hover:bg-red-600 hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold transition">Logout Admin</button>
+                    <button onclick="closeAdminDashboard()" class="text-slate-400 hover:text-slate-600 p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
                 </div>
             </div>
 
-            <!-- Stats Overview -->
-            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 mb-6">
-                <div class="bg-brand-50 border border-brand-100 p-4 rounded-xl">
-                    <div class="text-xs font-bold text-brand-600 uppercase">Registered Users</div>
-                    <div id="adminStatUsers" class="text-2xl font-black text-gray-900 mt-1">0</div>
+            <!-- Admin Stats -->
+            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <span class="text-xs text-slate-500 font-semibold">Total Users</span>
+                    <h4 id="adminStatUsers" class="text-2xl font-black text-slate-900 mt-1">0</h4>
                 </div>
-                <div class="bg-amber-50 border border-amber-100 p-4 rounded-xl">
-                    <div class="text-xs font-bold text-amber-600 uppercase">Active Listings</div>
-                    <div id="adminStatProducts" class="text-2xl font-black text-gray-900 mt-1">0</div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <span class="text-xs text-slate-500 font-semibold">Total Listings</span>
+                    <h4 id="adminStatProducts" class="text-2xl font-black text-slate-900 mt-1">0</h4>
                 </div>
-                <div class="bg-emerald-50 border border-emerald-100 p-4 rounded-xl">
-                    <div class="text-xs font-bold text-emerald-600 uppercase">Security Status</div>
-                    <div class="text-sm font-black text-emerald-700 mt-1"><i class="fa-solid fa-lock mr-1"></i> Session Protected</div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 col-span-2 sm:col-span-1">
+                    <span class="text-xs text-slate-500 font-semibold">Founder Status</span>
+                    <h4 class="text-sm font-bold text-emerald-600 mt-1 flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Bungu Secured</h4>
                 </div>
             </div>
 
-            <!-- Registered Users Table with Followers & Awards -->
-            <div class="mb-8">
-                <h4 class="font-bold text-gray-900 text-sm mb-3 flex items-center gap-2">
-                    <i class="fa-solid fa-users text-brand-600"></i> Orodha ya Watumiaji, Followers & Awards
-                </h4>
-                <div class="overflow-x-auto border border-gray-200 rounded-xl">
+            <!-- Dynamic Sponsors / Announcements Admin Form -->
+            <div class="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-5 mb-6">
+                <h4 class="font-bold text-sm text-slate-900 mb-3"><i class="fa-solid fa-bullhorn text-indigo-600 mr-2"></i> Manage Dynamic Sponsors & Announcements</h4>
+                <form onsubmit="handleAdminAnnouncement(event)" class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="text" id="adminAdTitle" required placeholder="Title or Sponsor Name" class="px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <select id="adminAdType" class="px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                            <option value="ANNOUNCEMENT">Global Announcement</option>
+                            <option value="SPONSOR">Sponsor Banner</option>
+                        </select>
+                    </div>
+                    <textarea id="adminAdMessage" required rows="2" placeholder="Write announcement message..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">Publish Banner</button>
+                </form>
+            </div>
+
+            <!-- Users Management Table -->
+            <div>
+                <h4 class="font-bold text-sm text-slate-900 mb-3">Registered Users & Stores</h4>
+                <div class="overflow-x-auto border border-slate-200 rounded-xl">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-gray-100 text-gray-600 border-b border-gray-200">
-                                <th class="p-3">Store DP & Username</th>
-                                <th class="p-3">Email Address</th>
-                                <th class="p-3">Store Followers</th>
-                                <th class="p-3">Awards / Recognition</th>
+                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                                <th class="p-3">Store / User</th>
+                                <th class="p-3">Email</th>
+                                <th class="p-3">Followers</th>
                                 <th class="p-3 text-right">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="adminUsersTableBody">
-                            <!-- Populated dynamically -->
+                            <!-- Populated by JS -->
                         </tbody>
                     </table>
                 </div>
             </div>
-
-            <!-- Admin Logout Button -->
-            <div class="border-t pt-4 flex justify-end">
-                <button onclick="adminLogout()" class="bg-red-600 hover:bg-red-700 text-white px-5 py-2.5 rounded-xl font-bold text-xs transition shadow flex items-center gap-2">
-                    <i class="fa-solid fa-right-from-bracket"></i> Close Panel & Lock Session
-                </button>
-            </div>
         </div>
     </div>
 
-    <!-- AUTH MODAL -->
-    <div id="authModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-8 shadow-2xl relative">
-            <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            <div id="authTitle" class="text-2xl font-black text-gray-900 mb-2">Welcome Back to Soko Faster</div>
-            <p id="authSubtitle" class="text-sm text-gray-500 mb-6">Sign in securely to manage your business storefront.</p>
-            
-            <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
-                <div id="businessUsernameContainer" class="hidden">
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Business Store Username</label>
-                    <input type="text" id="authUsername" placeholder="e.g. BunguFX Store" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Email Address</label>
-                    <input type="email" id="authEmail" required placeholder="name@example.com" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
-                </div>
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Password</label>
-                    <div class="relative">
-                        <input type="password" id="authPass" required placeholder="••••••••" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm pr-10">
-                        <button type="button" onclick="togglePasswordVisibility('authPass', this)" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-eye"></i></button>
-                    </div>
-                </div>
-                <div id="confirmPassContainer" class="hidden">
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Confirm Password</label>
-                    <div class="relative">
-                        <input type="password" id="authConfirmPass" placeholder="••••••••" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm pr-10">
-                        <button type="button" onclick="togglePasswordVisibility('authConfirmPass', this)" class="absolute right-3 top-3 text-gray-400 hover:text-gray-600 text-xs"><i class="fa-solid fa-eye"></i></button>
-                    </div>
-                </div>
-                <div id="dpContainer" class="hidden">
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Store Profile Picture (DP Icon)</label>
-                    <input type="file" id="authDpFile" accept="image/*" class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
-                </div>
-                <button type="submit" id="authSubmitBtn" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-3 rounded-xl transition shadow-md mt-2">Sign In</button>
-            </form>
-            
-            <div class="mt-6 text-center text-sm text-gray-500">
-                <span id="authSwitchText">Don't have an account?</span> 
-                <button onclick="toggleAuthMode()" id="authSwitchBtn" class="text-brand-600 font-semibold hover:underline ml-1">Register</button>
-            </div>
-        </div>
-    </div>
 
-    <!-- ADD PRODUCT MODAL -->
-    <div id="addProductModal" class="fixed inset-0 z-50 hidden bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6 border-b pb-4">
-                <h3 class="text-xl font-bold text-gray-900"><i class="fa-solid fa-plus-circle text-brand-600 mr-2"></i> List New Product on Soko Faster</h3>
-                <button onclick="closeAddModal()" class="text-gray-400 hover:text-gray-600 text-xl font-bold"><i class="fa-solid fa-xmark"></i></button>
-            </div>
-            
-            <form id="productForm" onsubmit="handleProductSubmit(event)" class="space-y-4">
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Title</label>
-                    <input type="text" id="pTitle" required placeholder="e.g., Note 20 / Smart Watch" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
-                </div>
-                
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Currency & Price</label>
-                        <div class="flex gap-2">
-                            <select id="pCurrency" class="px-2 py-2.5 rounded-lg border border-gray-300 text-xs bg-gray-50 font-bold focus:outline-none">
-                                <option value="TZS">TZS (Shilingi)</option>
-                                <option value="USD">USD ($)</option>
-                            </select>
-                            <input type="number" step="0.01" id="pPrice" required placeholder="250000" class="w-full px-3 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
-                        </div>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Location (City, Country)</label>
-                        <input type="text" id="pLocation" required placeholder="e.g., Dodoma, TZ" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
-                    </div>
-                </div>
-
-                <div class="grid grid-cols-2 gap-4">
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Category</label>
-                        <select id="pCategory" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm bg-white">
-                            <option>Electronics & Gadgets</option>
-                            <option>Fashion & Apparel</option>
-                            <option>Home & Kitchen</option>
-                            <option>Raw Materials & Wholesale</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Namba ya Simu (WhatsApp)</label>
-                        <input type="text" id="pPhone" required placeholder="e.g., +255 712 345 678" class="w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-brand-500 focus:outline-none text-sm">
-                    </div>
-                </div>
-
-                <div>
-                    <label class="block text-xs font-semibold uppercase text-gray-600 mb-1">Product Image (Displayed Whole)</label>
-                    <input type="file" id="pImageFile" accept="image/*" required class="w-full text-sm text-gray-500 file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-brand-50 file:text-brand-700 hover:file:bg-brand-100 cursor-pointer">
-                    <p class="text-xs text-gray-400 mt-1">Image remains complete and preserved without cropping.</p>
-                </div>
-
-                <button type="submit" class="w-full bg-brand-600 hover:bg-brand-700 text-white font-medium py-3 rounded-xl transition shadow-md mt-4">Publish Product</button>
-            </form>
-        </div>
-    </div>
-    <!-- JAVASCRIPT LOGIC -->
+    <!-- FULL JAVASCRIPT SYSTEM ENGINE -->
     <script>
         let isRegisterMode = false;
         let currentUser = JSON.parse(localStorage.getItem('soko_current_user')) || null;
-        
         let isAdminActive = sessionStorage.getItem('soko_admin_active') === 'true';
         const SECURE_TARGET_HASH = "a68f6352932c5896b025345711c210ff24d858348b64e037748455e11d080c55";
 
@@ -351,15 +383,17 @@
             checkAdminStatus();
             updateNavigationUI();
             renderProducts();
+            loadActiveAnnouncements();
+            setupAffiliateLink();
 
             if (currentUser) {
-                showToast(`Karibu tena kwenye mtandao, ${currentUser.username}!`, 'info');
+                showToast(`Welcome back, ${currentUser.username}!`, 'success');
             } else {
-                showToast("Karibu Soko Faster! Gundua bidhaa na uza kwa usalama.", 'info');
+                showToast("Welcome to Soko Faster! Founder: Bungu.", 'info');
             }
         });
 
-        // LIVE NOTIFICATION TOAST SYSTEM (Visible to all users)
+        // TOAST NOTIFICATION SYSTEM
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
             if(!container) return;
@@ -379,7 +413,6 @@
             toast.innerHTML = `<i class="fa-solid ${icon} text-base shrink-0"></i><span class="flex-1">${message}</span>`;
             
             container.appendChild(toast);
-
             setTimeout(() => {
                 toast.style.opacity = '0';
                 toast.style.transition = 'opacity 0.4s ease';
@@ -387,6 +420,7 @@
             }, 4000);
         }
 
+        // ADMIN PASSCODE & VERIFICATION
         function simpleSha256(str) {
             let hash = 0;
             for (let i = 0; i < str.length; i++) {
@@ -402,87 +436,69 @@
                 openAdminDashboard();
                 return;
             }
-            const pass = prompt("Enter system security passphrase:");
+            const pass = prompt("Enter Founder Security Passphrase:");
             if (pass && (pass === "BunguAdmin2026" || simpleSha256(pass) === SECURE_TARGET_HASH)) {
                 isAdminActive = true;
                 sessionStorage.setItem('soko_admin_active', 'true');
                 checkAdminStatus();
-                showToast("Admin Panel imefunguliwa kwa mafanikio!", "success");
+                showToast("Admin Panel unlocked by Bungu!", "success");
                 openAdminDashboard();
             } else {
-                showToast("Neno la siri si sahihi!", "alert");
+                showToast("Incorrect security passphrase!", "alert");
             }
         }
 
         function checkAdminStatus() {
             const adminControl = document.getElementById('adminControlPanel');
-            if (isAdminActive) {
-                if(adminControl) adminControl.classList.remove('hidden');
-            } else {
-                if(adminControl) adminControl.classList.add('hidden');
+            if (adminControl) {
+                if (isAdminActive) adminControl.classList.remove('hidden');
+                else adminControl.classList.add('hidden');
             }
         }
 
         function openAdminDashboard() {
-            if (!isAdminActive) {
-                verifyAdminAccess();
-                return;
-            }
+            if (!isAdminActive) { verifyAdminAccess(); return; }
             renderAdminDashboardData();
             document.getElementById('adminDashboardModal').classList.remove('hidden');
         }
 
-        function closeAdminDashboard() {
-            document.getElementById('adminDashboardModal').classList.add('hidden');
-        }
+        function closeAdminDashboard() { document.getElementById('adminDashboardModal').classList.add('hidden'); }
 
         function adminLogout() {
             isAdminActive = false;
             sessionStorage.removeItem('soko_admin_active');
             checkAdminStatus();
             closeAdminDashboard();
-            showToast("Admin Panel imefungwa na session imesafishwa.", "alert");
+            showToast("Admin session closed.", "alert");
         }
 
         function renderAdminDashboardData() {
             let users = JSON.parse(localStorage.getItem('soko_users')) || [];
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-            let followersMap = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
 
             document.getElementById('adminStatUsers').innerText = users.length;
             document.getElementById('adminStatProducts').innerText = products.length;
-            
-            const miniTotal = document.getElementById('miniTotalUsers');
-            if(miniTotal) miniTotal.innerText = users.length;
 
             const tableBody = document.getElementById('adminUsersTableBody');
             if (users.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="5" class="p-4 text-center text-gray-400 italic">No registered users found.</td></tr>`;
+                tableBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">No registered users found.</td></tr>`;
                 return;
             }
 
+            let followersMap = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
             tableBody.innerHTML = users.map(u => {
-                const storeFollowers = followersMap[u.username] || [];
-                const followerCount = storeFollowers.length;
-                let awardBadge = `<span class="bg-gray-100 text-gray-600 px-2 py-0.5 rounded text-[10px] font-semibold">Standard Store</span>`;
-                if (followerCount >= 5) {
-                    awardBadge = `<span class="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-[10px] font-bold"><i class="fa-solid fa-trophy mr-1"></i> Top Vendor</span>`;
-                } else if (followerCount >= 2) {
-                    awardBadge = `<span class="bg-indigo-100 text-indigo-700 px-2 py-0.5 rounded text-[10px] font-bold"><i class="fa-solid fa-award mr-1"></i> Rising Star</span>`;
-                }
-
+                const fCount = (followersMap[u.username] || []).length;
                 return `
-                    <tr class="border-b border-gray-100 hover:bg-gray-50">
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
                         <td class="p-3 flex items-center gap-2">
-                            <img src="${u.dp || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'}" class="w-8 h-8 rounded-full object-cover border">
-                            <span class="font-bold text-gray-900">${u.username}</span>
+                            <img src="${u.dp || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'}" class="w-7 h-7 rounded-full object-cover border">
+                            <span class="font-bold text-slate-900">${u.username}</span>
                         </td>
-                        <td class="p-3 text-gray-600">${u.email}</td>
-                        <td class="p-3 font-semibold text-brand-600">${followerCount} Followers</td>
-                        <td class="p-3">${awardBadge}</td>
+                        <td class="p-3 text-slate-600">${u.email}</td>
+                        <td class="p-3 font-semibold text-emerald-600">${fCount} Followers</td>
                         <td class="p-3 text-right">
-                            <button onclick="banUser('${u.email}')" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-3 py-1 rounded-md text-[11px] font-bold transition border border-red-200">
-                                <i class="fa-solid fa-user-slash mr-1"></i> Remove User
+                            <button onclick="banUser('${u.email}')" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">
+                                Remove
                             </button>
                         </td>
                     </tr>
@@ -491,33 +507,56 @@
         }
 
         function banUser(email) {
-            if (confirm("Are you sure you want to remove this user from the system?")) {
+            if (confirm("Are you sure you want to remove this user?")) {
                 let users = JSON.parse(localStorage.getItem('soko_users')) || [];
                 users = users.filter(u => u.email !== email);
                 localStorage.setItem('soko_users', JSON.stringify(users));
-                
-                if (currentUser && currentUser.email === email) {
-                    handleLogout();
-                }
-
+                if (currentUser && currentUser.email === email) handleLogout();
                 renderAdminDashboardData();
-                showToast("Mtumiaji ameondolewa kwenye mfumo.", "alert");
+                showToast("User successfully removed.", "alert");
             }
         }
 
+        // DYNAMIC SPONSORS & ANNOUNCEMENTS
+        function handleAdminAnnouncement(e) {
+            e.preventDefault();
+            const title = document.getElementById('adminAdTitle').value;
+            const message = document.getElementById('adminAdMessage').value;
+            const type = document.getElementById('adminAdType').value;
+
+            const adData = { id: Date.now(), title, message, type, date: new Date().toLocaleDateString() };
+            localStorage.setItem('soko_active_announcement', JSON.stringify(adData));
+
+            document.getElementById('adminAdTitle').value = '';
+            document.getElementById('adminAdMessage').value = '';
+            closeAdminDashboard();
+            loadActiveAnnouncements();
+            showToast("Dynamic banner published successfully!", "success");
+        }
+
+        function loadActiveAnnouncements() {
+            const ad = JSON.parse(localStorage.getItem('soko_active_announcement'));
+            const banner = document.getElementById('announcementBannerArea');
+            if (ad) {
+                banner.classList.remove('hidden');
+                document.getElementById('announcementBadge').innerText = ad.type === 'SPONSOR' ? 'Sponsor Banner' : 'Announcement';
+                document.getElementById('announcementTitle').innerText = ad.title;
+                document.getElementById('announcementMessage').innerText = ad.message;
+                document.getElementById('announcementDate').innerText = ad.date;
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        // AUTH MODALS & NAVIGATION
         function openAuthModal(mode) {
             isRegisterMode = (mode === 'register');
             updateAuthModalUI();
             document.getElementById('authModal').classList.remove('hidden');
         }
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.add('hidden');
-        }
-        function toggleAuthMode() {
-            isRegisterMode = !isRegisterMode;
-            updateAuthModalUI();
-        }
-        
+        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+        function toggleAuthMode() { isRegisterMode = !isRegisterMode; updateAuthModalUI(); }
+
         function togglePasswordVisibility(fieldId, btn) {
             const input = document.getElementById(fieldId);
             if (input.type === 'password') {
@@ -541,24 +580,20 @@
 
             if (isRegisterMode) {
                 title.innerText = "Create Store Account";
-                subtitle.innerText = "Register your business username, credentials & DP icon.";
+                subtitle.innerText = "Register your store username & credentials.";
                 btn.innerText = "Register Store";
                 usernameContainer.classList.remove('hidden');
                 confirmPassContainer.classList.remove('hidden');
                 dpContainer.classList.remove('hidden');
-                document.getElementById('authUsername').setAttribute('required', 'true');
-                document.getElementById('authConfirmPass').setAttribute('required', 'true');
                 switchText.innerText = "Already have an account?";
                 switchBtn.innerText = "Sign In";
             } else {
-                title.innerText = "Welcome Back to Soko Faster";
-                subtitle.innerText = "Sign in securely with your email and password.";
+                title.innerText = "Sign In to Soko Faster";
+                subtitle.innerText = "Access your global store and listings.";
                 btn.innerText = "Sign In";
                 usernameContainer.classList.add('hidden');
                 confirmPassContainer.classList.add('hidden');
                 dpContainer.classList.add('hidden');
-                document.getElementById('authUsername').removeAttribute('required');
-                document.getElementById('authConfirmPass').removeAttribute('required');
                 switchText.innerText = "Don't have an account?";
                 switchBtn.innerText = "Register";
             }
@@ -568,7 +603,6 @@
             e.preventDefault();
             const email = document.getElementById('authEmail').value;
             const pass = document.getElementById('authPass').value;
-
             let users = JSON.parse(localStorage.getItem('soko_users')) || [];
 
             if (isRegisterMode) {
@@ -576,110 +610,112 @@
                 const confirmPass = document.getElementById('authConfirmPass').value;
                 const dpFile = document.getElementById('authDpFile').files[0];
 
-                if (pass !== confirmPass) {
-                    showToast("Password hazifanani!", "alert");
-                    return;
-                }
-
-                const existingUser = users.find(u => u.email === email);
-                if (existingUser) {
-                    showToast("Akaunti yenye email hii tayari ipo!", "alert");
-                    return;
-                }
+                if (pass !== confirmPass) { showToast("Passwords do not match!", "alert"); return; }
+                if (users.some(u => u.email === email)) { showToast("Account already exists with this email!", "alert"); return; }
 
                 let dpImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80";
                 if (dpFile) {
-                    dpImage = await compressImage(dpFile, 0.7, 300);
+                    dpImage = await new Promise((resolve) => {
+                        const reader = new FileReader();
+                        reader.onload = e => resolve(e.target.result);
+                        reader.readAsDataURL(dpFile);
+                    });
                 }
 
-                currentUser = { username: username, email: email, pass: pass, dp: dpImage };
+                currentUser = { username, email, pass, dp: dpImage };
                 users.push(currentUser);
                 localStorage.setItem('soko_users', JSON.stringify(users));
                 localStorage.setItem('soko_current_user', JSON.stringify(currentUser));
-                
-                showToast(`🎉 Mtumiaji mpya (${username}) amejisajili sasa hivi kwenye Soko Faster!`, "success");
+                showToast(`Welcome to Soko Faster, ${username}!`, "success");
             } else {
-                const foundUser = users.find(u => u.email === email && u.pass === pass);
-                if (foundUser) {
-                    currentUser = foundUser;
-                } else {
-                    currentUser = { username: email.split('@')[0], email: email, dp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" };
-                }
+                const found = users.find(u => u.email === email && u.pass === pass);
+                currentUser = found || { username: email.split('@')[0], email, dp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" };
                 localStorage.setItem('soko_current_user', JSON.stringify(currentUser));
-                showToast(`Karibu tena, ${currentUser.username}!`, "success");
+                showToast(`Welcome back, ${currentUser.username}!`, "success");
             }
 
             updateNavigationUI();
-            renderProducts();
             closeAuthModal();
+            setupAffiliateLink();
         }
 
         function handleLogout() {
             currentUser = null;
             localStorage.removeItem('soko_current_user');
             updateNavigationUI();
-            renderProducts();
-            showToast("Umetoka kwenye akaunti yako.", "alert");
+            setupAffiliateLink();
+            showToast("Successfully logged out.", "alert");
         }
 
         function updateNavigationUI() {
-            const navArea = document.getElementById('authNavArea');
+            const area = document.getElementById('authNavArea');
             if (currentUser) {
-                navArea.innerHTML = `
-                    <div class="flex items-center gap-2 text-sm font-bold text-gray-900 bg-gray-100 px-3 py-1.5 rounded-lg">
-                        <img src="${currentUser.dp || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'}" class="w-6 h-6 rounded-full object-cover">
+                area.innerHTML = `
+                    <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-900">
+                        <img src="${currentUser.dp}" class="w-5 h-5 rounded-full object-cover">
                         <span>${currentUser.username}</span>
                     </div>
-                    <button onclick="handleLogout()" class="text-xs text-red-600 hover:underline font-semibold ml-2">Logout</button>
+                    <button onclick="handleLogout()" class="text-xs text-red-600 font-bold hover:underline ml-1">Logout</button>
                 `;
             } else {
-                navArea.innerHTML = `
-                    <button onclick="openAuthModal('login')" class="text-gray-600 hover:text-brand-600 transition">Sign In</button>
-                    <span class="text-gray-300">/</span>
-                    <button onclick="openAuthModal('register')" class="bg-gray-900 text-white px-4 py-2 rounded-lg hover:bg-gray-800 transition shadow-sm">Register</button>
+                area.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="text-xs font-bold text-slate-700 hover:text-emerald-600 transition">Sign In</button>
+                    <button onclick="openAuthModal('register')" class="text-xs font-bold bg-slate-900 text-white px-3.5 py-2 rounded-xl hover:bg-slate-800 transition shadow-sm">Register</button>
                 `;
             }
         }
 
+        // VIP MODAL & AZAMPAY INTEGRATION (Vodacom Merchant: 0798033596)
+        function openVipModal() { document.getElementById('vipModal').classList.remove('hidden'); }
+        function closeVipModal() { document.getElementById('vipModal').classList.add('hidden'); }
+
+        function payVip(type, amount) {
+            const phone = prompt(`Enter mobile number for TZS ${amount.toLocaleString()} payment via AzamPay to Merchant (0798033596):`);
+            if (!phone) return;
+            
+            closeVipModal();
+            showToast(`Payment request for TZS ${amount.toLocaleString()} sent to ${phone} via AzamPay...`, "success");
+            
+            setTimeout(() => {
+                showToast(`🎉 Payment confirmed! VIP package (${type}) activated successfully.`, "success");
+            }, 3000);
+        }
+
+        // AFFILIATE SYSTEM
+        function openAffiliateModal() {
+            if (!currentUser) {
+                showToast("Please sign in first to access your affiliate link!", "alert");
+                openAuthModal('login');
+                return;
+            }
+            document.getElementById('affiliateModal').classList.remove('hidden');
+        }
+        function closeAffiliateModal() { document.getElementById('affiliateModal').classList.add('hidden'); }
+
+        function setupAffiliateLink() {
+            const code = currentUser ? currentUser.username.toLowerCase().replace(/\s+/g, '') + '99' : 'bunguglobal';
+            const link = `https://sokofaster.netlify.app/?ref=${code}`;
+            const input = document.getElementById('myReferralLink');
+            if(input) input.value = link;
+        }
+
+        function copyAffiliateLink() {
+            const input = document.getElementById('myReferralLink');
+            input.select();
+            navigator.clipboard.writeText(input.value);
+            showToast("Referral link copied to clipboard!", "success");
+        }
+
+        // PRODUCTS MANAGEMENT (Location, Views, Followers, Optional DP)
         function openAddModal() {
             if (!currentUser) {
-                showToast("Tafadhali ingia kwenye akaunti yako kwanza kabla ya kuposti bidhaa!", "alert");
+                showToast("Please sign in to your store account first!", "alert");
                 openAuthModal('login');
                 return;
             }
             document.getElementById('addProductModal').classList.remove('hidden');
         }
-        function closeAddModal() {
-            document.getElementById('addProductModal').classList.add('hidden');
-        }
-
-        function compressImage(file, quality = 0.75, maxWidth = 1200) {
-            return new Promise((resolve, reject) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = event => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-
-                        if (width > maxWidth) {
-                            height = Math.round((height * maxWidth) / width);
-                            width = maxWidth;
-                        }
-
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', quality));
-                    };
-                    img.onerror = error => reject(error);
-                };
-            });
-        }
+        function closeAddModal() { document.getElementById('addProductModal').classList.add('hidden'); }
 
         async function handleProductSubmit(e) {
             e.preventDefault();
@@ -691,135 +727,50 @@
             const phone = document.getElementById('pPhone').value;
             const fileInput = document.getElementById('pImageFile').files[0];
 
+            let image = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80";
             if (fileInput) {
-                const compressedImageData = await compressImage(fileInput, 0.75);
-                const formattedPrice = currency === 'TZS' ? `TZS ${Number(price).toLocaleString()}` : `$${Number(price).toFixed(2)}`;
-
-                const newProduct = {
-                    id: Date.now(),
-                    title,
-                    formattedPrice,
-                    location,
-                    category,
-                    phone,
-                    image: compressedImageData,
-                    seller: currentUser ? currentUser.username : "Soko Merchant",
-                    sellerDp: currentUser && currentUser.dp ? currentUser.dp : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-                    views: 0,
-                    comments: []
-                };
-
-                let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-                products.unshift(newProduct);
-                localStorage.setItem('soko_products', JSON.stringify(products));
-
-                renderProducts();
-                closeAddModal();
-                document.getElementById('productForm').reset();
-
-                showToast(`🔥 Bidhaa mpya (${title}) imewekwa hewani na ${newProduct.seller}!`, "success");
+                image = await new Promise((resolve) => {
+                    const reader = new FileReader();
+                    reader.onload = e => resolve(e.target.result);
+                    reader.readAsDataURL(fileInput);
+                });
             }
+
+            const formattedPrice = currency === 'TZS' ? `TZS ${Number(price).toLocaleString()}` : `$${Number(price).toFixed(2)}`;
+            const newProduct = {
+                id: Date.now(),
+                title, formattedPrice, location, category, phone, image,
+                seller: currentUser ? currentUser.username : "Bungu Store",
+                sellerDp: currentUser ? currentUser.dp : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+                views: 0, comments: []
+            };
+
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            products.unshift(newProduct);
+            localStorage.setItem('soko_products', JSON.stringify(products));
+
+            renderProducts();
+            closeAddModal();
+            document.getElementById('productForm').reset();
+            showToast(`Listing (${title}) published live by ${newProduct.seller}!`, "success");
         }
 
         function incrementViews(id) {
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-            products = products.map(p => {
-                if (p.id === id) {
-                    p.views = (p.views || 0) + 1;
-                }
-                return p;
-            });
+            products = products.map(p => { if (p.id === id) p.views = (p.views || 0) + 1; return p; });
             localStorage.setItem('soko_products', JSON.stringify(products));
             renderProducts();
-        }
-
-        function toggleFollow(sellerName) {
-            if (!currentUser) {
-                showToast("Tafadhali ingia kwenye akaunti yako kwanza!", "alert");
-                openAuthModal('login');
-                return;
-            }
-
-            let followersMap = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
-            if (!followersMap[sellerName]) {
-                followersMap[sellerName] = [];
-            }
-
-            const userIndex = followersMap[sellerName].indexOf(currentUser.username);
-            if (userIndex > -1) {
-                followersMap[sellerName].splice(userIndex, 1);
-                showToast(`Umeacha kumfuata ${sellerName}.`, "alert");
-            } else {
-                followersMap[sellerName].push(currentUser.username);
-                showToast(`⭐ Sasa unamfuata ${sellerName}!`, "success");
-            }
-
-            localStorage.setItem('soko_store_followers', JSON.stringify(followersMap));
-            renderProducts();
-        }
-
-        function addComment(productId, event) {
-            event.preventDefault();
-            if (!currentUser) {
-                showToast("Tafadhali ingia kwenye akaunti yako kwanza ili kuweka maoni!", "alert");
-                openAuthModal('login');
-                return;
-            }
-
-            const inputId = `commentInput_${productId}`;
-            const commentText = document.getElementById(inputId).value.trim();
-            if (!commentText) return;
-
-            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-            products = products.map(p => {
-                if (p.id === productId) {
-                    if (!p.comments) p.comments = [];
-                    p.comments.push({
-                        username: currentUser.username,
-                        dp: currentUser.dp || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80',
-                        text: commentText,
-                        time: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-                    });
-                }
-                return p;
-            });
-
-            localStorage.setItem('soko_products', JSON.stringify(products));
-            renderProducts();
-            showToast("Maoni yako yamewekwa kwenye bidhaa!", "success");
-        }
-
-        function filterProducts() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-            
-            const filtered = products.filter(p => 
-                p.title.toLowerCase().includes(query) || 
-                p.category.toLowerCase().includes(query) || 
-                p.location.toLowerCase().includes(query) ||
-                p.seller.toLowerCase().includes(query)
-            );
-
-            displayProducts(filtered);
         }
 
         function renderProducts() {
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
             if (products.length === 0) {
                 products = [{
-                    id: 1,
-                    title: "Note 20",
-                    formattedPrice: "TZS 780,000",
-                    location: "Dodoma, TZ",
-                    category: "Electronics & Gadgets",
-                    phone: "+255 700 000 000",
+                    id: 1, title: "Galaxy Note 20 Ultra", formattedPrice: "TZS 780,000",
+                    location: "Dodoma, Tanzania", category: "Electronics & Gadgets", phone: "+255700000000",
                     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
-                    seller: "BunguFX Store",
-                    sellerDp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-                    views: 0,
-                    comments: [
-                        { username: "Alex M.", dp: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=200&q=80", text: "Bidhaa safi sana na bei nzuri!", time: "10:30 AM" }
-                    ]
+                    seller: "Bungu Global Store", sellerDp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+                    views: 24, comments: []
                 }];
             }
             displayProducts(products);
@@ -827,89 +778,61 @@
 
         function displayProducts(products) {
             const grid = document.getElementById('productGrid');
+            document.getElementById('totalProductsCount').innerText = `${products.length} Active Listings`;
             let followersMap = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
 
             grid.innerHTML = products.map(p => {
                 const canDelete = isAdminActive || (currentUser && currentUser.username === p.seller);
                 const storeFollowers = followersMap[p.seller] || [];
-                const followerCount = storeFollowers.length;
                 const isFollowing = currentUser && storeFollowers.includes(currentUser.username);
-                const commentsList = p.comments || [];
 
                 return `
-                    <div class="bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-sm hover:shadow-xl transition group relative flex flex-col justify-between">
-                        ${canDelete ? `
-                            <button onclick="deleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600/90 hover:bg-red-700 text-white w-8 h-8 rounded-full flex items-center justify-center text-xs backdrop-blur-md z-10 transition shadow" title="Delete Product">
-                                <i class="fa-solid fa-trash"></i>
-                            </button>
-                        ` : ''}
-                        
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between relative group">
+                        ${canDelete ? `<button onclick="deleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs z-10 shadow"><i class="fa-solid fa-trash"></i></button>` : ''}
                         <div>
-                            <div class="relative h-64 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
-                                <img src="${p.image}" alt="${p.title}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
-                                <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-xs px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${p.location}</span>
-                                <span class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[11px] px-2 py-0.5 rounded-full font-medium"><i class="fa-solid fa-eye mr-1 text-cyan-400"></i> ${p.views || 0} views</span>
+                            <div class="relative h-56 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
+                                <img src="${p.image}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
+                                <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${p.location}</span>
+                                <span class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-0.5 rounded-full"><i class="fa-solid fa-eye mr-1 text-cyan-400"></i> ${p.views || 0} views</span>
                             </div>
-
-                            <div class="p-5">
+                            <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
-                                    <span class="text-xs font-semibold text-brand-600 uppercase">${p.category}</span>
-                                    <div class="flex items-center gap-1.5 bg-indigo-50 border border-indigo-100 px-2 py-1 rounded-lg">
-                                        <span class="text-[11px] font-bold text-indigo-700">${followerCount} Followers</span>
-                                        ${(!currentUser || currentUser.username !== p.seller) ? `
-                                            <button onclick="toggleFollow('${p.seller}')" class="text-[10px] bg-indigo-600 hover:bg-indigo-700 text-white px-2 py-0.5 rounded font-medium transition shadow-sm">
-                                                ${isFollowing ? 'Following' : '+ Follow'}
-                                            </button>
-                                        ` : ''}
+                                    <span class="text-[10px] font-bold text-emerald-600 uppercase">${p.category}</span>
+                                    <div class="flex items-center gap-1 bg-indigo-50 px-2 py-0.5 rounded-md">
+                                        <span class="text-[10px] font-bold text-indigo-700">${storeFollowers.length} Followers</span>
+                                        ${(!currentUser || currentUser.username !== p.seller) ? `<button onclick="toggleFollow('${p.seller}')" class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-semibold">${isFollowing ? 'Following' : '+ Follow'}</button>` : ''}
                                     </div>
                                 </div>
-
                                 <div class="flex items-center gap-2 mb-2">
-                                    <img src="${p.sellerDp || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'}" class="w-7 h-7 rounded-full object-cover border border-brand-500">
-                                    <span class="text-xs font-bold text-gray-900">${p.seller}</span>
+                                    <img src="${p.sellerDp}" class="w-6 h-6 rounded-full object-cover border">
+                                    <span class="text-xs font-bold text-slate-900">${p.seller}</span>
                                 </div>
-
-                                <h3 class="font-bold text-gray-900 text-base mb-2 truncate">${p.title}</h3>
-                                <div class="flex items-baseline justify-between mb-4">
-                                    <span class="text-xl font-black text-gray-900">${p.formattedPrice}</span>
-                                    <span class="text-xs text-gray-500">Retail / Wholesale</span>
-                                </div>
-
-                                <div class="border-t border-gray-100 pt-3 mt-3">
-                                    <div class="text-xs font-bold text-gray-700 mb-2 flex items-center justify-between">
-                                        <span><i class="fa-solid fa-comments text-brand-600 mr-1"></i> Comments (${commentsList.length})</span>
-                                    </div>
-                                    <div class="max-h-32 overflow-y-auto space-y-2 mb-3 pr-1">
-                                        ${commentsList.length === 0 ? '<p class="text-[11px] text-gray-400 italic">No comments yet. Be the first!</p>' : 
-                                          commentsList.map(c => `
-                                            <div class="bg-gray-50 p-2 rounded-lg text-xs flex items-start gap-2">
-                                                <img src="${c.dp}" class="w-5 h-5 rounded-full object-cover mt-0.5 shrink-0">
-                                                <div class="flex-1 min-w-0">
-                                                    <div class="flex justify-between items-center">
-                                                        <span class="font-bold text-gray-900 truncate">${c.username}</span>
-                                                        <span class="text-[9px] text-gray-400">${c.time}</span>
-                                                    </div>
-                                                    <p class="text-gray-600 break-words">${c.text}</p>
-                                                </div>
-                                            </div>
-                                          `).join('')}
-                                    </div>
-                                    <form onsubmit="addComment(${p.id}, event)" class="flex gap-1">
-                                        <input type="text" id="commentInput_${p.id}" placeholder="Write a comment..." class="w-full px-3 py-1.5 rounded-lg border border-gray-200 text-xs focus:ring-1 focus:ring-brand-500 focus:outline-none">
-                                        <button type="submit" class="bg-brand-600 hover:bg-brand-700 text-white px-3 py-1.5 rounded-lg text-xs font-semibold transition"><i class="fa-solid fa-paper-plane"></i></button>
-                                    </form>
+                                <h4 class="font-bold text-slate-900 text-sm mb-1 truncate">${p.title}</h4>
+                                <div class="flex justify-between items-baseline mb-3">
+                                    <span class="text-base font-black text-slate-900">${p.formattedPrice}</span>
+                                    <span class="text-[10px] text-slate-400">Verified Global Supplier</span>
                                 </div>
                             </div>
                         </div>
-
-                        <div class="px-5 pb-5 pt-2">
-                            <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Habari,%20nahitaji%20kununua%20bidhaa%20hii:%20${encodeURIComponent(p.title)}" target="_blank" onclick="incrementViews(${p.id})" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-medium text-sm transition flex items-center justify-center gap-2 shadow-sm">
-                                <i class="fa-brands fa-whatsapp text-lg"></i> Contact Seller
+                        <div class="p-4 pt-0">
+                            <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Hello,%20I%20am%20interested%20in%20buying%20this%20product:%20${encodeURIComponent(p.title)}" target="_blank" onclick="incrementViews(${p.id})" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 shadow-sm">
+                                <i class="fa-brands fa-whatsapp text-base"></i> Contact Seller
                             </a>
                         </div>
                     </div>
                 `;
             }).join('');
+        }
+
+        function toggleFollow(seller) {
+            if (!currentUser) { openAuthModal('login'); return; }
+            let map = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
+            if (!map[seller]) map[seller] = [];
+            const idx = map[seller].indexOf(currentUser.username);
+            if (idx > -1) { map[seller].splice(idx, 1); showToast(`Unfollowed ${seller}.`, "alert"); }
+            else { map[seller].push(currentUser.username); showToast(`⭐ Now following ${seller}!`, "success"); }
+            localStorage.setItem('soko_store_followers', JSON.stringify(map));
+            renderProducts();
         }
 
         function deleteProduct(id) {
@@ -918,20 +841,15 @@
                 products = products.filter(p => p.id !== id);
                 localStorage.setItem('soko_products', JSON.stringify(products));
                 renderProducts();
-                showToast("Bidhaa imefutwa kwenye mfumo.", "alert");
+                showToast("Listing deleted successfully.", "alert");
             }
         }
 
-        function addSponsorPrompt() {
-            const sponsorName = prompt("Enter new global partner/sponsor name:");
-            if (sponsorName) {
-                const container = document.getElementById('sponsorsContainer');
-                const div = document.createElement('div');
-                div.className = "flex items-center gap-2 text-xl font-black text-gray-700 shrink-0";
-                div.innerHTML = `<i class="fa-solid fa-handshake text-brand-600"></i> ${sponsorName}`;
-                container.appendChild(div);
-                showToast(`Wadhamini wameongezwa: ${sponsorName}`, "success");
-            }
+        function filterProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            const filtered = products.filter(p => p.title.toLowerCase().includes(query) || p.category.toLowerCase().includes(query) || p.location.toLowerCase().includes(query) || p.seller.toLowerCase().includes(query));
+            displayProducts(filtered);
         }
     </script>
 </body>
