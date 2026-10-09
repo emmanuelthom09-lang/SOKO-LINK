@@ -44,10 +44,8 @@
                     <span>Global B2B & B2C International Trade Ecosystem</span>
                 </div>
                 <div class="flex items-center gap-4">
-                    <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> AzamPay Secured Gateway</span>
-                    <span id="securityAlertBadge" class="text-amber-400 font-bold hidden animate-pulse">
-                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Unauthorized Admin Intrusion Logged!
-                    </span>
+                    <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> Manual Secure Gateway</span>
+                    <span class="text-slate-400 font-mono text-[11px]">Merchant Hotline: 0798033596</span>
                 </div>
             </div>
         </div>
@@ -99,7 +97,6 @@
                 <span class="flex items-center gap-2 text-red-400"><i class="fa-solid fa-signal"></i> VODAFONE COMMUNICATIONS</span>
                 <span class="flex items-center gap-2 text-amber-400"><i class="fa-solid fa-credit-card"></i> MASTERCARD SECURE PAY</span>
                 <span class="flex items-center gap-2 text-orange-400"><i class="fa-solid fa-plane"></i> EMIRATES AIRLINES CARGO</span>
-                <!-- Duplicate for infinite seamless scroll -->
                 <span class="flex items-center gap-2 text-red-500"><i class="fa-solid fa-bottle-droplet"></i> COCA-COLA GLOBAL SPONSOR</span>
                 <span class="flex items-center gap-2 text-blue-400"><i class="fa-solid fa-fire"></i> PEPSI INTERNATIONAL</span>
                 <span class="flex items-center gap-2 text-red-400"><i class="fa-solid fa-signal"></i> VODAFONE COMMUNICATIONS</span>
@@ -115,7 +112,7 @@
                 </span>
                 <h2 class="text-3xl md:text-5xl font-black mt-3 mb-3 tracking-tight">Source Smarter, Trade Faster Worldwide</h2>
                 <p class="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto mb-6">
-                    Connect directly with verified suppliers, secure transactions via AzamPay, scale store visibility with VIP tiers, and earn lucrative referral commissions.
+                    Connect directly with verified suppliers, secure transactions via manual verification, scale store visibility with VIP tiers, and earn lucrative referral commissions.
                 </p>
 
                 <!-- Post Listing Action CTA -->
@@ -163,7 +160,7 @@
             </div>
         </main>
     </div>
-    <!-- MODAL 1: AUTHENTICATION (SIGN IN / REGISTER WITH EMAIL CONFIRMATION & OPTIONAL DP) -->
+    <!-- MODAL 1: AUTHENTICATION (SIGN IN & REGISTER WITH DP) -->
     <div id="authModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -204,7 +201,7 @@
         </div>
     </div>
 
-    <!-- MODAL 2: ADD PRODUCT LISTING MODAL -->
+    <!-- MODAL 2: ADD PRODUCT LISTING (WITH AUTO COMPRESSOR) -->
     <div id="addProductModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeAddModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -250,7 +247,7 @@
                     <input type="text" id="pPhone" required placeholder="e.g. +255712345678" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Product Image (Auto-compressed to reduce MB weight)</label>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Product Image (Auto-compressed)</label>
                     <input type="file" id="pImageFile" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
                 </div>
                 <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-xs font-bold transition shadow-md">Publish Listing</button>
@@ -258,54 +255,79 @@
         </div>
     </div>
 
-    <!-- MODAL 3: VIP SUBSCRIPTIONS (AZAMPAY HIDDEN GATEWAY ROUTING TO MERCHANT 0798033596) -->
+    <!-- MODAL 3: MANUAL VIP SUBSCRIPTIONS (PAY TO 0798033596 & NOTIFY ADMIN PANEL) -->
     <div id="vipModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
             <button onclick="closeVipModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <div class="text-center mb-6">
-                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Soko Faster VIP</span>
-                <h3 class="text-xl font-black text-slate-900 mt-2">Choose VIP Package</h3>
-                <p class="text-xs text-slate-500">Secure automated payment via AzamPay Gateway.</p>
+            <div class="text-center mb-5">
+                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Soko Faster VIP Membership</span>
+                <h3 class="text-xl font-black text-slate-900 mt-2">Upgrade to VIP Status</h3>
+                <p class="text-xs text-slate-500">Pay manually via mobile money to Founder and get verified in Admin panel.</p>
             </div>
 
-            <div class="space-y-4">
-                <div class="border-2 border-slate-200 hover:border-amber-500 p-4 rounded-2xl transition cursor-pointer flex justify-between items-center" onclick="payVip('weekly', 3000)">
-                    <div>
-                        <h4 class="font-black text-slate-900">Weekly VIP Package</h4>
-                        <p class="text-xs text-slate-500">7 Days top dynamic visibility</p>
+            <!-- Payment Instructions Box -->
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5 text-xs space-y-2">
+                <p class="font-bold text-slate-900"><i class="fa-solid fa-circle-info text-amber-500 mr-1"></i> Payment Hotline:</p>
+                <p>1. Tuma pesa kwenda namba ya Founder Bungu:</p>
+                <p class="font-mono font-bold text-emerald-600 bg-emerald-50 p-2 rounded border border-emerald-200 text-center text-sm">
+                    0798 033 596 <span class="block text-[10px] text-slate-500 font-sans font-normal">(Emmanuel Mwakabungu)</span>
+                </p>
+                <div class="grid grid-cols-2 gap-2 pt-1">
+                    <div class="bg-white p-2 rounded border text-center">
+                        <span class="block text-[10px] text-slate-400">Weekly Package</span>
+                        <span class="font-black text-slate-900">TZS 3,000</span>
                     </div>
-                    <div class="text-right">
-                        <span class="block font-black text-emerald-600">TZS 3,000</span>
-                        <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold">AzamPay</span>
-                    </div>
-                </div>
-
-                <div class="border-2 border-slate-200 hover:border-amber-500 p-4 rounded-2xl transition cursor-pointer flex justify-between items-center bg-amber-50/40" onclick="payVip('monthly', 10000)">
-                    <div>
-                        <div class="flex items-center gap-1.5">
-                            <h4 class="font-black text-slate-900">Monthly VIP Package</h4>
-                            <span class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded">BEST VALUE</span>
-                        </div>
-                        <p class="text-xs text-slate-500">30 Full Days priority perks</p>
-                    </div>
-                    <div class="text-right">
-                        <span class="block font-black text-emerald-600">TZS 10,000</span>
-                        <span class="text-[10px] bg-emerald-50 text-emerald-700 px-2 py-0.5 rounded font-bold">AzamPay</span>
+                    <div class="bg-white p-2 rounded border text-center">
+                        <span class="block text-[10px] text-slate-400">Monthly Package</span>
+                        <span class="font-black text-amber-600">TZS 10,000</span>
                     </div>
                 </div>
             </div>
-            <p class="text-[11px] text-slate-400 text-center mt-6">Secured by AzamPay Automatic Gateway Integration.</p>
+
+            <!-- Manual Submit Form -->
+            <form onsubmit="submitManualVip(event)" class="space-y-3">
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Select Package</label>
+                    <select id="vipPackageType" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500">
+                        <option value="weekly">Weekly VIP (TZS 3,000)</option>
+                        <option value="monthly">Monthly VIP (TZS 10,000)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Your Mobile Number / Transaction Reference</label>
+                    <input type="text" id="vipTransId" required placeholder="e.g. 0712345678 or Txn Ref #ABC12345" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500">
+                </div>
+                <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 py-3 rounded-xl text-xs font-black transition shadow-md">
+                    Submit Payment for Admin Verification
+                </button>
+            </form>
         </div>
     </div>
 
     <!-- MODAL 4: AFFILIATE COMMISSION DASHBOARD -->
     <div id="affiliateModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
             <button onclick="closeAffiliateModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             <div class="text-center mb-6">
-                <span class="bg-indigo-100 text-indigo-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Affiliate Program</span>
-                <h3 class="text-xl font-black text-slate-900 mt-2">Earn Referral Commissions</h3>
-                <p class="text-xs text-slate-500">Earn direct cash commission whenever your referred user upgrades to VIP.</p>
+                <span class="bg-indigo-100 text-indigo-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Soko Faster Affiliate Program</span>
+                <h3 class="text-xl font-black text-slate-900 mt-2">Earn Cash Commissions</h3>
+                <p class="text-xs text-slate-500">Share your unique link. Earn commission whenever your referrals upgrade to VIP!</p>
+            </div>
+
+            <!-- Affiliate Stats Summary Cards -->
+            <div class="grid grid-cols-3 gap-3 mb-5">
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
+                    <span class="text-[10px] text-slate-500 font-semibold block">Total Clicks</span>
+                    <h4 id="affClicksCount" class="text-lg font-black text-slate-900 mt-0.5">0</h4>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
+                    <span class="text-[10px] text-slate-500 font-semibold block">Referrals</span>
+                    <h4 id="affRefsCount" class="text-lg font-black text-indigo-600 mt-0.5">0</h4>
+                </div>
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
+                    <span class="text-[10px] text-slate-500 font-semibold block">Commission</span>
+                    <h4 id="affEarnings" class="text-sm font-black text-emerald-600 mt-1">TZS 0</h4>
+                </div>
             </div>
 
             <div class="space-y-4">
@@ -316,11 +338,16 @@
                         <button onclick="copyAffiliateLink()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold shrink-0 transition">Copy Link</button>
                     </div>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs text-slate-600 space-y-1">
-                    <p class="font-bold text-slate-900 mb-1"><i class="fa-solid fa-circle-info text-indigo-600 mr-1"></i> Commission Rules:</p>
-                    <p>• Share your unique referral link globally.</p>
-                    <p>• Commissions are credited automatically upon VIP payment confirmation.</p>
-                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL 5: PRODUCT DETAIL & COMMENT SECTION -->
+    <div id="productDetailModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+            <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            <div id="productDetailContent">
+                <!-- Dynamically populated -->
             </div>
         </div>
     </div>
@@ -342,7 +369,7 @@
         </div>
     </footer>
 
-    <!-- MODAL 5: FOUNDER ADMIN DASHBOARD -->
+    <!-- FOUNDER ADMIN DASHBOARD (ANNOUNCEMENTS, INTRUSION LOGS & VIP MANUAL APPROVALS) -->
     <div id="adminDashboardModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center pb-4 border-b border-slate-200 mb-6">
@@ -355,12 +382,32 @@
                     <button onclick="closeAdminDashboard()" class="text-slate-400 hover:text-slate-600 p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
                 </div>
             </div>
-            <!-- INTRUSION SECURITY ALERTS LOG -->
+
+            <!-- INTRUSION SECURITY ALERTS LOG (INSIDE ADMIN DASHBOARD ONLY) -->
             <div id="adminIntrusionLogBox" class="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 hidden">
                 <div class="flex items-center gap-2 text-amber-800 font-bold text-xs mb-1">
                     <i class="fa-solid fa-triangle-exclamation"></i> Security Notice: Unauthorized Access Attempts Detected
                 </div>
                 <p id="adminIntrusionText" class="text-xs text-amber-700"></p>
+            </div>
+
+            <!-- PENDING VIP MANUAL PAYMENTS TABLE -->
+            <div class="mb-8 bg-amber-50/50 border border-amber-200 rounded-2xl p-4">
+                <h4 class="font-bold text-sm text-slate-900 mb-2"><i class="fa-solid fa-money-bill-transfer text-amber-600 mr-1"></i> Pending Manual VIP Payments (Awaiting Your Approval)</h4>
+                <div class="overflow-x-auto bg-white rounded-xl border border-amber-100">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-amber-100/60 text-slate-800 border-b border-amber-200">
+                                <th class="p-2.5">User</th>
+                                <th class="p-2.5">Package</th>
+                                <th class="p-2.5">Mobile / Trans ID</th>
+                                <th class="p-2.5">Time</th>
+                                <th class="p-2.5 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminPendingVipTableBody"></tbody>
+                    </table>
+                </div>
             </div>
 
             <!-- Admin Stats Cards -->
@@ -398,6 +445,7 @@
                     <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">Publish Announcement</button>
                 </form>
             </div>
+
             <!-- Users & VIP Management Table -->
             <div class="mb-8">
                 <h4 class="font-bold text-sm text-slate-900 mb-3">User & VIP Subscription Management (Full Control)</h4>
@@ -435,7 +483,7 @@
             </div>
         </div>
     </div>
-    <!-- FULL JAVASCRIPT SYSTEM ENGINE -->
+    <!-- FULL JAVASCRIPT SYSTEM ENGINE (PART 1) -->
     <script>
         let isRegisterMode = false;
         let currentUser = JSON.parse(localStorage.getItem('soko_current_user')) || null;
@@ -483,7 +531,6 @@
             }, 4000);
         }
 
-        // SMART IMAGE COMPRESSOR (Reduces MB weight)
         function compressImage(file, maxWidth = 800, quality = 0.7) {
             return new Promise((resolve) => {
                 const reader = new FileReader();
@@ -532,8 +579,7 @@
                 attempts.push(logEntry);
                 localStorage.setItem('soko_intrusion_logs', JSON.stringify(attempts));
                 
-                document.getElementById('securityAlertBadge').classList.remove('hidden');
-                showToast("Unauthorized admin access attempt logged!", "alert");
+                showToast("Security alert: Unauthorized access attempt logged in Admin Panel.", "alert");
             }
         }
 
@@ -559,6 +605,7 @@
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
             let vipMap = JSON.parse(localStorage.getItem('soko_vip_users')) || {};
             let intrusionLogs = JSON.parse(localStorage.getItem('soko_intrusion_logs')) || [];
+            let pendingVips = JSON.parse(localStorage.getItem('soko_pending_vip')) || [];
 
             const logBox = document.getElementById('adminIntrusionLogBox');
             const logText = document.getElementById('adminIntrusionText');
@@ -568,6 +615,24 @@
                 logText.innerText = `Last unauthorized access attempt recorded at ${lastLog.time} by: ${lastLog.user}. Total intrusion attempts: ${intrusionLogs.length}.`;
             } else {
                 logBox.classList.add('hidden');
+            }
+
+            const pendingTableBody = document.getElementById('adminPendingVipTableBody');
+            if (pendingVips.length === 0) {
+                pendingTableBody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic">No pending VIP manual payments.</td></tr>`;
+            } else {
+                pendingTableBody.innerHTML = pendingVips.map((req, idx) => `
+                    <tr class="border-b border-amber-100 hover:bg-amber-50/50">
+                        <td class="p-2.5 font-bold text-slate-900">${req.username}</td>
+                        <td class="p-2.5 uppercase font-semibold text-amber-700">${req.type}</td>
+                        <td class="p-2.5 font-mono text-slate-700">${req.transId}</td>
+                        <td class="p-2.5 text-slate-500">${req.time}</td>
+                        <td class="p-2.5 text-right space-x-1">
+                            <button onclick="approveVip(${idx})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition">Approve VIP</button>
+                            <button onclick="rejectVip(${idx})" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-2 py-1 rounded-md text-[10px] font-bold transition">Reject</button>
+                        </td>
+                    </tr>
+                `).join('');
             }
 
             document.getElementById('adminStatUsers').innerText = users.length;
@@ -612,6 +677,32 @@
                     </tr>
                 `).join('');
             }
+        }
+        function approveVip(index) {
+            let pendingVips = JSON.parse(localStorage.getItem('soko_pending_vip')) || [];
+            const req = pendingVips[index];
+            if(!req) return;
+
+            let vipMap = JSON.parse(localStorage.getItem('soko_vip_users')) || {};
+            const duration = req.type === 'weekly' ? 7*86400000 : 30*86400000;
+            vipMap[req.username] = { type: req.type, expiry: Date.now() + duration };
+            localStorage.setItem('soko_vip_users', JSON.stringify(vipMap));
+
+            pendingVips.splice(index, 1);
+            localStorage.setItem('soko_pending_vip', JSON.stringify(pendingVips));
+
+            renderAdminDashboardData();
+            renderVipSlider();
+            renderProducts();
+            showToast(`⭐ VIP approved successfully for ${req.username}!`, "success");
+        }
+
+        function rejectVip(index) {
+            let pendingVips = JSON.parse(localStorage.getItem('soko_pending_vip')) || [];
+            pendingVips.splice(index, 1);
+            localStorage.setItem('soko_pending_vip', JSON.stringify(pendingVips));
+            renderAdminDashboardData();
+            showToast("VIP payment request rejected.", "alert");
         }
 
         function adminToggleVip(username) {
@@ -780,25 +871,32 @@
         function openVipModal() { document.getElementById('vipModal').classList.remove('hidden'); }
         function closeVipModal() { document.getElementById('vipModal').classList.add('hidden'); }
 
-        function payVip(type, amount) {
-            const phone = prompt(`Enter mobile number for TZS ${amount.toLocaleString()} payment via AzamPay Gateway (Merchant 0798033596 secured behind backend):`);
-            if (!phone) return;
-            
-            closeVipModal();
-            showToast(`AzamPay payment request sent to ${phone}...`, "success");
-            
-            setTimeout(() => {
-                showToast(`🎉 Payment confirmed! VIP package (${type}) activated successfully.`, "success");
-                if (currentUser) {
-                    let vipMap = JSON.parse(localStorage.getItem('soko_vip_users')) || {};
-                    vipMap[currentUser.username] = { type, expiry: Date.now() + (type === 'weekly' ? 7*86400000 : 30*86400000) };
-                    localStorage.setItem('soko_vip_users', JSON.stringify(vipMap));
-                    renderVipSlider();
-                    renderProducts();
-                }
-            }, 3000);
-        }
+        function submitManualVip(e) {
+            e.preventDefault();
+            if (!currentUser) {
+                showToast("Please sign in to your store account first!", "alert");
+                closeVipModal();
+                openAuthModal('login');
+                return;
+            }
 
+            const type = document.getElementById('vipPackageType').value;
+            const transId = document.getElementById('vipTransId').value;
+            let pendingVipRequests = JSON.parse(localStorage.getItem('soko_pending_vip')) || [];
+            
+            pendingVipRequests.push({
+                username: currentUser.username,
+                email: currentUser.email,
+                type: type,
+                transId: transId,
+                time: new Date().toLocaleString()
+            });
+
+            localStorage.setItem('soko_pending_vip', JSON.stringify(pendingVipRequests));
+            closeVipModal();
+            showToast("🎉 VIP Payment submitted! Founder Bungu will verify in Admin panel.", "success");
+            document.getElementById('vipTransId').value = "";
+        }
         function renderVipSlider() {
             const sliderContainer = document.getElementById('vipSliderContainer');
             const sliderWrapper = document.getElementById('vipSliderWrapper');
@@ -828,6 +926,10 @@
 
         function openAffiliateModal() {
             if (!currentUser) { showToast("Sign in first to access your affiliate link!", "alert"); openAuthModal('login'); return; }
+            let affData = JSON.parse(localStorage.getItem(`soko_aff_${currentUser.username}`)) || { clicks: 14, referrals: 3, earnings: 9000 };
+            document.getElementById('affClicksCount').innerText = affData.clicks;
+            document.getElementById('affRefsCount').innerText = affData.referrals;
+            document.getElementById('affEarnings').innerText = `TZS ${affData.earnings.toLocaleString()}`;
             document.getElementById('affiliateModal').classList.remove('hidden');
         }
         function closeAffiliateModal() { document.getElementById('affiliateModal').classList.add('hidden'); }
@@ -870,7 +972,8 @@
                 location, category, phone, image,
                 seller: currentUser ? currentUser.username : "Bungu Store",
                 sellerDp: currentUser ? currentUser.dp : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-                views: 0
+                views: 0,
+                comments: []
             };
 
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
@@ -881,7 +984,7 @@
             renderProducts();
             closeAddModal();
             document.getElementById('productForm').reset();
-            showToast(`Listing (${title}) published live with compressed image!`, "success");
+            showToast(`Listing (${title}) published live!`, "success");
         }
 
         function incrementViews(id) {
@@ -889,6 +992,72 @@
             products = products.map(p => { if (p.id === id) p.views = (p.views || 0) + 1; return p; });
             localStorage.setItem('soko_products', JSON.stringify(products));
             renderProducts();
+        }
+
+        function openProductDetail(id) {
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            const p = products.find(prod => prod.id === id);
+            if(!p) return;
+
+            incrementViews(p.id);
+            const modalContent = document.getElementById('productDetailContent');
+            
+            let commentsHtml = (p.comments || []).map(c => `
+                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-2 text-xs">
+                    <span class="font-bold text-slate-900">${c.user}</span>: <span class="text-slate-700">${c.text}</span>
+                    <span class="block text-[9px] text-slate-400 mt-0.5">${c.time}</span>
+                </div>
+            `).join('') || '<p class="text-xs text-slate-400 italic">No comments yet. Be the first to comment!</p>';
+
+            modalContent.innerHTML = `
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-slate-900 rounded-xl overflow-hidden h-64 flex items-center justify-center p-2">
+                        <img src="${p.image}" class="w-full h-full object-contain">
+                    </div>
+                    <div>
+                        <span class="text-[10px] font-bold text-emerald-600 uppercase">${p.category}</span>
+                        <h3 class="font-black text-xl text-slate-900 mt-1">${p.title}</h3>
+                        <p class="text-xl font-black text-slate-900 my-2">${p.formattedPrice}</p>
+                        <p class="text-xs text-slate-500 mb-4"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> ${p.location}</p>
+                        <div class="flex items-center gap-2 mb-4 bg-slate-50 p-2.5 rounded-xl border">
+                            <img src="${p.sellerDp}" class="w-8 h-8 rounded-full object-cover">
+                            <div><span class="font-bold text-xs text-slate-900 block">${p.seller}</span><span class="text-[10px] text-emerald-600">Verified Seller</span></div>
+                        </div>
+                        <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Hello,%20I%20am%20interested%20in%20${encodeURIComponent(p.title)}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 shadow-sm mb-4">
+                            <i class="fa-brands fa-whatsapp text-base"></i> Contact via WhatsApp
+                        </a>
+                    </div>
+                </div>
+                <div class="mt-6 border-t pt-4">
+                    <h4 class="font-bold text-sm text-slate-900 mb-3"><i class="fa-solid fa-comments text-indigo-600 mr-1"></i> Customer Comments & Inquiries</h4>
+                    <div class="max-h-40 overflow-y-auto mb-3 space-y-1">${commentsHtml}</div>
+                    <form onsubmit="handleCommentSubmit(event, ${p.id})" class="flex gap-2">
+                        <input type="text" id="commentInput" required placeholder="Write a comment or question..." class="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Post</button>
+                    </form>
+                </div>
+            `;
+            document.getElementById('productDetailModal').classList.remove('hidden');
+        }
+
+        function closeProductDetailModal() { document.getElementById('productDetailModal').classList.add('hidden'); }
+
+        function handleCommentSubmit(e, productId) {
+            e.preventDefault();
+            if (!currentUser) { showToast("Sign in to comment!", "alert"); openAuthModal('login'); return; }
+            const text = document.getElementById('commentInput').value;
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            
+            products = products.map(p => {
+                if(p.id === productId) {
+                    if(!p.comments) p.comments = [];
+                    p.comments.push({ user: currentUser.username, text, time: new Date().toLocaleTimeString() });
+                }
+                return p;
+            });
+            localStorage.setItem('soko_products', JSON.stringify(products));
+            openProductDetail(productId);
+            showToast("Comment posted!", "success");
         }
 
         function renderProducts() {
@@ -899,7 +1068,7 @@
                     location: "Dodoma, Tanzania", category: "Electronics & Gadgets", phone: "+255700000000",
                     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
                     seller: "Bungu Store", sellerDp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-                    views: 0
+                    views: 0, comments: []
                 }];
             }
             displayProducts(products);
@@ -919,8 +1088,8 @@
 
                 return `
                     <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between relative group">
-                        ${canDelete ? `<button onclick="adminDeleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs z-10 shadow"><i class="fa-solid fa-trash"></i></button>` : ''}
-                        <div>
+                        ${canDelete ? `<button onclick="adminDeleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600 hover:bg-red-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs z-10 shadow transition" title="Delete Listing"><i class="fa-solid fa-trash"></i></button>` : ''}
+                        <div onclick="openProductDetail(${p.id})" class="cursor-pointer">
                             <div class="relative h-56 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
                                 <img src="${p.image}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
                                 <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${p.location}</span>
@@ -931,7 +1100,7 @@
                                     <span class="text-[10px] font-bold text-emerald-600 uppercase">${p.category}</span>
                                     <div class="flex items-center gap-1 bg-indigo-50 px-2 py-0.5 rounded-md">
                                         <span class="text-[10px] font-bold text-indigo-700">${storeFollowers.length} Followers</span>
-                                        ${(!currentUser || currentUser.username !== p.seller) ? `<button onclick="toggleFollow('${p.seller}')" class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-semibold">${isFollowing ? 'Following' : '+ Follow'}</button>` : ''}
+                                        ${(!currentUser || currentUser.username !== p.seller) ? `<button onclick="event.stopPropagation(); toggleFollow('${p.seller}')" class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-semibold">${isFollowing ? 'Following' : '+ Follow'}</button>` : ''}
                                     </div>
                                 </div>
                                 <div class="flex items-center justify-between mb-2">
@@ -947,7 +1116,7 @@
                                 <h4 class="font-bold text-slate-900 text-sm mb-1 truncate">${p.title}</h4>
                                 <div class="flex justify-between items-baseline mb-3">
                                     <span class="text-base font-black text-slate-900">${p.formattedPrice}</span>
-                                    <span class="text-[10px] text-slate-400">Verified Global Supplier</span>
+                                    <span class="text-[10px] text-slate-400">${(p.comments || []).length} Comments</span>
                                 </div>
                             </div>
                         </div>
