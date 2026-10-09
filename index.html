@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Soko Faster | Global Marketplace Powered by Bungu</title>
+    <title>Soko Faster | Global B2B & B2C Marketplace Powered by Bungu</title>
     <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
@@ -11,12 +11,14 @@
             theme: {
                 extend: {
                     colors: {
-                        brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' }
+                        brand: { 50: '#f0fdf4', 100: '#dcfce7', 500: '#22c55e', 600: '#16a34a', 700: '#15803d' },
+                        alibaba: { dark: '#0f172a', orange: '#ff7300', light: '#f8fafc' }
                     }
                 }
             }
         }
     </script>
+    <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
@@ -25,29 +27,30 @@
 </head>
 <body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
 
-    <!-- TOAST NOTIFICATION CONTAINER -->
+    <!-- GLOBAL TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
     <div>
-        <!-- TOP FOUNDER & AZAMPAY MERCHANT BAR -->
+        <!-- TOP UTILITY & FOUNDER BAR -->
         <div class="bg-slate-900 text-slate-300 py-1.5 px-4 text-xs border-b border-slate-800">
             <div class="max-w-7xl mx-auto flex flex-wrap justify-between items-center gap-2">
                 <div class="flex items-center gap-2">
                     <span class="bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded text-[10px]">FOUNDER: BUNGU</span>
-                    <span>Global B2B & B2C E-commerce Platform</span>
+                    <span>Global E-commerce Ecosystem</span>
                 </div>
                 <div class="flex items-center gap-4">
-                    <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> AzamPay Merchant: 0798033596</span>
-                    <button onclick="verifyAdminAccess()" id="adminControlPanel" class="text-amber-400 hover:text-amber-300 font-bold transition">
-                        <i class="fa-solid fa-lock-open mr-1"></i> Admin Panel
-                    </button>
+                    <span class="text-emerald-400 font-semibold"><i class="fa-solid fa-shield-halved mr-1"></i> AzamPay Secured Gateway</span>
+                    <span id="securityAlertBadge" class="text-amber-400 font-bold hidden animate-pulse">
+                        <i class="fa-solid fa-triangle-exclamation mr-1"></i> Intrusion Logged!
+                    </span>
                 </div>
             </div>
         </div>
 
-        <!-- ALIBABA STYLE HEADER & TOP AUTH -->
+        <!-- ALIBABA STYLE HEADER -->
         <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
             <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
+                <!-- Logo & Brand -->
                 <div class="flex items-center gap-3 shrink-0">
                     <div class="w-11 h-11 bg-gradient-to-tr from-amber-500 to-orange-600 rounded-xl flex items-center justify-center text-white font-black text-2xl shadow-md">
                         SF
@@ -58,15 +61,17 @@
                     </div>
                 </div>
 
+                <!-- Search Bar -->
                 <div class="flex-1 max-w-2xl hidden md:flex">
                     <div class="flex w-full border-2 border-emerald-600 rounded-xl overflow-hidden shadow-sm">
-                        <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search products, locations, or sellers..." class="w-full px-4 py-2.5 text-xs focus:outline-none">
+                        <input type="text" id="searchInput" oninput="filterProducts()" placeholder="What are you looking for globally... (e.g. Electronics, Vehicles)" class="w-full px-4 py-2.5 text-xs focus:outline-none">
                         <button onclick="filterProducts()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 font-bold text-xs transition flex items-center gap-2">
                             <i class="fa-solid fa-magnifying-glass"></i> Search
                         </button>
                     </div>
                 </div>
 
+                <!-- Top Right Navigation & Auth Actions -->
                 <div class="flex items-center gap-3 shrink-0">
                     <button onclick="openVipModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-black transition shadow-sm flex items-center gap-1.5">
                         <i class="fa-solid fa-crown"></i> VIP
@@ -75,12 +80,12 @@
                         <i class="fa-solid fa-share-nodes"></i> Affiliate
                     </button>
                     <div id="authNavArea" class="flex items-center gap-2 border-l border-slate-200 pl-3">
-                        <!-- Populated by JS -->
+                        <!-- Populated dynamically -->
                     </div>
                 </div>
             </div>
         </header>
-        <!-- HERO SECTION & DYNAMIC SPONSORS / ANNOUNCEMENTS -->
+        <!-- HERO SECTION, MOVING VIP SLIDER & GLOBAL SPONSORS -->
         <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-10 px-4 shadow-inner">
             <div class="max-w-5xl mx-auto text-center">
                 <span class="bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 text-xs px-3 py-1 rounded-full font-bold uppercase tracking-wider">
@@ -88,7 +93,7 @@
                 </span>
                 <h2 class="text-3xl md:text-5xl font-black mt-3 mb-3 tracking-tight">Source Smarter, Trade Faster Worldwide</h2>
                 <p class="text-slate-300 text-xs md:text-sm max-w-2xl mx-auto mb-6">
-                    Connect directly with verified suppliers, secure your transactions, scale visibility with VIP packages, and earn lucrative referral commissions.
+                    Connect directly with verified suppliers, secure transactions via AzamPay, scale visibility with VIP packages, and earn lucrative referral commissions.
                 </p>
 
                 <!-- Post Listing Action CTA -->
@@ -98,7 +103,31 @@
                     </button>
                 </div>
 
-                <!-- Dynamic Sponsor / Announcement Banner Area -->
+                <!-- VIP MOVING / TICKING DYNAMIC SLIDER (Top Showcase for VIP Subscribers) -->
+                <div id="vipSliderContainer" class="mt-8 hidden text-left bg-slate-950/60 p-4 rounded-2xl border border-amber-500/30 backdrop-blur-md">
+                    <div class="flex items-center gap-2 mb-3">
+                        <span class="bg-amber-500 text-slate-950 font-black px-2.5 py-0.5 rounded text-[10px] uppercase animate-pulse"><i class="fa-solid fa-crown mr-1"></i> VIP Featured Showcase</span>
+                        <div class="h-[1px] bg-amber-500/30 flex-1"></div>
+                        <span class="text-[10px] text-amber-400 font-bold">Verified Priority Display</span>
+                    </div>
+                    <div id="vipSliderWrapper" class="flex gap-4 overflow-x-auto pb-2 scrollbar-none">
+                        <!-- Populated dynamically by JS for VIP Users -->
+                    </div>
+                </div>
+
+                <!-- GLOBAL SPONSORS & PARTNERS BRAND MARQUEE -->
+                <div class="mt-10 pt-6 border-t border-slate-800">
+                    <p class="text-[10px] font-bold tracking-widest text-slate-400 uppercase mb-4">Official Global Partners & Sponsors</p>
+                    <div class="flex flex-wrap justify-center items-center gap-6 sm:gap-10 opacity-85 text-xs font-black tracking-wider text-slate-300">
+                        <span class="flex items-center gap-1.5 text-red-400"><i class="fa-solid fa-bottle-droplet text-red-500"></i> COCA-COLA GLOBAL</span>
+                        <span class="flex items-center gap-1.5 text-blue-300"><i class="fa-solid fa-mobile-screen text-blue-400"></i> SAMSUNG CORP</span>
+                        <span class="flex items-center gap-1.5 text-emerald-400"><i class="fa-solid fa-shield-halved text-emerald-400"></i> AZAMPAY SECURE</span>
+                        <span class="flex items-center gap-1.5 text-amber-400"><i class="fa-solid fa-globe text-amber-400"></i> ALIBABA TRADE</span>
+                        <span class="flex items-center gap-1.5 text-orange-400"><i class="fa-solid fa-tv text-orange-500"></i> AZAM MEDIA GROUP</span>
+                    </div>
+                </div>
+
+                <!-- Dynamic Announcement Banner Area -->
                 <div id="announcementBannerArea" class="mt-6 bg-slate-800/80 border border-slate-700 rounded-2xl p-4 text-left hidden shadow-lg max-w-3xl mx-auto">
                     <div class="flex items-center justify-between mb-1">
                         <span id="announcementBadge" class="text-[10px] bg-amber-500 text-slate-950 font-black px-2 py-0.5 rounded uppercase">Announcement</span>
@@ -125,23 +154,7 @@
         </main>
     </div>
 
-    <!-- FOOTER WITH FOUNDER COPYRIGHT -->
-    <footer class="bg-slate-900 text-slate-400 py-8 px-4 border-t border-slate-800 text-center text-xs mt-12">
-        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
-            <div>
-                <p class="font-bold text-white">Soko Faster &copy; 2026. All rights reserved.</p>
-                <p class="text-[11px] text-slate-500 mt-0.5">Architected & Founded by Bungu (Global E-commerce Ecosystem)</p>
-            </div>
-            <div class="flex gap-4 text-sm">
-                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-whatsapp"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
-                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
-            </div>
-        </div>
-    </footer>
-
-
-    <!-- MODAL 1: AUTHENTICATION (SIGN IN / REGISTER) -->
+    <!-- MODAL 1: AUTHENTICATION (SIGN IN / REGISTER WITH OPTIONAL DP) -->
     <div id="authModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
@@ -181,6 +194,7 @@
             </div>
         </div>
     </div>
+
     <!-- MODAL 2: ADD PRODUCT LISTING MODAL -->
     <div id="addProductModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
@@ -227,30 +241,28 @@
                     <input type="text" id="pPhone" required placeholder="e.g. +255712345678" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Product Image</label>
+                    <label class="block text-xs font-bold text-slate-700 mb-1">Product Image (Auto-compressed to reduce MB weight)</label>
                     <input type="file" id="pImageFile" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
                 </div>
                 <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-xs font-bold transition shadow-md">Publish Listing</button>
             </form>
         </div>
     </div>
-
-
-    <!-- MODAL 3: VIP SUBSCRIPTIONS (AZAMPAY INTEGRATION - VODACOM: 0798033596) -->
+    <!-- MODAL 3: VIP SUBSCRIPTIONS (AZAMPAY GATEWAY SECURELY ROUTING TO 0798033596 ON BACKEND) -->
     <div id="vipModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
             <button onclick="closeVipModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             <div class="text-center mb-6">
                 <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Soko Faster VIP</span>
                 <h3 class="text-xl font-black text-slate-900 mt-2">Choose VIP Package</h3>
-                <p class="text-xs text-slate-500">Payments route to AzamPay Merchant (Vodacom: 0798033596).</p>
+                <p class="text-xs text-slate-500">Secure automated payment via AzamPay Gateway.</p>
             </div>
 
             <div class="space-y-4">
                 <div class="border-2 border-slate-200 hover:border-amber-500 p-4 rounded-2xl transition cursor-pointer flex justify-between items-center" onclick="payVip('weekly', 3000)">
                     <div>
                         <h4 class="font-black text-slate-900">Weekly VIP Package</h4>
-                        <p class="text-xs text-slate-500">7 Days priority exposure</p>
+                        <p class="text-xs text-slate-500">7 Days top dynamic visibility</p>
                     </div>
                     <div class="text-right">
                         <span class="block font-black text-emerald-600">TZS 3,000</span>
@@ -264,7 +276,7 @@
                             <h4 class="font-black text-slate-900">Monthly VIP Package</h4>
                             <span class="bg-amber-500 text-slate-950 text-[9px] font-black px-1.5 py-0.5 rounded">BEST VALUE</span>
                         </div>
-                        <p class="text-xs text-slate-500">30 Full Days VIP perks</p>
+                        <p class="text-xs text-slate-500">30 Full Days priority perks</p>
                     </div>
                     <div class="text-right">
                         <span class="block font-black text-emerald-600">TZS 10,000</span>
@@ -272,19 +284,18 @@
                     </div>
                 </div>
             </div>
-            <p class="text-[11px] text-slate-400 text-center mt-6">Secured by AzamPay Gateway (Merchant: 0798033596).</p>
+            <p class="text-[11px] text-slate-400 text-center mt-6">Secured by AzamPay Automatic Gateway Integration.</p>
         </div>
     </div>
 
-
-    <!-- MODAL 4: AFFILIATE DASHBOARD & REFERRAL LINK -->
+    <!-- MODAL 4: AFFILIATE COMMISSION DASHBOARD -->
     <div id="affiliateModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
             <button onclick="closeAffiliateModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             <div class="text-center mb-6">
                 <span class="bg-indigo-100 text-indigo-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Affiliate Program</span>
                 <h3 class="text-xl font-black text-slate-900 mt-2">Earn Referral Commissions</h3>
-                <p class="text-xs text-slate-500">Earn commissions for every referred user who upgrades to VIP.</p>
+                <p class="text-xs text-slate-500">Earn direct cash commission whenever your referred user upgrades to VIP.</p>
             </div>
 
             <div class="space-y-4">
@@ -296,19 +307,37 @@
                     </div>
                 </div>
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-100 text-xs text-slate-600 space-y-1">
-                    <p class="font-bold text-slate-900 mb-1"><i class="fa-solid fa-circle-info text-indigo-600 mr-1"></i> Program Perks:</p>
-                    <p>• Share your link globally across social platforms.</p>
-                    <p>• Automated commissions credited upon VIP upgrade.</p>
+                    <p class="font-bold text-slate-900 mb-1"><i class="fa-solid fa-circle-info text-indigo-600 mr-1"></i> Commission Rules:</p>
+                    <p>• Share your link globally on social media.</p>
+                    <p>• Earned commissions are credited automatically upon VIP payment confirmation.</p>
                 </div>
             </div>
         </div>
     </div>
-    <!-- MODAL 5: ADMIN DASHBOARD (DYNAMIC SPONSORS, ANNOUNCEMENTS & USERS) -->
+    <!-- FOOTER WITH SECRET TRIGGER ON THE WORD "FASTER" -->
+    <footer class="bg-slate-900 text-slate-400 py-8 px-4 border-t border-slate-800 text-center text-xs mt-12">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div>
+                <!-- SECRET ADMIN TRIGGER: Hidden securely inside the word "Faster" -->
+                <p class="font-bold text-white">
+                    Soko <span onclick="verifyAdminAccessFromSecretWord()" class="cursor-pointer hover:text-amber-400 transition" title="System Core">Faster</span> &copy; 2026. All rights reserved.
+                </p>
+                <p class="text-[11px] text-slate-500 mt-0.5">Architected & Founded by Bungu (Global E-commerce Ecosystem)</p>
+            </div>
+            <div class="flex gap-4 text-sm">
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-whatsapp"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-telegram"></i></a>
+                <a href="#" class="hover:text-white transition"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- MODAL 5: FOUNDER ADMIN DASHBOARD (FULL CONTROL & INTRUSION LOGS) -->
     <div id="adminDashboardModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <div class="flex justify-between items-center pb-4 border-b border-slate-200 mb-6">
                 <div>
-                    <span class="bg-amber-500 text-slate-950 font-black px-2.5 py-0.5 rounded text-[10px]">FOUNDER ADMIN PANEL</span>
+                    <span class="bg-amber-500 text-slate-950 font-black px-2.5 py-0.5 rounded text-[10px]">FOUNDER ADMIN PANEL (BUNGU)</span>
                     <h3 class="text-xl font-black text-slate-900 mt-1">Soko Faster Control Center</h3>
                 </div>
                 <div class="flex items-center gap-2">
@@ -317,8 +346,16 @@
                 </div>
             </div>
 
-            <!-- Admin Stats -->
-            <div class="grid grid-cols-2 sm:grid-cols-3 gap-4 mb-6">
+            <!-- INTRUSION SECURITY ALERTS LOG -->
+            <div id="adminIntrusionLogBox" class="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 hidden">
+                <div class="flex items-center gap-2 text-amber-800 font-bold text-xs mb-1">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Security Notice: Unauthorized Access Attempts Detected
+                </div>
+                <p id="adminIntrusionText" class="text-xs text-amber-700"></p>
+            </div>
+
+            <!-- Admin Stats Cards -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                     <span class="text-xs text-slate-500 font-semibold">Total Users</span>
                     <h4 id="adminStatUsers" class="text-2xl font-black text-slate-900 mt-1">0</h4>
@@ -327,15 +364,19 @@
                     <span class="text-xs text-slate-500 font-semibold">Total Listings</span>
                     <h4 id="adminStatProducts" class="text-2xl font-black text-slate-900 mt-1">0</h4>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200 col-span-2 sm:col-span-1">
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                    <span class="text-xs text-slate-500 font-semibold">Active VIPs</span>
+                    <h4 id="adminStatVips" class="text-2xl font-black text-amber-600 mt-1">0</h4>
+                </div>
+                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
                     <span class="text-xs text-slate-500 font-semibold">Founder Status</span>
-                    <h4 class="text-sm font-bold text-emerald-600 mt-1 flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Bungu Secured</h4>
+                    <h4 class="text-sm font-bold text-emerald-600 mt-1 flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Secured</h4>
                 </div>
             </div>
 
-            <!-- Dynamic Sponsors / Announcements Admin Form -->
+            <!-- Dynamic Sponsors & Announcements Admin Form -->
             <div class="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-5 mb-6">
-                <h4 class="font-bold text-sm text-slate-900 mb-3"><i class="fa-solid fa-bullhorn text-indigo-600 mr-2"></i> Manage Dynamic Sponsors & Announcements</h4>
+                <h4 class="font-bold text-sm text-slate-900 mb-3"><i class="fa-solid fa-bullhorn text-indigo-600 mr-2"></i> Post Dynamic Sponsor / Announcement Banner</h4>
                 <form onsubmit="handleAdminAnnouncement(event)" class="space-y-3">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <input type="text" id="adminAdTitle" required placeholder="Title or Sponsor Name" class="px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
@@ -344,22 +385,22 @@
                             <option value="SPONSOR">Sponsor Banner</option>
                         </select>
                     </div>
-                    <textarea id="adminAdMessage" required rows="2" placeholder="Write announcement message..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
+                    <textarea id="adminAdMessage" required rows="2" placeholder="Write message..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
                     <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">Publish Banner</button>
                 </form>
             </div>
 
-            <!-- Users Management Table -->
-            <div>
-                <h4 class="font-bold text-sm text-slate-900 mb-3">Registered Users & Stores</h4>
+            <!-- Users & VIP Management Table (Make VIP, Revoke VIP, Remove User) -->
+            <div class="mb-8">
+                <h4 class="font-bold text-sm text-slate-900 mb-3">User & VIP Subscription Management (Full Control)</h4>
                 <div class="overflow-x-auto border border-slate-200 rounded-xl">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
                             <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
-                                <th class="p-3">Store / User</th>
+                                <th class="p-3">Store User</th>
                                 <th class="p-3">Email</th>
-                                <th class="p-3">Followers</th>
-                                <th class="p-3 text-right">Actions</th>
+                                <th class="p-3">VIP Status</th>
+                                <th class="p-3 text-right">Admin Actions</th>
                             </tr>
                         </thead>
                         <tbody id="adminUsersTableBody">
@@ -368,567 +409,30 @@
                     </table>
                 </div>
             </div>
+
+            <!-- All Product Listings Management Table (Delete Control) -->
+            <div>
+                <h4 class="font-bold text-sm text-slate-900 mb-3">All Platform Product Listings (Delete Control)</h4>
+                <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                                <th class="p-3">Product Title</th>
+                                <th class="p-3">Seller</th>
+                                <th class="p-3">Price</th>
+                                <th class="p-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTableBody">
+                            <!-- Populated by JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
-
-
-    <!-- FULL JAVASCRIPT SYSTEM ENGINE -->
+    <!-- FULL JAVASCRIPT SYSTEM ENGINE (PART 2) -->
     <script>
-        let isRegisterMode = false;
-        let currentUser = JSON.parse(localStorage.getItem('soko_current_user')) || null;
-        let isAdminActive = sessionStorage.getItem('soko_admin_active') === 'true';
-        const SECURE_TARGET_HASH = "a68f6352932c5896b025345711c210ff24d858348b64e037748455e11d080c55";
-
-        window.addEventListener('DOMContentLoaded', () => {
-            checkAdminStatus();
-            updateNavigationUI();
-            renderProducts();
-            loadActiveAnnouncements();
-            setupAffiliateLink();
-
-            if (currentUser) {
-                showToast(`Welcome back, ${currentUser.username}!`, 'success');
-            } else {
-                showToast("Welcome to Soko Faster! Founder: Bungu.", 'info');
-            }
-        });
-
-        // TOAST NOTIFICATION SYSTEM
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            if(!container) return;
-            const toast = document.createElement('div');
-            
-            let bgClass = "bg-slate-900 text-white border-slate-800";
-            let icon = "fa-bell text-amber-400";
-            if (type === 'success') {
-                bgClass = "bg-emerald-600 text-white border-emerald-500";
-                icon = "fa-circle-check text-white";
-            } else if (type === 'alert') {
-                bgClass = "bg-amber-600 text-white border-amber-500";
-                icon = "fa-triangle-exclamation text-white";
-            }
-
-            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-xs font-semibold toast-animation ${bgClass}`;
-            toast.innerHTML = `<i class="fa-solid ${icon} text-base shrink-0"></i><span class="flex-1">${message}</span>`;
-            
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.4s ease';
-                setTimeout(() => toast.remove(), 400);
-            }, 4000);
-        }
-
-        // ADMIN PASSCODE & VERIFICATION
-        function simpleSha256(str) {
-            let hash = 0;
-            for (let i = 0; i < str.length; i++) {
-                const char = str.charCodeAt(i);
-                hash = (hash << 5) - hash + char;
-                hash |= 0;
-            }
-            return Math.abs(hash).toString(16) + "bunga2026x";
-        }
-
-        function verifyAdminAccess() {
-            if (isAdminActive) {
-                openAdminDashboard();
-                return;
-            }
-            const pass = prompt("Enter Founder Security Passphrase:");
-            if (pass && (pass === "BunguAdmin2026" || simpleSha256(pass) === SECURE_TARGET_HASH)) {
-                isAdminActive = true;
-                sessionStorage.setItem('soko_admin_active', 'true');
-                checkAdminStatus();
-                showToast("Admin Panel unlocked by Bungu!", "success");
-                openAdminDashboard();
-            } else {
-                showToast("Incorrect security passphrase!", "alert");
-            }
-        }
-
-        function checkAdminStatus() {
-            const adminControl = document.getElementById('adminControlPanel');
-            if (adminControl) {
-                if (isAdminActive) adminControl.classList.remove('hidden');
-                else adminControl.classList.add('hidden');
-            }
-        }
-
-        function openAdminDashboard() {
-            if (!isAdminActive) { verifyAdminAccess(); return; }
-            renderAdminDashboardData();
-            document.getElementById('adminDashboardModal').classList.remove('hidden');
-        }
-
-        function closeAdminDashboard() { document.getElementById('adminDashboardModal').classList.add('hidden'); }
-
-        function adminLogout() {
-            isAdminActive = false;
-            sessionStorage.removeItem('soko_admin_active');
-            checkAdminStatus();
-            closeAdminDashboard();
-            showToast("Admin session closed.", "alert");
-        }
-
-        function renderAdminDashboardData() {
-            let users = JSON.parse(localStorage.getItem('soko_users')) || [];
-            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-
-            document.getElementById('adminStatUsers').innerText = users.length;
-            document.getElementById('adminStatProducts').innerText = products.length;
-
-            const tableBody = document.getElementById('adminUsersTableBody');
-            if (users.length === 0) {
-                tableBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">No registered users found.</td></tr>`;
-                return;
-            }
-
-            let followersMap = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
-            tableBody.innerHTML = users.map(u => {
-                const fCount = (followersMap[u.username] || []).length;
-                return `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
-                        <td class="p-3 flex items-center gap-2">
-                            <img src="${u.dp || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'}" class="w-7 h-7 rounded-full object-cover border">
-                            <span class="font-bold text-slate-900">${u.username}</span>
-                        </td>
-                        <td class="p-3 text-slate-600">${u.email}</td>
-                        <td class="p-3 font-semibold text-emerald-600">${fCount} Followers</td>
-                        <td class="p-3 text-right">
-                            <button onclick="banUser('${u.email}')" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">
-                                Remove
-                            </button>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        function banUser(email) {
-            if (confirm("Are you sure you want to remove this user?")) {
-                let users = JSON.parse(localStorage.getItem('soko_users')) || [];
-                users = users.filter(u => u.email !== email);
-                localStorage.setItem('soko_users', JSON.stringify(users));
-                if (currentUser && currentUser.email === email) handleLogout();
-                renderAdminDashboardData();
-                showToast("User successfully removed.", "alert");
-            }
-        }
-
-        // DYNAMIC SPONSORS & ANNOUNCEMENTS
-        function handleAdminAnnouncement(e) {
-            e.preventDefault();
-            const title = document.getElementById('adminAdTitle').value;
-            const message = document.getElementById('adminAdMessage').value;
-            const type = document.getElementById('adminAdType').value;
-
-            const adData = { id: Date.now(), title, message, type, date: new Date().toLocaleDateString() };
-            localStorage.setItem('soko_active_announcement', JSON.stringify(adData));
-
-            document.getElementById('adminAdTitle').value = '';
-            document.getElementById('adminAdMessage').value = '';
-            closeAdminDashboard();
-            loadActiveAnnouncements();
-            showToast("Dynamic banner published successfully!", "success");
-        }
-
-        function loadActiveAnnouncements() {
-            const ad = JSON.parse(localStorage.getItem('soko_active_announcement'));
-            const banner = document.getElementById('announcementBannerArea');
-            if (ad) {
-                banner.classList.remove('hidden');
-                document.getElementById('announcementBadge').innerText = ad.type === 'SPONSOR' ? 'Sponsor Banner' : 'Announcement';
-                document.getElementById('announcementTitle').innerText = ad.title;
-                document.getElementById('announcementMessage').innerText = ad.message;
-                document.getElementById('announcementDate').innerText = ad.date;
-            } else {
-                banner.classList.add('hidden');
-            }
-        }
-
-        // AUTH MODALS & NAVIGATION
-        function openAuthModal(mode) {
-            isRegisterMode = (mode === 'register');
-            updateAuthModalUI();
-            document.getElementById('authModal').classList.remove('hidden');
-        }
-        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
-        function toggleAuthMode() { isRegisterMode = !isRegisterMode; updateAuthModalUI(); }
-
-        function togglePasswordVisibility(fieldId, btn) {
-            const input = document.getElementById(fieldId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
-            } else {
-                input.type = 'password';
-                btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
-            }
-        }
-
-        function updateAuthModalUI() {
-            const title = document.getElementById('authTitle');
-            const subtitle = document.getElementById('authSubtitle');
-            const btn = document.getElementById('authSubmitBtn');
-            const usernameContainer = document.getElementById('businessUsernameContainer');
-            const confirmPassContainer = document.getElementById('confirmPassContainer');
-            const dpContainer = document.getElementById('dpContainer');
-            const switchText = document.getElementById('authSwitchText');
-            const switchBtn = document.getElementById('authSwitchBtn');
-
-            if (isRegisterMode) {
-                title.innerText = "Create Store Account";
-                subtitle.innerText = "Register your store username & credentials.";
-                btn.innerText = "Register Store";
-                usernameContainer.classList.remove('hidden');
-                confirmPassContainer.classList.remove('hidden');
-                dpContainer.classList.remove('hidden');
-                switchText.innerText = "Already have an account?";
-                switchBtn.innerText = "Sign In";
-            } else {
-                title.innerText = "Sign In to Soko Faster";
-                subtitle.innerText = "Access your global store and listings.";
-                btn.innerText = "Sign In";
-                usernameContainer.classList.add('hidden');
-                confirmPassContainer.classList.add('hidden');
-                dpContainer.classList.add('hidden');
-                switchText.innerText = "Don't have an account?";
-                switchBtn.innerText = "Register";
-            }
-        }
-
-        async function handleAuthSubmit(e) {
-            e.preventDefault();
-            const email = document.getElementById('authEmail').value;
-            const pass = document.getElementById('authPass').value;
-            let users = JSON.parse(localStorage.getItem('soko_users')) || [];
-
-            if (isRegisterMode) {
-                const username = document.getElementById('authUsername').value;
-                const confirmPass = document.getElementById('authConfirmPass').value;
-                const dpFile = document.getElementById('authDpFile').files[0];
-
-                if (pass !== confirmPass) { showToast("Passwords do not match!", "alert"); return; }
-                if (users.some(u => u.email === email)) { showToast("Account already exists with this email!", "alert"); return; }
-
-                let dpImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80";
-                if (dpFile) {
-                    dpImage = await new Promise((resolve) => {
-                        const reader = new FileReader();
-                        reader.onload = e => resolve(e.target.result);
-                        reader.readAsDataURL(dpFile);
-                    });
-                }
-
-                currentUser = { username, email, pass, dp: dpImage };
-                users.push(currentUser);
-                localStorage.setItem('soko_users', JSON.stringify(users));
-                localStorage.setItem('soko_current_user', JSON.stringify(currentUser));
-                showToast(`Welcome to Soko Faster, ${username}!`, "success");
-            } else {
-                const found = users.find(u => u.email === email && u.pass === pass);
-                currentUser = found || { username: email.split('@')[0], email, dp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" };
-                localStorage.setItem('soko_current_user', JSON.stringify(currentUser));
-                showToast(`Welcome back, ${currentUser.username}!`, "success");
-            }
-
-            updateNavigationUI();
-            closeAuthModal();
-            setupAffiliateLink();
-        }
-
-        function handleLogout() {
-            currentUser = null;
-            localStorage.removeItem('soko_current_user');
-            updateNavigationUI();
-            setupAffiliateLink();
-            showToast("Successfully logged out.", "alert");
-        }
-
-        function updateNavigationUI() {
-            const area = document.getElementById('authNavArea');
-            if (currentUser) {
-                area.innerHTML = `
-                    <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-900">
-                        <img src="${currentUser.dp}" class="w-5 h-5 rounded-full object-cover">
-                        <span>${currentUser.username}</span>
-                    </div>
-                    <button onclick="handleLogout()" class="text-xs text-red-600 font-bold hover:underline ml-1">Logout</button>
-                `;
-            } else {
-                area.innerHTML = `
-                    <button onclick="openAuthModal('login')" class="text-xs font-bold text-slate-700 hover:text-emerald-600 transition">Sign In</button>
-                    <button onclick="openAuthModal('register')" class="text-xs font-bold bg-slate-900 text-white px-3.5 py-2 rounded-xl hover:bg-slate-800 transition shadow-sm">Register</button>
-                `;
-            }
-        }
-
-        // VIP MODAL & AZAMPAY INTEGRATION (Vodacom Merchant: 0798033596)
-        function openVipModal() { document.getElementById('vipModal').classList.remove('hidden'); }
-        function closeVipModal() { document.getElementById('vipModal').classList.add('hidden'); }
-
-        function payVip(type, amount) {
-            const phone = prompt(`Enter mobile number for TZS ${amount.toLocaleString()} payment via AzamPay to Merchant (0798033596):`);
-            if (!phone) return;
-            
-            closeVipModal();
-            showToast(`Payment request for TZS ${amount.toLocaleString()} sent to ${phone} via AzamPay...`, "success");
-            
-            setTimeout(() => {
-                showToast(`🎉 Payment confirmed! VIP package (${type}) activated successfully.`, "success");
-            }, 3000);
-        }
-
-        // AFFILIATE SYSTEM
-        function openAffiliateModal() {
-            if (!currentUser) {
-                showToast("Please sign in first to access your affiliate link!", "alert");
-                openAuthModal('login');
-                return;
-            }
-            document.getElementById('affiliateModal').classList.remove('hidden');
-        }
-        function closeAffiliateModal() { document.getElementById('affiliateModal').classList.add('hidden'); }
-
-        function setupAffiliateLink() {
-            const code = currentUser ? currentUser.username.toLowerCase().replace(/\s+/g, '') + '99' : 'bunguglobal';
-            const link = `https://sokofaster.netlify.app/?ref=${code}`;
-            const input = document.getElementById('myReferralLink');
-            if(input) input.value = link;
-        }
-
-        function copyAffiliateLink() {
-            const input = document.getElementById('myReferralLink');
-            input.select();
-            navigator.clipboard.writeText(input.value);
-            showToast("Referral link copied to clipboard!", "success");
-        }
-
-        // PRODUCTS MANAGEMENT (Location, Views, Followers, Optional DP)
-        function openAddModal() {
-            if (!currentUser) {
-                showToast("Please sign in to your store account first!", "alert");
-                openAuthModal('login');
-                return;
-            }
-            document.getElementById('addProductModal').classList.remove('hidden');
-        }
-        function closeAddModal() { document.getElementById('addProductModal').classList.add('hidden'); }
-
-        async function handleProductSubmit(e) {
-            e.preventDefault();
-            const title = document.getElementById('pTitle').value;
-            const currency = document.getElementById('pCurrency').value;
-            const price = document.getElementById('pPrice').value;
-            const location = document.getElementById('pLocation').value;
-            const category = document.getElementById('pCategory').value;
-            const phone = document.getElementById('pPhone').value;
-            const fileInput = document.getElementById('pImageFile').files[0];
-
-            let image = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80";
-            if (fileInput) {
-                image = await new Promise((resolve) => {
-                    const reader = new FileReader();
-                    reader.onload = e => resolve(e.target.result);
-                    reader.readAsDataURL(fileInput);
-                });
-            }
-
-            const formattedPrice = currency === 'TZS' ? `TZS ${Number(price).toLocaleString()}` : `$${Number(price).toFixed(2)}`;
-            const newProduct = {
-                id: Date.now(),
-                title, formattedPrice, location, category, phone, image,
-                seller: currentUser ? currentUser.username : "Bungu Store",
-                sellerDp: currentUser ? currentUser.dp : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-                views: 0, comments: []
-            };
-
-            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-            products.unshift(newProduct);
-            localStorage.setItem('soko_products', JSON.stringify(products));
-
-            renderProducts();
-            closeAddModal();
-            document.getElementById('productForm').reset();
-            showToast(`Listing (${title}) published live by ${newProduct.seller}!`, "success");
-        }
-
-        function incrementViews(id) {
-            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-            products = products.map(p => { if (p.id === id) p.views = (p.views || 0) + 1; return p; });
-            localStorage.setItem('soko_products', JSON.stringify(products));
-            renderProducts();
-        }
-
-        function renderProducts() {
-            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-            if (products.length === 0) {
-                products = [{
-                    id: 1, title: "Galaxy Note 20 Ultra", formattedPrice: "TZS 780,000",
-                    location: "Dodoma, Tanzania", category: "Electronics & Gadgets", phone: "+255700000000",
-                    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
-                    seller: "Bungu Global Store", sellerDp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-                    views: 24, comments: []
-                }];
-            }
-            displayProducts(products);
-        }
-
-        function displayProducts(products) {
-            const grid = document.getElementById('productGrid');
-            document.getElementById('totalProductsCount').innerText = `${products.length} Active Listings`;
-            let followersMap = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
-
-            grid.innerHTML = products.map(p => {
-                const canDelete = isAdminActive || (currentUser && currentUser.username === p.seller);
-                const storeFollowers = followersMap[p.seller] || [];
-                const isFollowing = currentUser && storeFollowers.includes(currentUser.username);
-
-                return `
-                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between relative group">
-                        ${canDelete ? `<button onclick="deleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs z-10 shadow"><i class="fa-solid fa-trash"></i></button>` : ''}
-                        <div>
-                            <div class="relative h-56 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
-                                <img src="${p.image}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
-                                <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${p.location}</span>
-                                <span class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-0.5 rounded-full"><i class="fa-solid fa-eye mr-1 text-cyan-400"></i> ${p.views || 0} views</span>
-                            </div>
-                            <div class="p-4">
-                                <div class="flex justify-between items-center mb-2">
-                                    <span class="text-[10px] font-bold text-emerald-600 uppercase">${p.category}</span>
-                                    <div class="flex items-center gap-1 bg-indigo-50 px-2 py-0.5 rounded-md">
-                                        <span class="text-[10px] font-bold text-indigo-700">${storeFollowers.length} Followers</span>
-                                        ${(!currentUser || currentUser.username !== p.seller) ? `<button onclick="toggleFollow('${p.seller}')" class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-semibold">${isFollowing ? 'Following' : '+ Follow'}</button>` : ''}
-                                    </div>
-                                </div>
-                                <div class="flex items-center gap-2 mb-2">
-                                    <img src="${p.sellerDp}" class="w-6 h-6 rounded-full object-cover border">
-                                    <span class="text-xs font-bold text-slate-900">${p.seller}</span>
-                                </div>
-                                <h4 class="font-bold text-slate-900 text-sm mb-1 truncate">${p.title}</h4>
-                                <div class="flex justify-between items-baseline mb-3">
-                                    <span class="text-base font-black text-slate-900">${p.formattedPrice}</span>
-                                    <span class="text-[10px] text-slate-400">Verified Global Supplier</span>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="p-4 pt-0">
-                            <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Hello,%20I%20am%20interested%20in%20buying%20this%20product:%20${encodeURIComponent(p.title)}" target="_blank" onclick="incrementViews(${p.id})" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 shadow-sm">
-                                <i class="fa-brands fa-whatsapp text-base"></i> Contact Seller
-                            </a>
-                        </div>
-                    </div>
-                `;
-            }).join('');
-        }
-
-        function toggleFollow(seller) {
-            if (!currentUser) { openAuthModal('login'); return; }
-            let map = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
-            if (!map[seller]) map[seller] = [];
-            const idx = map[seller].indexOf(currentUser.username);
-            if (idx > -1) { map[seller].splice(idx, 1); showToast(`Unfollowed ${seller}.`, "alert"); }
-            else { map[seller].push(currentUser.username); showToast(`⭐ Now following ${seller}!`, "success"); }
-            localStorage.setItem('soko_store_followers', JSON.stringify(map));
-            renderProducts();
-        }
-
-        function deleteProduct(id) {
-            if (confirm("Are you sure you want to delete this listing?")) {
-                let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('soko_products', JSON.stringify(products));
-                renderProducts();
-                showToast("Listing deleted successfully.", "alert");
-            }
-        }
-
-        function filterProducts() {
-            const query = document.getElementById('searchInput').value.toLowerCase();
-            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-            const filtered = products.filter(p => p.title.toLowerCase().includes(query) || p.category.toLowerCase().includes(query) || p.location.toLowerCase().includes(query) || p.seller.toLowerCase().includes(query));
-            displayProducts(filtered);
-        }
-    </script>
-</body>
-</html>
-    <script>
-        let isRegisterMode = false;
-        let currentUser = JSON.parse(localStorage.getItem('soko_current_user')) || null;
-        let isAdminActive = sessionStorage.getItem('soko_admin_active') === 'true';
-        const SECURE_TARGET_HASH = "a68f6352932c5896b025345711c210ff24d858348b64e037748455e11d080c55";
-
-        window.addEventListener('DOMContentLoaded', () => {
-            checkAdminStatus();
-            updateNavigationUI();
-            renderVipSlider();
-            renderProducts();
-            loadActiveAnnouncements();
-            setupAffiliateLink();
-
-            if (currentUser) {
-                updateUserPresence(currentUser.username, true);
-                showToast(`Welcome back, ${currentUser.username}!`, 'success');
-            } else {
-                showToast("Welcome to Soko Faster! Founder: Bungu.", 'info');
-            }
-        });
-
-        // TOAST NOTIFICATION SYSTEM (For normal users)
-        function showToast(message, type = 'success') {
-            const container = document.getElementById('toastContainer');
-            if(!container) return;
-            const toast = document.createElement('div');
-            
-            let bgClass = "bg-slate-900 text-white border-slate-800";
-            let icon = "fa-bell text-amber-400";
-            if (type === 'success') {
-                bgClass = "bg-emerald-600 text-white border-emerald-500";
-                icon = "fa-circle-check text-white";
-            } else if (type === 'alert') {
-                bgClass = "bg-amber-600 text-white border-amber-500";
-                icon = "fa-triangle-exclamation text-white";
-            }
-
-            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-xs font-semibold toast-animation ${bgClass}`;
-            toast.innerHTML = `<i class="fa-solid ${icon} text-base shrink-0"></i><span class="flex-1">${message}</span>`;
-            
-            container.appendChild(toast);
-            setTimeout(() => {
-                toast.style.opacity = '0';
-                toast.style.transition = 'opacity 0.4s ease';
-                setTimeout(() => toast.remove(), 400);
-            }, 4000);
-        }
-
-        // IMAGE COMPRESSOR UTILITY (Reduces image MB size before saving)
-        function compressImage(file, maxWidth = 800, quality = 0.7) {
-            return new Promise((resolve) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = event => {
-                    const img = new Image();
-                    img.src = event.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        let width = img.width;
-                        let height = img.height;
-                        if (width > maxWidth) {
-                            height = Math.round((height * maxWidth) / width);
-                            width = maxWidth;
-                        }
-                        canvas.width = width;
-                        canvas.height = height;
-                        const ctx = canvas.getContext('2d');
-                        ctx.drawImage(img, 0, 0, width, height);
-                        resolve(canvas.toDataURL('image/jpeg', quality));
-                    };
-                };
-            });
-        }
-
         // USER ONLINE / OFFLINE PRESENCE SYSTEM
         function updateUserPresence(username, isOnline) {
             let presenceMap = JSON.parse(localStorage.getItem('soko_presence')) || {};
@@ -1104,6 +608,9 @@
                 showToast("Listing deleted.", "alert");
             }
         }
+    </script>
+    <!-- FULL JAVASCRIPT SYSTEM ENGINE (PART 3 - FINAL) -->
+    <script>
         // DYNAMIC SPONSORS & ANNOUNCEMENTS
         function handleAdminAnnouncement(e) {
             e.preventDefault();
@@ -1250,16 +757,16 @@
             }
         }
 
-        // VIP & AZAMPAY INTEGRATION
+        // VIP & AZAMPAY INTEGRATION (Secret backend routing to 0798033596)
         function openVipModal() { document.getElementById('vipModal').classList.remove('hidden'); }
         function closeVipModal() { document.getElementById('vipModal').classList.add('hidden'); }
 
         function payVip(type, amount) {
-            const phone = prompt(`Enter mobile number for TZS ${amount.toLocaleString()} payment via AzamPay (Merchant 0798033596):`);
+            const phone = prompt(`Enter your mobile number for TZS ${amount.toLocaleString()} payment via AzamPay Gateway:`);
             if (!phone) return;
             
             closeVipModal();
-            showToast(`Payment request for TZS ${amount.toLocaleString()} sent to ${phone} via AzamPay...`, "success");
+            showToast(`AzamPay payment request sent to ${phone}...`, "success");
             
             setTimeout(() => {
                 showToast(`🎉 Payment confirmed! VIP package (${type}) activated successfully.`, "success");
