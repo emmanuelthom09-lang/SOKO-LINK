@@ -31,9 +31,10 @@
         .animate-marquee:hover { animation-play-state: paused; }
     </style>
 </head>
-<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between pb-20 transition-colors duration-300">
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between transition-colors duration-300">
+
     <!-- GLOBAL TOAST NOTIFICATION CONTAINER -->
-    <div id="toastContainer" class="fixed bottom-20 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
+    <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
 
     <div>
         <!-- TOP UTILITY & FOUNDER BAR -->
@@ -50,7 +51,7 @@
             </div>
         </div>
 
-        <!-- HEADER & RESPONSIVE NAV BAR WITH SEARCH -->
+        <!-- HEADER & RESPONSIVE NAV BAR -->
         <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-sm transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
                 <div class="flex items-center gap-3 shrink-0">
@@ -61,7 +62,6 @@
                     </div>
                 </div>
 
-                <!-- SEARCH BAR (Kama ulivyoelekeza) -->
                 <div class="flex-1 max-w-2xl hidden md:flex">
                     <div class="flex w-full border-2 border-emerald-600 rounded-xl overflow-hidden shadow-sm">
                         <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search global products, verified suppliers, categories..." class="w-full px-4 py-2.5 text-xs bg-transparent dark:text-white focus:outline-none">
@@ -71,7 +71,6 @@
                     </div>
                 </div>
 
-                <!-- VIP & AFFILIATE BUTTONS SEHEMU ZAKE -->
                 <div class="flex items-center gap-2 md:gap-3 shrink-0">
                     <button onclick="toggleDarkMode()" class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-400 p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center" title="Light/Dark Mode">
                         <i id="themeIcon" class="fa-solid fa-moon text-sm"></i>
@@ -85,8 +84,12 @@
                         </button>
                     </div>
                     <div id="authNavArea" class="hidden md:flex items-center gap-2 border-l border-slate-200 dark:border-slate-800 pl-3"></div>
+                    <button onclick="toggleMobileMenu()" class="md:hidden bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white p-2.5 rounded-xl text-sm font-bold">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                 </div>
             </div>
+
             <!-- MOBILE DRAWER MENU -->
             <div id="mobileDrawer" class="fixed inset-y-0 right-0 w-72 bg-white dark:bg-slate-900 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-between p-5 border-l border-slate-200 dark:border-slate-800">
                 <div>
@@ -110,7 +113,6 @@
                 <div class="text-center text-[10px] text-slate-400 border-t pt-3 dark:border-slate-800">Soko Faster Navigation</div>
             </div>
         </header>
-
         <!-- GLOBAL SPONSORS MARQUEE -->
         <div class="bg-slate-950 text-white py-2 overflow-hidden border-b border-slate-800 text-xs font-bold">
             <div class="animate-marquee flex items-center gap-12 whitespace-nowrap">
@@ -121,6 +123,7 @@
                 <span class="flex items-center gap-2 text-orange-400"><i class="fa-solid fa-plane"></i> EMIRATES AIRLINES CARGO</span>
             </div>
         </div>
+
         <!-- HERO SECTION & MOVING VIP SLIDER -->
         <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-10 px-4 shadow-inner">
             <div class="max-w-5xl mx-auto text-center">
@@ -267,7 +270,6 @@
             </form>
         </div>
     </div>
-
     <!-- MODAL 3: MANUAL VIP SUBSCRIPTIONS -->
     <div id="vipModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-slate-900 dark:text-white">
@@ -314,6 +316,7 @@
             </form>
         </div>
     </div>
+
     <!-- MODAL 4: AFFILIATE PROGRAM DASHBOARD & REGISTRATION -->
     <div id="affiliateModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto text-slate-900 dark:text-white">
@@ -400,7 +403,6 @@
             </div>
         </div>
     </div>
-
     <!-- MODAL 5: PRODUCT DETAIL & REAL COMMENT SECTION -->
     <div id="productDetailModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto text-slate-900 dark:text-white">
@@ -410,7 +412,7 @@
     </div>
 
     <!-- FOOTER -->
-    <footer class="bg-slate-900 text-slate-400 py-8 px-4 border-t border-slate-800 text-center text-xs mt-12 mb-16">
+    <footer class="bg-slate-900 text-slate-400 py-8 px-4 border-t border-slate-800 text-center text-xs mt-12">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
             <div>
                 <p class="font-bold text-white">
@@ -425,25 +427,6 @@
             </div>
         </div>
     </footer>
-    <!-- MOBILE BOTTOM NAVIGATION BAR (Kama ulivyoelekeza) -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 z-40 h-16 flex items-center justify-around px-2 shadow-2xl md:hidden">
-        <button onclick="handleNavAction('home')" class="flex flex-col items-center justify-center text-emerald-600 dark:text-emerald-400 flex-1 py-1">
-            <i class="fa-solid fa-house text-lg"></i>
-            <span class="text-[10px] font-bold mt-1">Home</span>
-        </button>
-        <button onclick="handleNavAction('categories')" class="flex flex-col items-center justify-center text-slate-500 hover:text-emerald-600 dark:text-slate-400 flex-1 py-1">
-            <i class="fa-solid fa-table-cells text-lg"></i>
-            <span class="text-[10px] font-bold mt-1">Categories</span>
-        </button>
-        <button onclick="handleNavAction('community')" class="flex flex-col items-center justify-center text-slate-500 hover:text-emerald-600 dark:text-slate-400 flex-1 py-1">
-            <i class="fa-solid fa-users-rectangle text-lg"></i>
-            <span class="text-[10px] font-bold mt-1">Community</span>
-        </button>
-        <button onclick="handleNavAction('account')" class="flex flex-col items-center justify-center text-slate-500 hover:text-emerald-600 dark:text-slate-400 flex-1 py-1">
-            <i class="fa-solid fa-user-gear text-lg"></i>
-            <span class="text-[10px] font-bold mt-1">My Account</span>
-        </button>
-    </nav>
 
     <!-- FOUNDER ADMIN DASHBOARD -->
     <div id="adminDashboardModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -457,6 +440,14 @@
                     <button onclick="adminLogout()" class="bg-red-50 text-red-600 border border-red-200 hover:bg-red-600 hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold transition">Logout Admin</button>
                     <button onclick="closeAdminDashboard()" class="text-slate-400 hover:text-slate-600 p-2"><i class="fa-solid fa-xmark text-lg"></i></button>
                 </div>
+            </div>
+
+            <!-- INTRUSION SECURITY ALERTS LOG -->
+            <div id="adminIntrusionLogBox" class="mb-6 p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 hidden">
+                <div class="flex items-center gap-2 text-amber-800 dark:text-amber-400 font-bold text-xs mb-1">
+                    <i class="fa-solid fa-triangle-exclamation"></i> Security Notice: Unauthorized Access Attempts Detected
+                </div>
+                <p id="adminIntrusionText" class="text-xs text-amber-700 dark:text-amber-300"></p>
             </div>
 
             <!-- PENDING VIP MANUAL PAYMENTS & AFFILIATE PAYOUTS -->
@@ -499,9 +490,28 @@
                 </div>
             </div>
 
+            <!-- Dynamic Announcements Admin Form (Generate & Delete Announcements) -->
+            <div class="bg-indigo-50/50 dark:bg-slate-800/50 border border-indigo-100 dark:border-slate-700 rounded-2xl p-5 mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="font-bold text-sm"><i class="fa-solid fa-bullhorn text-indigo-600 mr-2"></i> Manage Global Announcements</h4>
+                    <button onclick="clearAnnouncement()" class="text-xs text-red-600 font-bold hover:underline">Futa Tangazo Lililopo (Delete Active)</button>
+                </div>
+                <form onsubmit="handleAdminAnnouncement(event)" class="space-y-3">
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <input type="text" id="adminAdTitle" required placeholder="Announcement Title" class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <select id="adminAdType" class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                            <option value="ANNOUNCEMENT">Global Announcement</option>
+                            <option value="SPONSOR">Sponsor Notice</option>
+                        </select>
+                    </div>
+                    <textarea id="adminAdMessage" required rows="2" placeholder="Write announcement message..." class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">Generate & Publish Announcement</button>
+                </form>
+            </div>
+
             <!-- All Members Management Table -->
             <div class="mb-8">
-                <h4 class="font-bold text-sm mb-3">All Members & Details Management</h4>
+                <h4 class="font-bold text-sm mb-3">All Members & Details Management (Add / Remove Members)</h4>
                 <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
@@ -513,6 +523,24 @@
                             </tr>
                         </thead>
                         <tbody id="adminUsersTableBody"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- All Product Listings Management Table -->
+            <div>
+                <h4 class="font-bold text-sm mb-3">All Platform Product Listings</h4>
+                <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
+                    <table class="w-full text-left border-collapse text-xs">
+                        <thead>
+                            <tr class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700">
+                                <th class="p-3">Product Title</th>
+                                <th class="p-3">Seller</th>
+                                <th class="p-3">Price</th>
+                                <th class="p-3 text-right">Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="adminProductsTableBody"></tbody>
                     </table>
                 </div>
             </div>
@@ -538,41 +566,18 @@
             }
         });
 
-        // Bottom Navigation Bar Action Handler (Home, Categories, Community, My Account)
-        function handleNavAction(action) {
-            if (action === 'home') {
-                window.scrollTo({ top: 0, behavior: 'smooth' });
-                showToast("Navigated to Home", "info");
-            } else if (action === 'categories') {
-                const searchInput = document.getElementById('searchInput');
-                if(searchInput) {
-                    searchInput.focus();
-                    showToast("Select or search a Category", "info");
-                }
-            } else if (action === 'community') {
-                showToast("Community: Viewers & Followers Hub", "success");
-            } else if (action === 'account') {
-                if (currentUser) {
-                    showToast(`Akaunti Yako: ${currentUser.username}`, "success");
-                    openAffiliateModal();
-                } else {
-                    openAuthModal('login');
-                }
-            }
-        }
-
         function toggleDarkMode() {
             const html = document.documentElement;
             const icon = document.getElementById('themeIcon');
             if (html.classList.contains('dark')) {
                 html.classList.remove('dark');
                 localStorage.setItem('soko_theme', 'light');
-                if(icon) icon.className = "fa-solid fa-moon text-sm";
+                icon.className = "fa-solid fa-moon text-sm";
                 showToast("Light Mode activated.", "info");
             } else {
                 html.classList.add('dark');
                 localStorage.setItem('soko_theme', 'dark');
-                if(icon) icon.className = "fa-solid fa-sun text-sm text-amber-400";
+                icon.className = "fa-solid fa-sun text-sm text-amber-400";
                 showToast("Dark Mode activated.", "info");
             }
         }
@@ -588,7 +593,7 @@
 
         function toggleMobileMenu() {
             const drawer = document.getElementById('mobileDrawer');
-            if(drawer) drawer.classList.toggle('translate-x-full');
+            drawer.classList.toggle('translate-x-full');
         }
 
         function showToast(message, type = 'success') {
@@ -660,7 +665,10 @@
                 showToast("Admin Panel unlocked securely by Bungu!", "success");
                 openAdminDashboard();
             } else {
-                showToast("Security alert: Unauthorized access attempt.", "alert");
+                let attempts = JSON.parse(localStorage.getItem('soko_intrusion_logs')) || [];
+                attempts.push({ time: new Date().toLocaleString(), user: currentUser ? currentUser.username : "Anonymous Visitor" });
+                localStorage.setItem('soko_intrusion_logs', JSON.stringify(attempts));
+                showToast("Security alert: Unauthorized access attempt logged.", "alert");
             }
         }
 
@@ -684,14 +692,25 @@
             let users = JSON.parse(localStorage.getItem('soko_users')) || [];
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
             let vipMap = JSON.parse(localStorage.getItem('soko_vip_users')) || {};
+            let intrusionLogs = JSON.parse(localStorage.getItem('soko_intrusion_logs')) || [];
             let pendingVips = JSON.parse(localStorage.getItem('soko_pending_vip')) || [];
+
+            const logBox = document.getElementById('adminIntrusionLogBox');
+            const logText = document.getElementById('adminIntrusionText');
+            if (intrusionLogs.length > 0) {
+                logBox.classList.remove('hidden');
+                const lastLog = intrusionLogs[intrusionLogs.length - 1];
+                logText.innerText = `Last unauthorized access at ${lastLog.time} by: ${lastLog.user}. Total attempts: ${intrusionLogs.length}.`;
+            } else {
+                logBox.classList.add('hidden');
+            }
 
             const pendingTableBody = document.getElementById('adminPendingVipTableBody');
             if (pendingVips.length === 0) {
-                pendingTableBody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic">No pending VIP manual payments.</td></tr>`;
+                pendingTableBody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic">No pending VIP manual payments or affiliate commissions.</td></tr>`;
             } else {
                 pendingTableBody.innerHTML = pendingVips.map((req, idx) => `
-                    <tr class="border-b border-amber-100 dark:border-slate-800">
+                    <tr class="border-b border-amber-100 dark:border-slate-800 hover:bg-amber-50/50">
                         <td class="p-2.5 font-bold">${req.username}</td>
                         <td class="p-2.5 uppercase font-semibold text-amber-600">${req.type}</td>
                         <td class="p-2.5 font-mono">${req.transId}</td>
@@ -712,16 +731,30 @@
             userTableBody.innerHTML = users.length === 0 ? `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">No members found.</td></tr>` : users.map(u => {
                 const isVip = vipMap[u.username] && vipMap[u.username].expiry > Date.now();
                 return `
-                    <tr class="border-b border-slate-100 dark:border-slate-800">
-                        <td class="p-3 font-bold">${u.username}</td>
+                    <tr class="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                        <td class="p-3 flex items-center gap-2">
+                            <img src="${u.dp}" class="w-7 h-7 rounded-full object-cover border">
+                            <span class="font-bold">${u.username}</span>
+                        </td>
                         <td class="p-3 text-slate-600 dark:text-slate-400">${u.email}</td>
                         <td class="p-3"><span class="px-2 py-0.5 rounded font-bold text-[10px] ${isVip ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'}">${isVip ? 'VIP ACTIVE' : 'STANDARD'}</span></td>
-                        <td class="p-3 text-right">
+                        <td class="p-3 text-right space-x-1">
                             <button onclick="adminToggleVip('${u.username}')" class="bg-amber-50 dark:bg-slate-800 text-amber-700 hover:bg-amber-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-amber-200">${isVip ? 'Revoke VIP' : 'Make VIP'}</button>
+                            <button onclick="banUser('${u.email}')" class="bg-red-50 dark:bg-slate-800 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">Remove Member</button>
                         </td>
                     </tr>
                 `;
             }).join('');
+
+            const prodTableBody = document.getElementById('adminProductsTableBody');
+            prodTableBody.innerHTML = products.length === 0 ? `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">No listings found.</td></tr>` : products.map(p => `
+                <tr class="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                    <td class="p-3 font-bold truncate max-w-[200px]">${p.title}</td>
+                    <td class="p-3 text-slate-600 dark:text-slate-400">${p.seller}</td>
+                    <td class="p-3 text-emerald-600 font-bold">${p.formattedPrice}</td>
+                    <td class="p-3 text-right"><button onclick="adminDeleteProduct(${p.id})" class="bg-red-50 dark:bg-slate-800 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">Delete</button></td>
+                </tr>
+            `).join('');
         }
 
         function approveVip(index) {
@@ -734,6 +767,7 @@
             vipMap[req.username] = { type: req.type, expiry: Date.now() + duration };
             localStorage.setItem('soko_vip_users', JSON.stringify(vipMap));
 
+            // 20% Affiliate commission calculation & crediting
             const amountPaid = req.type === 'weekly' ? 3000 : 10000;
             const commission = amountPaid * 0.20;
             let generalAff = JSON.parse(localStorage.getItem('soko_aff_stats')) || {};
@@ -772,30 +806,72 @@
             renderProducts();
         }
 
+        function banUser(email) {
+            if (confirm("Remove member account?")) {
+                let users = JSON.parse(localStorage.getItem('soko_users')) || [];
+                users = users.filter(u => u.email !== email);
+                localStorage.setItem('soko_users', JSON.stringify(users));
+                renderAdminDashboardData();
+                showToast("Member removed.", "alert");
+            }
+        }
+
+        function adminDeleteProduct(id) {
+            if (confirm("Delete listing?")) {
+                let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('soko_products', JSON.stringify(products));
+                renderAdminDashboardData();
+                renderVipSlider();
+                renderProducts();
+                showToast("Listing deleted.", "alert");
+            }
+        }
+
+        function handleAdminAnnouncement(e) {
+            e.preventDefault();
+            const title = document.getElementById('adminAdTitle').value;
+            const message = document.getElementById('adminAdMessage').value;
+            const type = document.getElementById('adminAdType').value;
+            localStorage.setItem('soko_active_announcement', JSON.stringify({ id: Date.now(), title, message, type, date: new Date().toLocaleDateString() }));
+            closeAdminDashboard();
+            loadActiveAnnouncements();
+            showToast("Global announcement published!", "success");
+        }
+
+        function clearAnnouncement() {
+            if(confirm("Unataka kufuta tangazo hili la sasa?")) {
+                localStorage.removeItem('soko_active_announcement');
+                loadActiveAnnouncements();
+                showToast("Tangazo limefutwa kikamilifu.", "alert");
+            }
+        }
+
+        function loadActiveAnnouncements() {
+            const ad = JSON.parse(localStorage.getItem('soko_active_announcement'));
+            const banner = document.getElementById('announcementBannerArea');
+            if (ad) {
+                banner.classList.remove('hidden');
+                document.getElementById('announcementBadge').innerText = ad.type === 'SPONSOR' ? 'Sponsor Notice' : 'Global Announcement';
+                document.getElementById('announcementTitle').innerText = ad.title;
+                document.getElementById('announcementMessage').innerText = ad.message;
+                document.getElementById('announcementDate').innerText = ad.date;
+            } else { banner.classList.add('hidden'); }
+        }
+    </script>
+    <script>
         function openAuthModal(mode) {
             isRegisterMode = (mode === 'register');
             updateAuthModalUI();
             document.getElementById('authModal').classList.remove('hidden');
         }
-
-        function closeAuthModal() {
-            document.getElementById('authModal').classList.add('hidden');
-        }
-
-        function toggleAuthMode() {
-            isRegisterMode = !isRegisterMode;
-            updateAuthModalUI();
-        }
+        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+        function toggleAuthMode() { isRegisterMode = !isRegisterMode; updateAuthModalUI(); }
 
         function togglePasswordVisibility(fieldId, btn) {
             const input = document.getElementById(fieldId);
-            if (input.type === 'password') {
-                input.type = 'text';
-                btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
-            } else {
-                input.type = 'password';
-                btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
-            }
+            if (input.type === 'password') { input.type = 'text'; btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>'; }
+            else { input.type = 'password'; btn.innerHTML = '<i class="fa-solid fa-eye"></i>'; }
         }
 
         function updateAuthModalUI() {
@@ -808,7 +884,7 @@
 
             if (isRegisterMode) {
                 title.innerText = "Create Store Account";
-                subtitle.innerText = "Register your store username & credentials.";
+                subtitle.innerText = "Register your store username & credentials with email activation.";
                 btn.innerText = "Register & Send Activation";
                 usernameContainer.classList.remove('hidden');
                 confirmPassContainer.classList.remove('hidden');
@@ -834,19 +910,11 @@
                 const confirmPass = document.getElementById('authConfirmPass').value;
                 const dpFile = document.getElementById('authDpFile').files[0];
 
-                if (pass !== confirmPass) {
-                    showToast("Passwords do not match!", "alert");
-                    return;
-                }
-                if (users.some(u => u.email === email)) {
-                    showToast("Account already exists with this email!", "alert");
-                    return;
-                }
+                if (pass !== confirmPass) { showToast("Passwords do not match!", "alert"); return; }
+                if (users.some(u => u.email === email)) { showToast("Account already exists with this email!", "alert"); return; }
 
                 let dpImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80";
-                if (dpFile) {
-                    dpImage = await compressImage(dpFile, 300, 0.6);
-                }
+                if (dpFile) { dpImage = await compressImage(dpFile, 300, 0.6); }
 
                 currentUser = { username, email, pass, dp: dpImage, verified: true };
                 users.push(currentUser);
@@ -867,9 +935,7 @@
         }
 
         function handleLogout() {
-            if (currentUser) {
-                updateUserPresence(currentUser.username, false);
-            }
+            if (currentUser) updateUserPresence(currentUser.username, false);
             currentUser = null;
             localStorage.removeItem('soko_current_user');
             updateNavigationUI();
@@ -885,7 +951,7 @@
                     <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-xl text-xs font-bold">
                         <img src="${currentUser.dp}" class="w-5 h-5 rounded-full object-cover">
                         <span class="mx-1">${currentUser.username}</span>
-                        <span class="w-2 h-2 bg-emerald-500 rounded-full"></span>
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full" title="Active"></span>
                     </div>
                     <button onclick="handleLogout()" class="text-xs text-red-600 font-bold hover:underline ml-1">Logout</button>
                 `;
@@ -900,13 +966,9 @@
                 if(mobileArea) mobileArea.innerHTML = `<div class="flex gap-2 w-full">${htmlContent}</div>`;
             }
         }
-        function openVipModal() {
-            document.getElementById('vipModal').classList.remove('hidden');
-        }
 
-        function closeVipModal() {
-            document.getElementById('vipModal').classList.add('hidden');
-        }
+        function openVipModal() { document.getElementById('vipModal').classList.remove('hidden'); }
+        function closeVipModal() { document.getElementById('vipModal').classList.add('hidden'); }
 
         function submitManualVip(e) {
             e.preventDefault();
@@ -944,10 +1006,7 @@
             let vipMap = JSON.parse(localStorage.getItem('soko_vip_users')) || {};
             const vipProducts = products.filter(p => vipMap[p.seller] && vipMap[p.seller].expiry > Date.now());
 
-            if (vipProducts.length === 0) {
-                sliderContainer.classList.add('hidden');
-                return;
-            }
+            if (vipProducts.length === 0) { sliderContainer.classList.add('hidden'); return; }
 
             sliderContainer.classList.remove('hidden');
             sliderWrapper.innerHTML = vipProducts.map(p => `
@@ -957,7 +1016,6 @@
                         <span class="bg-amber-500 text-slate-950 font-black text-[9px] px-2 py-0.5 rounded uppercase"><i class="fa-solid fa-crown mr-1"></i> VIP Featured</span>
                         <h4 class="font-bold text-xs truncate mt-1">${p.title}</h4>
                         <p class="text-amber-400 font-black text-sm">${p.formattedPrice}</p>
-                        <p class="text-[10px] text-slate-400 mt-0.5"><i class="fa-solid fa-location-dot text-amber-500"></i> ${p.location}</p>
                         <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Hello,%20VIP%20listing:%20${encodeURIComponent(p.title)}" target="_blank" class="mt-2 inline-block bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold px-3 py-1 rounded-lg transition">
                             <i class="fa-brands fa-whatsapp mr-1"></i> Buy Now
                         </a>
@@ -982,7 +1040,7 @@
                 document.getElementById('affRefsCount').innerText = affData.referrals || 3;
                 document.getElementById('affEarnings').innerText = `TZS ${myEarnings.toLocaleString()}`;
                 document.getElementById('myReferralLink').value = affData.link;
-                document.getElementById('affSavedDetails').innerHTML = `Jina: <b>${affData.name}</b> | Simu: <b>${affData.phone} (${affData.network})</b>`;
+                document.getElementById('affSavedDetails').innerHTML = `Jina: <b>${affData.name}</b> | Simu: <b>${affData.phone} (${affData.network})</b> ${affData.bank ? '| Benki: <b>' + affData.bank + '</b>' : ''}`;
             } else {
                 dashView.classList.add('hidden');
                 regView.classList.remove('hidden');
@@ -994,9 +1052,7 @@
             document.getElementById('affiliateModal').classList.remove('hidden');
         }
 
-        function closeAffiliateModal() {
-            document.getElementById('affiliateModal').classList.add('hidden');
-        }
+        function closeAffiliateModal() { document.getElementById('affiliateModal').classList.add('hidden'); }
 
         function handleAffiliateRegistration(e) {
             e.preventDefault();
@@ -1009,7 +1065,10 @@
             const code = name.toLowerCase().replace(/[^a-z0-9]/g, '') + Math.floor(100 + Math.random() * 900);
             const referralLink = `https://sokofaster.netlify.app/?ref=${code}`;
 
-            const affData = { name, email, network, phone, bank, link: referralLink, clicks: 0, referrals: 0 };
+            const affData = {
+                name, email, network, phone, bank, link: referralLink, clicks: 0, referrals: 0
+            };
+
             const key = currentUser ? `soko_aff_${currentUser.email}` : `soko_aff_${email}`;
             localStorage.setItem(key, JSON.stringify(affData));
 
@@ -1018,7 +1077,7 @@
         }
 
         function logoutAffiliate() {
-            if (confirm("Unataka kubadilisha taarifa za affiliate?")) {
+            if (confirm("Unataka kubadilisha taarifa zako za affiliate?")) {
                 if (currentUser) localStorage.removeItem(`soko_aff_${currentUser.email}`);
                 openAffiliateModal();
             }
@@ -1032,17 +1091,10 @@
         }
 
         function openAddModal() {
-            if (!currentUser) {
-                showToast("Sign in first!", "alert");
-                openAuthModal('login');
-                return;
-            }
+            if (!currentUser) { showToast("Sign in first!", "alert"); openAuthModal('login'); return; }
             document.getElementById('addProductModal').classList.remove('hidden');
         }
-
-        function closeAddModal() {
-            document.getElementById('addProductModal').classList.add('hidden');
-        }
+        function closeAddModal() { document.getElementById('addProductModal').classList.add('hidden'); }
 
         async function handleProductSubmit(e) {
             e.preventDefault();
@@ -1055,18 +1107,12 @@
             const fileInput = document.getElementById('pImageFile').files[0];
 
             let image = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80";
-            if (fileInput) {
-                image = await compressImage(fileInput, 800, 0.7);
-            }
+            if (fileInput) { image = await compressImage(fileInput, 800, 0.7); }
 
             const newProduct = {
                 id: Date.now(),
-                title,
-                formattedPrice: currency === 'TZS' ? `TZS ${Number(price).toLocaleString()}` : `$${Number(price).toFixed(2)}`,
-                location,
-                category,
-                phone,
-                image,
+                title, formattedPrice: currency === 'TZS' ? `TZS ${Number(price).toLocaleString()}` : `$${Number(price).toFixed(2)}`,
+                location, category, phone, image,
                 seller: currentUser ? currentUser.username : "Bungu Store",
                 sellerDp: currentUser ? currentUser.dp : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
                 views: 0,
@@ -1086,10 +1132,7 @@
 
         function incrementViews(id) {
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-            products = products.map(p => {
-                if (p.id === id) p.views = (p.views || 0) + 1;
-                return p;
-            });
+            products = products.map(p => { if (p.id === id) p.views = (p.views || 0) + 1; return p; });
             localStorage.setItem('soko_products', JSON.stringify(products));
             renderProducts();
         }
@@ -1119,7 +1162,10 @@
                         <h3 class="font-black text-xl mt-1">${p.title}</h3>
                         <p class="text-xl font-black my-2">${p.formattedPrice}</p>
                         <p class="text-xs text-slate-500 dark:text-slate-400 mb-4"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> ${p.location}</p>
-                        <p class="text-xs text-slate-600 dark:text-slate-300 mb-4 font-mono"><i class="fa-solid fa-phone text-emerald-500 mr-1"></i> ${p.phone}</p>
+                        <div class="flex items-center gap-2 mb-4 bg-slate-50 dark:bg-slate-800 p-2.5 rounded-xl border dark:border-slate-700">
+                            <img src="${p.sellerDp}" class="w-8 h-8 rounded-full object-cover">
+                            <div><span class="font-bold text-xs block">${p.seller}</span><span class="text-[10px] text-emerald-600">Verified Seller</span></div>
+                        </div>
                         <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Hello,%20I%20am%20interested%20in%20${encodeURIComponent(p.title)}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 shadow-sm mb-4">
                             <i class="fa-brands fa-whatsapp text-base"></i> Contact via WhatsApp
                         </a>
@@ -1137,17 +1183,11 @@
             document.getElementById('productDetailModal').classList.remove('hidden');
         }
 
-        function closeProductDetailModal() {
-            document.getElementById('productDetailModal').classList.add('hidden');
-        }
+        function closeProductDetailModal() { document.getElementById('productDetailModal').classList.add('hidden'); }
 
         function handleCommentSubmit(e, productId) {
             e.preventDefault();
-            if (!currentUser) {
-                showToast("Sign in to comment!", "alert");
-                openAuthModal('login');
-                return;
-            }
+            if (!currentUser) { showToast("Sign in to comment!", "alert"); openAuthModal('login'); return; }
             const text = document.getElementById('commentInput').value;
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
             
@@ -1167,17 +1207,11 @@
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
             if (products.length === 0) {
                 products = [{
-                    id: 1,
-                    title: "Galaxy Note 20 Ultra",
-                    formattedPrice: "TZS 780,000",
-                    location: "Dodoma, Tanzania",
-                    category: "Electronics & Gadgets",
-                    phone: "+255700000000",
+                    id: 1, title: "Galaxy Note 20 Ultra", formattedPrice: "TZS 780,000",
+                    location: "Dodoma, Tanzania", category: "Electronics & Gadgets", phone: "+255700000000",
                     image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
-                    seller: "Bungu Store",
-                    sellerDp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
-                    views: 0,
-                    comments: []
+                    seller: "Bungu Store", sellerDp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+                    views: 0, comments: []
                 }];
             }
             displayProducts(products);
@@ -1186,10 +1220,13 @@
         function displayProducts(products) {
             const grid = document.getElementById('productGrid');
             document.getElementById('totalProductsCount').innerText = `${products.length} Active Listings`;
+            let followersMap = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
             let presenceMap = JSON.parse(localStorage.getItem('soko_presence')) || {};
 
             grid.innerHTML = products.map(p => {
                 const canDelete = isAdminActive || (currentUser && currentUser.username === p.seller);
+                const storeFollowers = followersMap[p.seller] || [];
+                const isFollowing = currentUser && storeFollowers.includes(currentUser.username);
                 const isSellerOnline = presenceMap[p.seller] && presenceMap[p.seller].online;
 
                 return `
@@ -1199,18 +1236,30 @@
                             <div class="relative h-56 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
                                 <img src="${p.image}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
                                 <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${p.location}</span>
-                                <span class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-0.5 rounded-full"><i class="fa-solid fa-eye mr-1 text-cyan-400"></i> ${p.views || 0} views</span>
+                                <span class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-0.5 rounded-full"><i class="fa-solid fa-eye mr-1 text-cyan-400"></i> ${p.views || 0} real views</span>
                             </div>
                             <div class="p-4">
-                                <span class="text-[10px] font-bold text-emerald-600 uppercase mb-1 block">${p.category}</span>
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-[10px] font-bold text-emerald-600 uppercase">${p.category}</span>
+                                    <div class="flex items-center gap-1 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded-md">
+                                        <span class="text-[10px] font-bold text-indigo-700 dark:text-indigo-300">${storeFollowers.length} Followers</span>
+                                        ${(!currentUser || currentUser.username !== p.seller) ? `<button onclick="event.stopPropagation(); toggleFollow('${p.seller}')" class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-semibold">${isFollowing ? 'Following' : '+ Follow'}</button>` : ''}
+                                    </div>
+                                </div>
                                 <div class="flex items-center justify-between mb-2">
-                                    <span class="text-xs font-bold text-slate-700 dark:text-slate-300">${p.seller}</span>
+                                    <div class="flex items-center gap-2">
+                                        <div class="relative">
+                                            <img src="${p.sellerDp}" class="w-6 h-6 rounded-full object-cover border">
+                                            <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full ${isSellerOnline ? 'bg-emerald-500' : 'bg-slate-400'} ring-1 ring-white"></span>
+                                        </div>
+                                        <span class="text-xs font-bold">${p.seller}</span>
+                                    </div>
                                     <span class="text-[10px] font-bold ${isSellerOnline ? 'text-emerald-600' : 'text-slate-400'}">${isSellerOnline ? '● Online' : '○ Offline'}</span>
                                 </div>
-                                <h4 class="font-bold text-sm mb-2 truncate">${p.title}</h4>
+                                <h4 class="font-bold text-sm mb-1 truncate">${p.title}</h4>
                                 <div class="flex justify-between items-baseline mb-3">
                                     <span class="text-base font-black">${p.formattedPrice}</span>
-                                    <span class="text-[10px] text-slate-400 font-mono"><i class="fa-solid fa-phone text-emerald-500"></i> ${p.phone}</span>
+                                    <span class="text-[10px] text-slate-400">${(p.comments || []).length} Comments</span>
                                 </div>
                             </div>
                         </div>
@@ -1224,15 +1273,15 @@
             }).join('');
         }
 
-        function adminDeleteProduct(id) {
-            if (confirm("Delete listing?")) {
-                let products = JSON.parse(localStorage.getItem('soko_products')) || [];
-                products = products.filter(p => p.id !== id);
-                localStorage.setItem('soko_products', JSON.stringify(products));
-                renderVipSlider();
-                renderProducts();
-                showToast("Listing deleted.", "alert");
-            }
+        function toggleFollow(seller) {
+            if (!currentUser) { openAuthModal('login'); return; }
+            let map = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
+            if (!map[seller]) map[seller] = [];
+            const idx = map[seller].indexOf(currentUser.username);
+            if (idx > -1) { map[seller].splice(idx, 1); showToast(`Unfollowed ${seller}.`, "alert"); }
+            else { map[seller].push(currentUser.username); showToast(`⭐ Now following ${seller}!`, "success"); }
+            localStorage.setItem('soko_store_followers', JSON.stringify(map));
+            renderProducts();
         }
 
         function filterProducts() {
