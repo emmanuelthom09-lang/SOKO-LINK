@@ -854,3 +854,625 @@
     </script>
 </body>
 </html>
+    <script>
+        let isRegisterMode = false;
+        let currentUser = JSON.parse(localStorage.getItem('soko_current_user')) || null;
+        let isAdminActive = sessionStorage.getItem('soko_admin_active') === 'true';
+        const SECURE_TARGET_HASH = "a68f6352932c5896b025345711c210ff24d858348b64e037748455e11d080c55";
+
+        window.addEventListener('DOMContentLoaded', () => {
+            checkAdminStatus();
+            updateNavigationUI();
+            renderVipSlider();
+            renderProducts();
+            loadActiveAnnouncements();
+            setupAffiliateLink();
+
+            if (currentUser) {
+                updateUserPresence(currentUser.username, true);
+                showToast(`Welcome back, ${currentUser.username}!`, 'success');
+            } else {
+                showToast("Welcome to Soko Faster! Founder: Bungu.", 'info');
+            }
+        });
+
+        // TOAST NOTIFICATION SYSTEM (For normal users)
+        function showToast(message, type = 'success') {
+            const container = document.getElementById('toastContainer');
+            if(!container) return;
+            const toast = document.createElement('div');
+            
+            let bgClass = "bg-slate-900 text-white border-slate-800";
+            let icon = "fa-bell text-amber-400";
+            if (type === 'success') {
+                bgClass = "bg-emerald-600 text-white border-emerald-500";
+                icon = "fa-circle-check text-white";
+            } else if (type === 'alert') {
+                bgClass = "bg-amber-600 text-white border-amber-500";
+                icon = "fa-triangle-exclamation text-white";
+            }
+
+            toast.className = `pointer-events-auto flex items-center gap-3 px-4 py-3 rounded-xl shadow-2xl border text-xs font-semibold toast-animation ${bgClass}`;
+            toast.innerHTML = `<i class="fa-solid ${icon} text-base shrink-0"></i><span class="flex-1">${message}</span>`;
+            
+            container.appendChild(toast);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                toast.style.transition = 'opacity 0.4s ease';
+                setTimeout(() => toast.remove(), 400);
+            }, 4000);
+        }
+
+        // IMAGE COMPRESSOR UTILITY (Reduces image MB size before saving)
+        function compressImage(file, maxWidth = 800, quality = 0.7) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = event => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        let width = img.width;
+                        let height = img.height;
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        resolve(canvas.toDataURL('image/jpeg', quality));
+                    };
+                };
+            });
+        }
+
+        // USER ONLINE / OFFLINE PRESENCE SYSTEM
+        function updateUserPresence(username, isOnline) {
+            let presenceMap = JSON.parse(localStorage.getItem('soko_presence')) || {};
+            presenceMap[username] = { online: isOnline, lastSeen: Date.now() };
+            localStorage.setItem('soko_presence', JSON.stringify(presenceMap));
+        }
+
+        // SECRET WORD ADMIN TRIGGER & INTRUSION LOGGING
+        function simpleSha256(str) {
+            let hash = 0;
+            for (let i = 0; i < str.length; i++) {
+                const char = str.charCodeAt(i);
+                hash = (hash << 5) - hash + char;
+                hash |= 0;
+            }
+            return Math.abs(hash).toString(16) + "bunga2026x";
+        }
+
+        function verifyAdminAccessFromSecretWord() {
+            if (isAdminActive) {
+                openAdminDashboard();
+                return;
+            }
+            const pass = prompt("Enter Founder Security Passphrase:");
+            if (pass && (pass === "BunguAdmin2026" || simpleSha256(pass) === SECURE_TARGET_HASH)) {
+                isAdminActive = true;
+                sessionStorage.setItem('soko_admin_active', 'true');
+                showToast("Admin Panel unlocked secretly by Bungu!", "success");
+                openAdminDashboard();
+            } else {
+                let attempts = JSON.parse(localStorage.getItem('soko_intrusion_logs')) || [];
+                const logEntry = { time: new Date().toLocaleString(), user: currentUser ? currentUser.username : "Anonymous Visitor" };
+                attempts.push(logEntry);
+                localStorage.setItem('soko_intrusion_logs', JSON.stringify(attempts));
+                
+                showToast("Action restricted.", "alert");
+            }
+        }
+
+        function checkAdminStatus() {
+            // Background check silently
+        }
+
+        function openAdminDashboard() {
+            if (!isAdminActive) { verifyAdminAccessFromSecretWord(); return; }
+            renderAdminDashboardData();
+            document.getElementById('adminDashboardModal').classList.remove('hidden');
+        }
+
+        function closeAdminDashboard() { document.getElementById('adminDashboardModal').classList.add('hidden'); }
+
+        function adminLogout() {
+            isAdminActive = false;
+            sessionStorage.removeItem('soko_admin_active');
+            closeAdminDashboard();
+            showToast("Admin session closed.", "alert");
+        }
+
+        function renderAdminDashboardData() {
+            let users = JSON.parse(localStorage.getItem('soko_users')) || [];
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            let vipMap = JSON.parse(localStorage.getItem('soko_vip_users')) || {};
+            let intrusionLogs = JSON.parse(localStorage.getItem('soko_intrusion_logs')) || [];
+
+            const logBox = document.getElementById('adminIntrusionLogBox');
+            const logText = document.getElementById('adminIntrusionText');
+            if (intrusionLogs.length > 0) {
+                logBox.classList.remove('hidden');
+                const lastLog = intrusionLogs[intrusionLogs.length - 1];
+                logText.innerText = `Last unauthorized access attempt recorded at ${lastLog.time} by: ${lastLog.user}. Total attempts: ${intrusionLogs.length}.`;
+            } else {
+                logBox.classList.add('hidden');
+            }
+
+            document.getElementById('adminStatUsers').innerText = users.length;
+            document.getElementById('adminStatProducts').innerText = products.length;
+
+            const activeVipsCount = Object.keys(vipMap).filter(k => vipMap[k].expiry > Date.now()).length;
+            document.getElementById('adminStatVips').innerText = activeVipsCount;
+
+            const userTableBody = document.getElementById('adminUsersTableBody');
+            if (users.length === 0) {
+                userTableBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">No users found.</td></tr>`;
+            } else {
+                let presenceMap = JSON.parse(localStorage.getItem('soko_presence')) || {};
+                userTableBody.innerHTML = users.map(u => {
+                    const isVip = vipMap[u.username] && vipMap[u.username].expiry > Date.now();
+                    const isOnline = presenceMap[u.username] && presenceMap[u.username].online;
+                    return `
+                        <tr class="border-b border-slate-100 hover:bg-slate-50">
+                            <td class="p-3 flex items-center gap-2">
+                                <div class="relative">
+                                    <img src="${u.dp || 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80'}" class="w-7 h-7 rounded-full object-cover border">
+                                    <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full ${isOnline ? 'bg-emerald-500' : 'bg-slate-400'} ring-1 ring-white"></span>
+                                </div>
+                                <div>
+                                    <span class="font-bold text-slate-900 block">${u.username}</span>
+                                    <span class="text-[9px] text-slate-500">${isOnline ? 'Online' : 'Offline'}</span>
+                                </div>
+                            </td>
+                            <td class="p-3 text-slate-600">${u.email}</td>
+                            <td class="p-3">
+                                <span class="px-2 py-0.5 rounded font-bold text-[10px] ${isVip ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'}">
+                                    ${isVip ? 'VIP ACTIVE (' + vipMap[u.username].type.toUpperCase() + ')' : 'STANDARD'}
+                                </span>
+                            </td>
+                            <td class="p-3 text-right space-x-1">
+                                <button onclick="adminToggleVip('${u.username}')" class="bg-amber-50 text-amber-700 hover:bg-amber-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-amber-200">
+                                    ${isVip ? 'Revoke VIP' : 'Make VIP'}
+                                </button>
+                                <button onclick="banUser('${u.email}')" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">
+                                    Remove
+                                </button>
+                            </td>
+                        </tr>
+                    `;
+                }).join('');
+            }
+
+            const prodTableBody = document.getElementById('adminProductsTableBody');
+            if (products.length === 0) {
+                prodTableBody.innerHTML = `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">No listings found.</td></tr>`;
+            } else {
+                prodTableBody.innerHTML = products.map(p => `
+                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                        <td class="p-3 font-bold text-slate-900 truncate max-w-[200px]">${p.title}</td>
+                        <td class="p-3 text-slate-600">${p.seller}</td>
+                        <td class="p-3 text-emerald-600 font-bold">${p.formattedPrice}</td>
+                        <td class="p-3 text-right">
+                            <button onclick="adminDeleteProduct(${p.id})" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">
+                                Delete Listing
+                            </button>
+                        </td>
+                    </tr>
+                `).join('');
+            }
+        }
+
+        function adminToggleVip(username) {
+            let vipMap = JSON.parse(localStorage.getItem('soko_vip_users')) || {};
+            const isVip = vipMap[username] && vipMap[username].expiry > Date.now();
+            if (isVip) {
+                delete vipMap[username];
+                showToast(`VIP status revoked for ${username}.`, "alert");
+            } else {
+                vipMap[username] = { type: 'monthly', expiry: Date.now() + 30*86400000 };
+                showToast(`⭐ VIP status successfully granted to ${username}!`, "success");
+            }
+            localStorage.setItem('soko_vip_users', JSON.stringify(vipMap));
+            renderAdminDashboardData();
+            renderVipSlider();
+            renderProducts();
+        }
+
+        function banUser(email) {
+            if (confirm("Are you sure you want to remove this user?")) {
+                let users = JSON.parse(localStorage.getItem('soko_users')) || [];
+                users = users.filter(u => u.email !== email);
+                localStorage.setItem('soko_users', JSON.stringify(users));
+                renderAdminDashboardData();
+                showToast("User removed.", "alert");
+            }
+        }
+
+        function adminDeleteProduct(id) {
+            if (confirm("Founder: Delete this listing?")) {
+                let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+                products = products.filter(p => p.id !== id);
+                localStorage.setItem('soko_products', JSON.stringify(products));
+                renderAdminDashboardData();
+                renderVipSlider();
+                renderProducts();
+                showToast("Listing deleted.", "alert");
+            }
+        }
+        // DYNAMIC SPONSORS & ANNOUNCEMENTS
+        function handleAdminAnnouncement(e) {
+            e.preventDefault();
+            const title = document.getElementById('adminAdTitle').value;
+            const message = document.getElementById('adminAdMessage').value;
+            const type = document.getElementById('adminAdType').value;
+            const adData = { id: Date.now(), title, message, type, date: new Date().toLocaleDateString() };
+            localStorage.setItem('soko_active_announcement', JSON.stringify(adData));
+            document.getElementById('adminAdTitle').value = '';
+            document.getElementById('adminAdMessage').value = '';
+            closeAdminDashboard();
+            loadActiveAnnouncements();
+            showToast("Dynamic banner published successfully!", "success");
+        }
+
+        function loadActiveAnnouncements() {
+            const ad = JSON.parse(localStorage.getItem('soko_active_announcement'));
+            const banner = document.getElementById('announcementBannerArea');
+            if (ad) {
+                banner.classList.remove('hidden');
+                document.getElementById('announcementBadge').innerText = ad.type === 'SPONSOR' ? 'Sponsor Banner' : 'Announcement';
+                document.getElementById('announcementTitle').innerText = ad.title;
+                document.getElementById('announcementMessage').innerText = ad.message;
+                document.getElementById('announcementDate').innerText = ad.date;
+            } else {
+                banner.classList.add('hidden');
+            }
+        }
+
+        // AUTHENTICATION & OPTIONAL DP
+        function openAuthModal(mode) {
+            isRegisterMode = (mode === 'register');
+            updateAuthModalUI();
+            document.getElementById('authModal').classList.remove('hidden');
+        }
+        function closeAuthModal() { document.getElementById('authModal').classList.add('hidden'); }
+        function toggleAuthMode() { isRegisterMode = !isRegisterMode; updateAuthModalUI(); }
+
+        function togglePasswordVisibility(fieldId, btn) {
+            const input = document.getElementById(fieldId);
+            if (input.type === 'password') {
+                input.type = 'text';
+                btn.innerHTML = '<i class="fa-solid fa-eye-slash"></i>';
+            } else {
+                input.type = 'password';
+                btn.innerHTML = '<i class="fa-solid fa-eye"></i>';
+            }
+        }
+
+        function updateAuthModalUI() {
+            const title = document.getElementById('authTitle');
+            const subtitle = document.getElementById('authSubtitle');
+            const btn = document.getElementById('authSubmitBtn');
+            const usernameContainer = document.getElementById('businessUsernameContainer');
+            const confirmPassContainer = document.getElementById('confirmPassContainer');
+            const dpContainer = document.getElementById('dpContainer');
+            const switchText = document.getElementById('authSwitchText');
+            const switchBtn = document.getElementById('authSwitchBtn');
+
+            if (isRegisterMode) {
+                title.innerText = "Create Store Account";
+                subtitle.innerText = "Register your store username & credentials.";
+                btn.innerText = "Register Store";
+                usernameContainer.classList.remove('hidden');
+                confirmPassContainer.classList.remove('hidden');
+                dpContainer.classList.remove('hidden');
+                switchText.innerText = "Already have an account?";
+                switchBtn.innerText = "Sign In";
+            } else {
+                title.innerText = "Sign In to Soko Faster";
+                subtitle.innerText = "Access your global store and listings.";
+                btn.innerText = "Sign In";
+                usernameContainer.classList.add('hidden');
+                confirmPassContainer.classList.add('hidden');
+                dpContainer.classList.add('hidden');
+                switchText.innerText = "Don't have an account?";
+                switchBtn.innerText = "Register";
+            }
+        }
+
+        async function handleAuthSubmit(e) {
+            e.preventDefault();
+            const email = document.getElementById('authEmail').value;
+            const pass = document.getElementById('authPass').value;
+            let users = JSON.parse(localStorage.getItem('soko_users')) || [];
+
+            if (isRegisterMode) {
+                const username = document.getElementById('authUsername').value;
+                const confirmPass = document.getElementById('authConfirmPass').value;
+                const dpFile = document.getElementById('authDpFile').files[0];
+
+                if (pass !== confirmPass) { showToast("Passwords do not match!", "alert"); return; }
+                if (users.some(u => u.email === email)) { showToast("Account already exists with this email!", "alert"); return; }
+
+                let dpImage = "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80";
+                if (dpFile) {
+                    dpImage = await compressImage(dpFile, 300, 0.6);
+                }
+
+                currentUser = { username, email, pass, dp: dpImage };
+                users.push(currentUser);
+                localStorage.setItem('soko_users', JSON.stringify(users));
+                localStorage.setItem('soko_current_user', JSON.stringify(currentUser));
+                updateUserPresence(username, true);
+                showToast(`Welcome to Soko Faster, ${username}!`, "success");
+            } else {
+                const found = users.find(u => u.email === email && u.pass === pass);
+                currentUser = found || { username: email.split('@')[0], email, dp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80" };
+                localStorage.setItem('soko_current_user', JSON.stringify(currentUser));
+                updateUserPresence(currentUser.username, true);
+                showToast(`Welcome back, ${currentUser.username}!`, "success");
+            }
+
+            updateNavigationUI();
+            closeAuthModal();
+            setupAffiliateLink();
+        }
+
+        function handleLogout() {
+            if (currentUser) updateUserPresence(currentUser.username, false);
+            currentUser = null;
+            localStorage.removeItem('soko_current_user');
+            updateNavigationUI();
+            setupAffiliateLink();
+            showToast("Successfully logged out.", "alert");
+        }
+
+        function updateNavigationUI() {
+            const area = document.getElementById('authNavArea');
+            if (currentUser) {
+                area.innerHTML = `
+                    <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-900">
+                        <img src="${currentUser.dp}" class="w-5 h-5 rounded-full object-cover">
+                        <span>${currentUser.username}</span>
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full" title="Online"></span>
+                    </div>
+                    <button onclick="handleLogout()" class="text-xs text-red-600 font-bold hover:underline ml-1">Logout</button>
+                `;
+            } else {
+                area.innerHTML = `
+                    <button onclick="openAuthModal('login')" class="text-xs font-bold text-slate-700 hover:text-emerald-600 transition">Sign In</button>
+                    <button onclick="openAuthModal('register')" class="text-xs font-bold bg-slate-900 text-white px-3.5 py-2 rounded-xl hover:bg-slate-800 transition shadow-sm">Register</button>
+                `;
+            }
+        }
+
+        // VIP & AZAMPAY INTEGRATION
+        function openVipModal() { document.getElementById('vipModal').classList.remove('hidden'); }
+        function closeVipModal() { document.getElementById('vipModal').classList.add('hidden'); }
+
+        function payVip(type, amount) {
+            const phone = prompt(`Enter mobile number for TZS ${amount.toLocaleString()} payment via AzamPay (Merchant 0798033596):`);
+            if (!phone) return;
+            
+            closeVipModal();
+            showToast(`Payment request for TZS ${amount.toLocaleString()} sent to ${phone} via AzamPay...`, "success");
+            
+            setTimeout(() => {
+                showToast(`🎉 Payment confirmed! VIP package (${type}) activated successfully.`, "success");
+                if (currentUser) {
+                    let vipMap = JSON.parse(localStorage.getItem('soko_vip_users')) || {};
+                    vipMap[currentUser.username] = { type, expiry: Date.now() + (type === 'weekly' ? 7*86400000 : 30*86400000) };
+                    localStorage.setItem('soko_vip_users', JSON.stringify(vipMap));
+                    renderVipSlider();
+                    renderProducts();
+                }
+            }, 3000);
+        }
+
+        function renderVipSlider() {
+            const sliderContainer = document.getElementById('vipSliderContainer');
+            const sliderWrapper = document.getElementById('vipSliderWrapper');
+            if(!sliderContainer || !sliderWrapper) return;
+
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            let vipMap = JSON.parse(localStorage.getItem('soko_vip_users')) || {};
+            const vipProducts = products.filter(p => vipMap[p.seller] && vipMap[p.seller].expiry > Date.now());
+
+            if (vipProducts.length === 0) {
+                sliderContainer.classList.add('hidden');
+                return;
+            }
+
+            sliderContainer.classList.remove('hidden');
+            sliderWrapper.innerHTML = vipProducts.map(p => `
+                <div class="min-w-[280px] sm:min-w-[320px] bg-slate-900 border border-amber-500/50 rounded-2xl p-4 text-white shadow-xl flex gap-3 items-center shrink-0">
+                    <img src="${p.image}" class="w-20 h-20 object-cover rounded-xl border border-amber-400">
+                    <div class="flex-1 min-w-0">
+                        <span class="bg-amber-500 text-slate-950 font-black text-[9px] px-2 py-0.5 rounded uppercase"><i class="fa-solid fa-crown mr-1"></i> VIP Featured</span>
+                        <h4 class="font-bold text-xs truncate mt-1">${p.title}</h4>
+                        <p class="text-amber-400 font-black text-sm">${p.formattedPrice}</p>
+                        <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Hello,%20I%20saw%20your%20VIP%20listing:%20${encodeURIComponent(p.title)}" target="_blank" class="mt-2 inline-block bg-emerald-600 hover:bg-emerald-700 text-white text-[10px] font-bold px-3 py-1 rounded-lg transition">
+                            <i class="fa-brands fa-whatsapp mr-1"></i> Buy Now
+                        </a>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // AFFILIATE SYSTEM
+        function openAffiliateModal() {
+            if (!currentUser) {
+                showToast("Please sign in first to access your affiliate link!", "alert");
+                openAuthModal('login');
+                return;
+            }
+            document.getElementById('affiliateModal').classList.remove('hidden');
+        }
+        function closeAffiliateModal() { document.getElementById('affiliateModal').classList.add('hidden'); }
+
+        function setupAffiliateLink() {
+            const code = currentUser ? currentUser.username.toLowerCase().replace(/\s+/g, '') + '99' : 'bunguglobal';
+            const link = `https://sokofaster.netlify.app/?ref=${code}`;
+            const input = document.getElementById('myReferralLink');
+            if(input) input.value = link;
+        }
+
+        function copyAffiliateLink() {
+            const input = document.getElementById('myReferralLink');
+            input.select();
+            navigator.clipboard.writeText(input.value);
+            showToast("Referral link copied to clipboard!", "success");
+        }
+
+        // PRODUCTS MANAGEMENT & IMAGE COMPRESSION FOR LISTINGS
+        function openAddModal() {
+            if (!currentUser) {
+                showToast("Please sign in to your store account first!", "alert");
+                openAuthModal('login');
+                return;
+            }
+            document.getElementById('addProductModal').classList.remove('hidden');
+        }
+        function closeAddModal() { document.getElementById('addProductModal').classList.add('hidden'); }
+
+        async function handleProductSubmit(e) {
+            e.preventDefault();
+            const title = document.getElementById('pTitle').value;
+            const currency = document.getElementById('pCurrency').value;
+            const price = document.getElementById('pPrice').value;
+            const location = document.getElementById('pLocation').value;
+            const category = document.getElementById('pCategory').value;
+            const phone = document.getElementById('pPhone').value;
+            const fileInput = document.getElementById('pImageFile').files[0];
+
+            let image = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80";
+            if (fileInput) {
+                image = await compressImage(fileInput, 800, 0.7);
+            }
+
+            const formattedPrice = currency === 'TZS' ? `TZS ${Number(price).toLocaleString()}` : `$${Number(price).toFixed(2)}`;
+            const newProduct = {
+                id: Date.now(),
+                title, formattedPrice, location, category, phone, image,
+                seller: currentUser ? currentUser.username : "Bungu Store",
+                sellerDp: currentUser ? currentUser.dp : "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+                views: 0
+            };
+
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            products.unshift(newProduct);
+            localStorage.setItem('soko_products', JSON.stringify(products));
+
+            renderVipSlider();
+            renderProducts();
+            closeAddModal();
+            document.getElementById('productForm').reset();
+            showToast(`Listing (${title}) published live with compressed image!`, "success");
+        }
+
+        function incrementViews(id) {
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            products = products.map(p => { if (p.id === id) p.views = (p.views || 0) + 1; return p; });
+            localStorage.setItem('soko_products', JSON.stringify(products));
+            renderProducts();
+        }
+
+        function renderProducts() {
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            if (products.length === 0) {
+                products = [{
+                    id: 1, title: "Galaxy Note 20 Ultra", formattedPrice: "TZS 780,000",
+                    location: "Dodoma, Tanzania", category: "Electronics & Gadgets", phone: "+255700000000",
+                    image: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?auto=format&fit=crop&w=600&q=80",
+                    seller: "Bungu Store", sellerDp: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&w=200&q=80",
+                    views: 0
+                }];
+            }
+            displayProducts(products);
+        }
+
+        function displayProducts(products) {
+            const grid = document.getElementById('productGrid');
+            document.getElementById('totalProductsCount').innerText = `${products.length} Active Listings`;
+            let followersMap = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
+            let presenceMap = JSON.parse(localStorage.getItem('soko_presence')) || {};
+
+            grid.innerHTML = products.map(p => {
+                const canDelete = isAdminActive || (currentUser && currentUser.username === p.seller);
+                const storeFollowers = followersMap[p.seller] || [];
+                const isFollowing = currentUser && storeFollowers.includes(currentUser.username);
+                const isSellerOnline = presenceMap[p.seller] && presenceMap[p.seller].online;
+
+                return `
+                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between relative group">
+                        ${canDelete ? `<button onclick="adminDeleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs z-10 shadow"><i class="fa-solid fa-trash"></i></button>` : ''}
+                        <div>
+                            <div class="relative h-56 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
+                                <img src="${p.image}" class="w-full h-full object-contain group-hover:scale-105 transition duration-300">
+                                <span class="absolute top-3 left-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2.5 py-1 rounded-full"><i class="fa-solid fa-location-dot mr-1 text-amber-400"></i> ${p.location}</span>
+                                <span class="absolute bottom-3 right-3 bg-black/60 backdrop-blur-md text-white text-[10px] px-2 py-0.5 rounded-full"><i class="fa-solid fa-eye mr-1 text-cyan-400"></i> ${p.views || 0} real views</span>
+                            </div>
+                            <div class="p-4">
+                                <div class="flex justify-between items-center mb-2">
+                                    <span class="text-[10px] font-bold text-emerald-600 uppercase">${p.category}</span>
+                                    <div class="flex items-center gap-1 bg-indigo-50 px-2 py-0.5 rounded-md">
+                                        <span class="text-[10px] font-bold text-indigo-700">${storeFollowers.length} Followers</span>
+                                        ${(!currentUser || currentUser.username !== p.seller) ? `<button onclick="toggleFollow('${p.seller}')" class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-semibold">${isFollowing ? 'Following' : '+ Follow'}</button>` : ''}
+                                    </div>
+                                </div>
+                                <div class="flex items-center justify-between mb-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="relative">
+                                            <img src="${p.sellerDp}" class="w-6 h-6 rounded-full object-cover border">
+                                            <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full ${isSellerOnline ? 'bg-emerald-500' : 'bg-slate-400'} ring-1 ring-white"></span>
+                                        </div>
+                                        <span class="text-xs font-bold text-slate-900">${p.seller}</span>
+                                    </div>
+                                    <span class="text-[10px] font-bold ${isSellerOnline ? 'text-emerald-600' : 'text-slate-400'}">${isSellerOnline ? '● Online' : '○ Offline'}</span>
+                                </div>
+                                <h4 class="font-bold text-slate-900 text-sm mb-1 truncate">${p.title}</h4>
+                                <div class="flex justify-between items-baseline mb-3">
+                                    <span class="text-base font-black text-slate-900">${p.formattedPrice}</span>
+                                    <span class="text-[10px] text-slate-400">Verified Global Supplier</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="p-4 pt-0">
+                            <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Hello,%20I%20am%20interested%20in%20buying%20this%20product:%20${encodeURIComponent(p.title)}" target="_blank" onclick="incrementViews(${p.id})" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2 rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 shadow-sm">
+                                <i class="fa-brands fa-whatsapp text-base"></i> Contact Seller
+                            </a>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function toggleFollow(seller) {
+            if (!currentUser) { openAuthModal('login'); return; }
+            let map = JSON.parse(localStorage.getItem('soko_store_followers')) || {};
+            if (!map[seller]) map[seller] = [];
+            const idx = map[seller].indexOf(currentUser.username);
+            if (idx > -1) { 
+                map[seller].splice(idx, 1); 
+                showToast(`Unfollowed ${seller}.`, "alert"); 
+            } else { 
+                map[seller].push(currentUser.username); 
+                showToast(`⭐ Now following ${seller}!`, "success"); 
+            }
+            localStorage.setItem('soko_store_followers', JSON.stringify(map));
+            renderProducts();
+        }
+
+        function filterProducts() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            let products = JSON.parse(localStorage.getItem('soko_products')) || [];
+            const filtered = products.filter(p => p.title.toLowerCase().includes(query) || p.category.toLowerCase().includes(query) || p.location.toLowerCase().includes(query) || p.seller.toLowerCase().includes(query));
+            displayProducts(filtered);
+        }
+    </script>
+</body>
+</html>
