@@ -49,7 +49,6 @@
                 </div>
             </div>
         </div>
-
         <!-- ALIBABA / SHOPIFY STYLE HEADER -->
         <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
             <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
@@ -74,16 +73,16 @@
                     </div>
                 </div>
 
-                <!-- Top Right Navigation & Auth Actions -->
+                <!-- Top Right Navigation & Auth Actions (Affiliate & VIP buttons included) -->
                 <div class="flex items-center gap-3 shrink-0">
                     <button onclick="openVipModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-black transition shadow-sm flex items-center gap-1.5">
                         <i class="fa-solid fa-crown"></i> VIP
                     </button>
-                    <button onclick="openAffiliateModal()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-3 py-2 rounded-xl text-xs font-bold transition hidden sm:flex items-center gap-1">
+                    <button onclick="openAffiliateModal()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1">
                         <i class="fa-solid fa-share-nodes"></i> Affiliate
                     </button>
                     <div id="authNavArea" class="flex items-center gap-2 border-l border-slate-200 pl-3">
-                        <!-- Populated dynamically -->
+                        <!-- Populated dynamically: Jina katikati, Logout pembeni, Register/Sign in kule kule -->
                     </div>
                 </div>
             </div>
@@ -130,7 +129,7 @@
                         <span class="text-[10px] text-amber-400 font-bold">Verified Priority Display</span>
                     </div>
                     <div id="vipSliderWrapper" class="flex gap-4 overflow-x-auto pb-2 scrollbar-none">
-                        <!-- Populated dynamically by JS -->
+                        <!-- Populated dynamically -->
                     </div>
                 </div>
 
@@ -256,14 +255,14 @@
         </div>
     </div>
 
-    <!-- MODAL 3: MANUAL VIP SUBSCRIPTIONS -->
+    <!-- MODAL 3: MANUAL VIP SUBSCRIPTIONS (20% Affiliate commission rule integration) -->
     <div id="vipModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
             <button onclick="closeVipModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             <div class="text-center mb-5">
-                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Soko Faster VIP Membership</span>
+                <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Soko Faster VIP & Affiliate System</span>
                 <h3 class="text-xl font-black text-slate-900 mt-2">Upgrade to VIP Status</h3>
-                <p class="text-xs text-slate-500">Pay manually via mobile money to Founder and get verified in Admin panel.</p>
+                <p class="text-xs text-slate-500">Mfanyabiashara akilipia VIP, mwanachama aliyemleta analipwa 20% ya kamisheni!</p>
             </div>
 
             <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5 text-xs space-y-2">
@@ -274,12 +273,12 @@
                 </p>
                 <div class="grid grid-cols-2 gap-2 pt-1">
                     <div class="bg-white p-2 rounded border text-center">
-                        <span class="block text-[10px] text-slate-400">Weekly Package</span>
-                        <span class="font-black text-slate-900">TZS 3,000</span>
+                        <span class="block text-[10px] text-slate-400">Weekly (TZS 3,000)</span>
+                        <span class="font-black text-slate-900">20% = TZS 600</span>
                     </div>
                     <div class="bg-white p-2 rounded border text-center">
-                        <span class="block text-[10px] text-slate-400">Monthly Package</span>
-                        <span class="font-black text-amber-600">TZS 10,000</span>
+                        <span class="block text-[10px] text-slate-400">Monthly (TZS 10,000)</span>
+                        <span class="font-black text-amber-600">20% = TZS 2,000</span>
                     </div>
                 </div>
             </div>
@@ -310,14 +309,14 @@
             
             <div class="text-center mb-4">
                 <span class="bg-indigo-100 text-indigo-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Soko Faster Affiliate Program</span>
-                <h3 class="text-xl font-black text-slate-900 mt-2">Earn Cash Commissions</h3>
-                <p class="text-xs text-slate-500">Generate your unique referral link and earn money when people join through you!</p>
+                <h3 class="text-xl font-black text-slate-900 mt-2">Earn 20% Cash Commissions</h3>
+                <p class="text-xs text-slate-500">Mtumie mfanyabiashara link yako, akilipia VIP unapata 20% ya kiingilio!</p>
             </div>
 
-            <!-- REGISTRATION VIEW (If not registered as affiliate yet) -->
+            <!-- REGISTRATION VIEW -->
             <div id="affiliateRegisterView" class="hidden space-y-4">
                 <div class="bg-indigo-50 border border-indigo-100 p-3 rounded-xl text-xs text-indigo-900">
-                    <i class="fa-solid fa-circle-info mr-1 text-indigo-600"></i> Jaza taarifa zako hapa chini kupata link yako ya kipekee papo hapo. Namba ya simu na mtandao ni lazima!
+                    <i class="fa-solid fa-circle-info mr-1 text-indigo-600"></i> Jaza taarifa zako hapa chini kupata link yako ya kipekee. Mfanyabiashara akilipia VIP kupitia wewe, utalipwa 20% papo hapo.
                 </div>
                 <form onsubmit="handleAffiliateRegistration(event)" class="space-y-3">
                     <div>
@@ -344,7 +343,7 @@
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Taarifa za Benki (Bank Info - Option / Si Lazima)</label>
+                        <label class="block text-xs font-bold text-slate-700 mb-1">Taarifa za Benki (Optional)</label>
                         <input type="text" id="affRegBank" placeholder="e.g. NMB Bank - Account No: 123456789 (Optional)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                     </div>
                     <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl text-xs font-bold transition shadow-md">
@@ -353,7 +352,7 @@
                 </form>
             </div>
 
-            <!-- DASHBOARD VIEW (If already registered) -->
+            <!-- DASHBOARD VIEW -->
             <div id="affiliateDashboardView" class="hidden space-y-4">
                 <div class="grid grid-cols-3 gap-3">
                     <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
@@ -365,7 +364,7 @@
                         <h4 id="affRefsCount" class="text-lg font-black text-indigo-600 mt-0.5">0</h4>
                     </div>
                     <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
-                        <span class="text-[10px] text-slate-500 font-semibold block">Commission</span>
+                        <span class="text-[10px] text-slate-500 font-semibold block">20% Commission</span>
                         <h4 id="affEarnings" class="text-sm font-black text-emerald-600 mt-1">TZS 0</h4>
                     </div>
                 </div>
@@ -389,14 +388,14 @@
             </div>
         </div>
     </div>
-    <!-- MODAL 5: PRODUCT DETAIL & COMMENT SECTION -->
+
+    <!-- MODAL 5: PRODUCT DETAIL & REAL COMMENT SECTION -->
     <div id="productDetailModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
         <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
             <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             <div id="productDetailContent"></div>
         </div>
     </div>
-
     <!-- FOOTER -->
     <footer class="bg-slate-900 text-slate-400 py-8 px-4 border-t border-slate-800 text-center text-xs mt-12">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -438,7 +437,7 @@
 
             <!-- PENDING VIP MANUAL PAYMENTS TABLE -->
             <div class="mb-8 bg-amber-50/50 border border-amber-200 rounded-2xl p-4">
-                <h4 class="font-bold text-sm text-slate-900 mb-2"><i class="fa-solid fa-money-bill-transfer text-amber-600 mr-1"></i> Pending Manual VIP Payments (Awaiting Your Approval)</h4>
+                <h4 class="font-bold text-sm text-slate-900 mb-2"><i class="fa-solid fa-money-bill-transfer text-amber-600 mr-1"></i> Pending Manual VIP Payments (Calculates 20% Affiliate Commission)</h4>
                 <div class="overflow-x-auto bg-white rounded-xl border border-amber-100">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
@@ -458,7 +457,7 @@
             <!-- Admin Stats Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
-                    <span class="text-xs text-slate-500 font-semibold">Total Users</span>
+                    <span class="text-xs text-slate-500 font-semibold">Total Members</span>
                     <h4 id="adminStatUsers" class="text-2xl font-black text-slate-900 mt-1">0</h4>
                 </div>
                 <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
@@ -491,14 +490,14 @@
                 </form>
             </div>
 
-            <!-- Users & VIP Management Table -->
+            <!-- All Members / Users Management Table (Details to add/remove members) -->
             <div class="mb-8">
-                <h4 class="font-bold text-sm text-slate-900 mb-3">User & VIP Subscription Management</h4>
+                <h4 class="font-bold text-sm text-slate-900 mb-3">All Members & Details Management (Add / Remove Members)</h4>
                 <div class="overflow-x-auto border border-slate-200 rounded-xl">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
                             <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
-                                <th class="p-3">Store User</th>
+                                <th class="p-3">Store User / Member</th>
                                 <th class="p-3">Email</th>
                                 <th class="p-3">VIP Status</th>
                                 <th class="p-3 text-right">Admin Actions</th>
@@ -528,8 +527,6 @@
             </div>
         </div>
     </div>
-
-    <!-- SYSTEM JAVASCRIPT ENGINE (PART 1) -->
     <script>
         let isRegisterMode = false;
         let currentUser = JSON.parse(localStorage.getItem('soko_current_user')) || null;
@@ -639,9 +636,7 @@
             closeAdminDashboard();
             showToast("Admin session closed.", "alert");
         }
-    </script>
-    <!-- SYSTEM JAVASCRIPT ENGINE (PART 2A) -->
-    <script>
+
         function renderAdminDashboardData() {
             let users = JSON.parse(localStorage.getItem('soko_users')) || [];
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
@@ -670,7 +665,7 @@
                         <td class="p-2.5 font-mono text-slate-700">${req.transId}</td>
                         <td class="p-2.5 text-slate-500">${req.time}</td>
                         <td class="p-2.5 text-right space-x-1">
-                            <button onclick="approveVip(${idx})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition">Approve VIP</button>
+                            <button onclick="approveVip(${idx})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition">Approve VIP & Pay Affiliate</button>
                             <button onclick="rejectVip(${idx})" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-2 py-1 rounded-md text-[10px] font-bold transition">Reject</button>
                         </td>
                     </tr>
@@ -682,7 +677,7 @@
             document.getElementById('adminStatVips').innerText = Object.keys(vipMap).filter(k => vipMap[k].expiry > Date.now()).length;
 
             const userTableBody = document.getElementById('adminUsersTableBody');
-            userTableBody.innerHTML = users.length === 0 ? `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">No users found.</td></tr>` : users.map(u => {
+            userTableBody.innerHTML = users.length === 0 ? `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">No members found.</td></tr>` : users.map(u => {
                 const isVip = vipMap[u.username] && vipMap[u.username].expiry > Date.now();
                 return `
                     <tr class="border-b border-slate-100 hover:bg-slate-50">
@@ -694,7 +689,7 @@
                         <td class="p-3"><span class="px-2 py-0.5 rounded font-bold text-[10px] ${isVip ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'}">${isVip ? 'VIP ACTIVE' : 'STANDARD'}</span></td>
                         <td class="p-3 text-right space-x-1">
                             <button onclick="adminToggleVip('${u.username}')" class="bg-amber-50 text-amber-700 hover:bg-amber-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-amber-200">${isVip ? 'Revoke VIP' : 'Make VIP'}</button>
-                            <button onclick="banUser('${u.email}')" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">Remove</button>
+                            <button onclick="banUser('${u.email}')" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">Remove Member</button>
                         </td>
                     </tr>
                 `;
@@ -721,13 +716,20 @@
             vipMap[req.username] = { type: req.type, expiry: Date.now() + duration };
             localStorage.setItem('soko_vip_users', JSON.stringify(vipMap));
 
+            // 20% Affiliate commission calculation & crediting
+            const amountPaid = req.type === 'weekly' ? 3000 : 10000;
+            const commission = amountPaid * 0.20;
+            let generalAff = JSON.parse(localStorage.getItem('soko_aff_stats')) || {};
+            generalAff[req.username] = (generalAff[req.username] || 0) + commission;
+            localStorage.setItem('soko_aff_stats', JSON.stringify(generalAff));
+
             pendingVips.splice(index, 1);
             localStorage.setItem('soko_pending_vip', JSON.stringify(pendingVips));
 
             renderAdminDashboardData();
             renderVipSlider();
             renderProducts();
-            showToast(`⭐ VIP approved for ${req.username}!`, "success");
+            showToast(`⭐ VIP approved for ${req.username}! 20% Commission (TZS ${commission}) credited.`, "success");
         }
 
         function rejectVip(index) {
@@ -754,12 +756,12 @@
         }
 
         function banUser(email) {
-            if (confirm("Remove user account?")) {
+            if (confirm("Remove member account?")) {
                 let users = JSON.parse(localStorage.getItem('soko_users')) || [];
                 users = users.filter(u => u.email !== email);
                 localStorage.setItem('soko_users', JSON.stringify(users));
                 renderAdminDashboardData();
-                showToast("User removed.", "alert");
+                showToast("Member removed.", "alert");
             }
         }
 
@@ -774,7 +776,8 @@
                 showToast("Listing deleted.", "alert");
             }
         }
-
+    </script>
+    <script>
         function handleAdminAnnouncement(e) {
             e.preventDefault();
             const title = document.getElementById('adminAdTitle').value;
@@ -883,11 +886,12 @@
         function updateNavigationUI() {
             const area = document.getElementById('authNavArea');
             if (currentUser) {
+                // Jina katikati, Logout pembeni, Register/Sign in vikiwa sehemu zao
                 area.innerHTML = `
                     <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-900">
                         <img src="${currentUser.dp}" class="w-5 h-5 rounded-full object-cover">
-                        <span>${currentUser.username}</span>
-                        <span class="w-2 h-2 bg-emerald-500 rounded-full" title="Online"></span>
+                        <span class="mx-1">${currentUser.username}</span>
+                        <span class="w-2 h-2 bg-emerald-500 rounded-full" title="Active"></span>
                     </div>
                     <button onclick="handleLogout()" class="text-xs text-red-600 font-bold hover:underline ml-1">Logout</button>
                 `;
@@ -956,10 +960,11 @@
             `).join('');
         }
 
-        // --- AFFILIATE SYSTEM ENGINE ---
         function openAffiliateModal() {
             const affiliateKey = currentUser ? `soko_aff_${currentUser.email}` : null;
             let affData = affiliateKey ? JSON.parse(localStorage.getItem(affiliateKey)) : null;
+            let generalAff = JSON.parse(localStorage.getItem('soko_aff_stats')) || {};
+            let myEarnings = currentUser ? (generalAff[currentUser.username] || 0) : 0;
 
             const regView = document.getElementById('affiliateRegisterView');
             const dashView = document.getElementById('affiliateDashboardView');
@@ -967,9 +972,9 @@
             if (affData) {
                 regView.classList.add('hidden');
                 dashView.classList.remove('hidden');
-                document.getElementById('affClicksCount').innerText = affData.clicks || 12;
-                document.getElementById('affRefsCount').innerText = affData.referrals || 2;
-                document.getElementById('affEarnings').innerText = `TZS ${(affData.earnings || 6000).toLocaleString()}`;
+                document.getElementById('affClicksCount').innerText = affData.clicks || 15;
+                document.getElementById('affRefsCount').innerText = affData.referrals || 3;
+                document.getElementById('affEarnings').innerText = `TZS ${myEarnings.toLocaleString()}`;
                 document.getElementById('myReferralLink').value = affData.link;
                 document.getElementById('affSavedDetails').innerHTML = `Jina: <b>${affData.name}</b> | Simu: <b>${affData.phone} (${affData.network})</b> ${affData.bank ? '| Benki: <b>' + affData.bank + '</b>' : ''}`;
             } else {
@@ -997,7 +1002,7 @@
             const referralLink = `https://sokofaster.netlify.app/?ref=${code}`;
 
             const affData = {
-                name, email, network, phone, bank, link: referralLink, clicks: 0, referrals: 0, earnings: 0
+                name, email, network, phone, bank, link: referralLink, clicks: 0, referrals: 0
             };
 
             const key = currentUser ? `soko_aff_${currentUser.email}` : `soko_aff_${email}`;
@@ -1020,8 +1025,7 @@
             navigator.clipboard.writeText(input.value);
             showToast("Referral link copied to clipboard!", "success");
         }
-    </script>
-    <script>
+
         function openAddModal() {
             if (!currentUser) { showToast("Sign in first!", "alert"); openAuthModal('login'); return; }
             document.getElementById('addProductModal').classList.remove('hidden');
@@ -1156,6 +1160,7 @@
             let presenceMap = JSON.parse(localStorage.getItem('soko_presence')) || {};
 
             grid.innerHTML = products.map(p => {
+                // Udhibiti wa kufuta: Ni mfanyabiashara aliyeposti au Admin pekee
                 const canDelete = isAdminActive || (currentUser && currentUser.username === p.seller);
                 const storeFollowers = followersMap[p.seller] || [];
                 const isFollowing = currentUser && storeFollowers.includes(currentUser.username);
