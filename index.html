@@ -8,6 +8,7 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
+            darkMode: 'class',
             theme: {
                 extend: {
                     colors: {
@@ -30,7 +31,7 @@
         .animate-marquee:hover { animation-play-state: paused; }
     </style>
 </head>
-<body class="bg-slate-100 text-slate-800 font-sans antialiased min-h-screen flex flex-col justify-between">
+<body class="bg-slate-100 dark:bg-slate-950 text-slate-800 dark:text-slate-100 font-sans antialiased min-h-screen flex flex-col justify-between transition-colors duration-300">
 
     <!-- GLOBAL TOAST NOTIFICATION CONTAINER -->
     <div id="toastContainer" class="fixed bottom-5 right-5 z-50 flex flex-col gap-2 pointer-events-none"></div>
@@ -49,45 +50,69 @@
                 </div>
             </div>
         </div>
-        <!-- ALIBABA / SHOPIFY STYLE HEADER -->
-        <header class="bg-white border-b border-slate-200 sticky top-0 z-40 shadow-sm">
+
+        <!-- HEADER & RESPONSIVE NAV BAR -->
+        <header class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-40 shadow-sm transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-4 h-20 flex items-center justify-between gap-4">
-                <!-- Logo & Brand -->
                 <div class="flex items-center gap-3 shrink-0">
-                    <div class="w-11 h-11 bg-gradient-to-tr from-amber-500 to-orange-600 rounded-xl flex items-center justify-center text-white font-black text-2xl shadow-md">
-                        SF
-                    </div>
+                    <div class="w-11 h-11 bg-gradient-to-tr from-amber-500 to-orange-600 rounded-xl flex items-center justify-center text-white font-black text-2xl shadow-md">SF</div>
                     <div>
-                        <h1 class="font-black text-xl text-slate-900 tracking-tight leading-none">SOKO FASTER</h1>
-                        <p class="text-[10px] text-slate-500 font-bold uppercase tracking-wider mt-0.5">Global Trade & Store Hub</p>
+                        <h1 class="font-black text-xl text-slate-900 dark:text-white tracking-tight leading-none">SOKO FASTER</h1>
+                        <p class="text-[10px] text-slate-500 dark:text-slate-400 font-bold uppercase tracking-wider mt-0.5">Global Trade & Store Hub</p>
                     </div>
                 </div>
 
-                <!-- Search Bar -->
                 <div class="flex-1 max-w-2xl hidden md:flex">
                     <div class="flex w-full border-2 border-emerald-600 rounded-xl overflow-hidden shadow-sm">
-                        <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search global products, verified suppliers, categories..." class="w-full px-4 py-2.5 text-xs focus:outline-none">
+                        <input type="text" id="searchInput" oninput="filterProducts()" placeholder="Search global products, verified suppliers, categories..." class="w-full px-4 py-2.5 text-xs bg-transparent dark:text-white focus:outline-none">
                         <button onclick="filterProducts()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 font-bold text-xs transition flex items-center gap-2">
                             <i class="fa-solid fa-magnifying-glass"></i> Search
                         </button>
                     </div>
                 </div>
 
-                <!-- Top Right Navigation & Auth Actions (Affiliate & VIP buttons included) -->
-                <div class="flex items-center gap-3 shrink-0">
-                    <button onclick="openVipModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-black transition shadow-sm flex items-center gap-1.5">
-                        <i class="fa-solid fa-crown"></i> VIP
+                <div class="flex items-center gap-2 md:gap-3 shrink-0">
+                    <button onclick="toggleDarkMode()" class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-amber-400 p-2.5 rounded-xl text-xs font-bold transition flex items-center justify-center" title="Light/Dark Mode">
+                        <i id="themeIcon" class="fa-solid fa-moon text-sm"></i>
                     </button>
-                    <button onclick="openAffiliateModal()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1">
-                        <i class="fa-solid fa-share-nodes"></i> Affiliate
-                    </button>
-                    <div id="authNavArea" class="flex items-center gap-2 border-l border-slate-200 pl-3">
-                        <!-- Populated dynamically: Jina katikati, Logout pembeni, Register/Sign in kule kule -->
+                    <div class="hidden md:flex items-center gap-3">
+                        <button onclick="openVipModal()" class="bg-amber-500 hover:bg-amber-600 text-slate-950 px-3.5 py-2 rounded-xl text-xs font-black transition shadow-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-crown"></i> VIP
+                        </button>
+                        <button onclick="openAffiliateModal()" class="bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 px-3 py-2 rounded-xl text-xs font-bold transition flex items-center gap-1">
+                            <i class="fa-solid fa-share-nodes"></i> Affiliate
+                        </button>
                     </div>
+                    <div id="authNavArea" class="hidden md:flex items-center gap-2 border-l border-slate-200 dark:border-slate-800 pl-3"></div>
+                    <button onclick="toggleMobileMenu()" class="md:hidden bg-slate-100 dark:bg-slate-800 text-slate-800 dark:text-white p-2.5 rounded-xl text-sm font-bold">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
                 </div>
             </div>
-        </header>
 
+            <!-- MOBILE DRAWER MENU -->
+            <div id="mobileDrawer" class="fixed inset-y-0 right-0 w-72 bg-white dark:bg-slate-900 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 md:hidden flex flex-col justify-between p-5 border-l border-slate-200 dark:border-slate-800">
+                <div>
+                    <div class="flex justify-between items-center mb-6 border-b pb-3 dark:border-slate-800">
+                        <span class="font-black text-sm text-slate-900 dark:text-white">Menyu Kuu</span>
+                        <button onclick="toggleMobileMenu()" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+                    </div>
+                    <div id="mobileAuthNavArea" class="space-y-3 mb-6"></div>
+                    <div class="space-y-2">
+                        <button onclick="toggleMobileMenu(); openVipModal();" class="w-full bg-amber-500 text-slate-950 py-2.5 rounded-xl text-xs font-black flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-crown"></i> VIP Package
+                        </button>
+                        <button onclick="toggleMobileMenu(); openAffiliateModal();" class="w-full bg-indigo-50 dark:bg-indigo-950 text-indigo-700 dark:text-indigo-300 border border-indigo-200 dark:border-indigo-800 py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-share-nodes"></i> Affiliate Dashboard
+                        </button>
+                        <button onclick="toggleMobileMenu(); openAddModal();" class="w-full bg-emerald-600 text-white py-2.5 rounded-xl text-xs font-bold flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-plus-circle"></i> Post New Product
+                        </button>
+                    </div>
+                </div>
+                <div class="text-center text-[10px] text-slate-400 border-t pt-3 dark:border-slate-800">Soko Faster Navigation</div>
+            </div>
+        </header>
         <!-- GLOBAL SPONSORS MARQUEE -->
         <div class="bg-slate-950 text-white py-2 overflow-hidden border-b border-slate-800 text-xs font-bold">
             <div class="animate-marquee flex items-center gap-12 whitespace-nowrap">
@@ -96,13 +121,9 @@
                 <span class="flex items-center gap-2 text-red-400"><i class="fa-solid fa-signal"></i> VODAFONE COMMUNICATIONS</span>
                 <span class="flex items-center gap-2 text-amber-400"><i class="fa-solid fa-credit-card"></i> MASTERCARD SECURE PAY</span>
                 <span class="flex items-center gap-2 text-orange-400"><i class="fa-solid fa-plane"></i> EMIRATES AIRLINES CARGO</span>
-                <span class="flex items-center gap-2 text-red-500"><i class="fa-solid fa-bottle-droplet"></i> COCA-COLA GLOBAL SPONSOR</span>
-                <span class="flex items-center gap-2 text-blue-400"><i class="fa-solid fa-fire"></i> PEPSI INTERNATIONAL</span>
-                <span class="flex items-center gap-2 text-red-400"><i class="fa-solid fa-signal"></i> VODAFONE COMMUNICATIONS</span>
-                <span class="flex items-center gap-2 text-amber-400"><i class="fa-solid fa-credit-card"></i> MASTERCARD SECURE PAY</span>
-                <span class="flex items-center gap-2 text-orange-400"><i class="fa-solid fa-plane"></i> EMIRATES AIRLINES CARGO</span>
             </div>
         </div>
+
         <!-- HERO SECTION & MOVING VIP SLIDER -->
         <section class="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white py-10 px-4 shadow-inner">
             <div class="max-w-5xl mx-auto text-center">
@@ -114,7 +135,6 @@
                     Connect directly with verified suppliers, secure transactions via manual verification, scale store visibility with VIP tiers, and earn lucrative referral commissions.
                 </p>
 
-                <!-- Post Listing Action CTA -->
                 <div class="flex justify-center gap-3">
                     <button onclick="openAddModal()" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-bold text-xs transition shadow-lg flex items-center gap-2">
                         <i class="fa-solid fa-plus-circle text-base"></i> Post New Product Listing
@@ -128,9 +148,7 @@
                         <div class="h-[1px] bg-amber-500/30 flex-1"></div>
                         <span class="text-[10px] text-amber-400 font-bold">Verified Priority Display</span>
                     </div>
-                    <div id="vipSliderWrapper" class="flex gap-4 overflow-x-auto pb-2 scrollbar-none">
-                        <!-- Populated dynamically -->
-                    </div>
+                    <div id="vipSliderWrapper" class="flex gap-4 overflow-x-auto pb-2 scrollbar-none"></div>
                 </div>
 
                 <!-- Admin Announcement Banner Area -->
@@ -144,14 +162,13 @@
                 </div>
             </div>
         </section>
-
         <!-- MAIN PRODUCT GRID SECTION -->
         <main class="max-w-7xl mx-auto px-4 py-8">
-            <div class="flex justify-between items-center mb-6 border-b border-slate-200 pb-3">
-                <h3 class="text-lg font-black text-slate-900 tracking-tight flex items-center gap-2">
+            <div class="flex justify-between items-center mb-6 border-b border-slate-200 dark:border-slate-800 pb-3">
+                <h3 class="text-lg font-black text-slate-900 dark:text-white tracking-tight flex items-center gap-2">
                     <i class="fa-solid fa-globe text-emerald-600"></i> Featured Global Store Listings
                 </h3>
-                <span class="text-xs text-slate-500 font-bold" id="totalProductsCount">Loading listings...</span>
+                <span class="text-xs text-slate-500 dark:text-slate-400 font-bold" id="totalProductsCount">Loading listings...</span>
             </div>
 
             <div id="productGrid" class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
@@ -159,36 +176,35 @@
             </div>
         </main>
     </div>
-
     <!-- MODAL 1: AUTHENTICATION -->
     <div id="authModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-slate-900 dark:text-white">
             <button onclick="closeAuthModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 id="authTitle" class="text-xl font-black text-slate-900 mb-1">Create Store Account</h3>
-            <p id="authSubtitle" class="text-xs text-slate-500 mb-6">Register your store credentials securely with email activation.</p>
+            <h3 id="authTitle" class="text-xl font-black mb-1">Create Store Account</h3>
+            <p id="authSubtitle" class="text-xs text-slate-500 dark:text-slate-400 mb-6">Register your store credentials securely with email activation.</p>
 
             <form onsubmit="handleAuthSubmit(event)" class="space-y-4">
                 <div id="businessUsernameContainer">
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Store / Business Username</label>
-                    <input type="text" id="authUsername" placeholder="e.g. BunguGlobalStore" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Store / Business Username</label>
+                    <input type="text" id="authUsername" placeholder="e.g. BunguGlobalStore" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
-                    <input type="email" id="authEmail" required placeholder="name@example.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
+                    <input type="email" id="authEmail" required placeholder="name@example.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Password</label>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Password</label>
                     <div class="relative">
-                        <input type="password" id="authPass" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <input type="password" id="authPass" required placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                         <button type="button" onclick="togglePasswordVisibility('authPass', this)" class="absolute right-3 top-2.5 text-slate-400 text-xs"><i class="fa-solid fa-eye"></i></button>
                     </div>
                 </div>
                 <div id="confirmPassContainer">
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Confirm Password</label>
-                    <input type="password" id="authConfirmPass" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Confirm Password</label>
+                    <input type="password" id="authConfirmPass" placeholder="••••••••" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <div id="dpContainer">
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Store Profile Picture / DP (Optional)</label>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Store Profile Picture / DP (Optional)</label>
                     <input type="file" id="authDpFile" accept="image/*" class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
                 </div>
                 <button type="submit" id="authSubmitBtn" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-xs font-bold transition shadow-md">Register & Send Activation</button>
@@ -203,80 +219,79 @@
 
     <!-- MODAL 2: ADD PRODUCT LISTING -->
     <div id="addProductModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto text-slate-900 dark:text-white">
             <button onclick="closeAddModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
-            <h3 class="text-xl font-black text-slate-900 mb-1">Post New Product Listing</h3>
-            <p class="text-xs text-slate-500 mb-6">List your product for international wholesale and retail buyers.</p>
+            <h3 class="text-xl font-black mb-1">Post New Product Listing</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">List your product for international wholesale and retail buyers.</p>
 
             <form id="productForm" onsubmit="handleProductSubmit(event)" class="space-y-4">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Product Title</label>
-                    <input type="text" id="pTitle" required placeholder="e.g. Smart Watch Series 8" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Product Title</label>
+                    <input type="text" id="pTitle" required placeholder="e.g. Smart Watch Series 8" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Currency</label>
-                        <select id="pCurrency" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
-                            <option value="TZS">TZS</option>
-                            <option value="USD">USD ($)</option>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Currency</label>
+                        <select id="pCurrency" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="TZS" class="bg-white dark:bg-slate-900">TZS</option>
+                            <option value="USD" class="bg-white dark:bg-slate-900">USD ($)</option>
                         </select>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Price</label>
-                        <input type="number" id="pPrice" required placeholder="e.g. 150000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Price</label>
+                        <input type="number" id="pPrice" required placeholder="e.g. 150000" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                     </div>
                 </div>
                 <div class="grid grid-cols-2 gap-3">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Sales Location / Country</label>
-                        <input type="text" id="pLocation" required placeholder="e.g. Dodoma, Tanzania" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Sales Location / Country</label>
+                        <input type="text" id="pLocation" required placeholder="e.g. Dodoma, Tanzania" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Category</label>
-                        <select id="pCategory" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
-                            <option value="Electronics & Gadgets">Electronics & Gadgets</option>
-                            <option value="Fashion & Clothes">Fashion & Clothes</option>
-                            <option value="Home & Furniture">Home & Furniture</option>
-                            <option value="Vehicles & Parts">Vehicles & Parts</option>
-                            <option value="Services">Services</option>
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Category</label>
+                        <select id="pCategory" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                            <option value="Electronics & Gadgets" class="bg-white dark:bg-slate-900">Electronics & Gadgets</option>
+                            <option value="Fashion & Clothes" class="bg-white dark:bg-slate-900">Fashion & Clothes</option>
+                            <option value="Home & Furniture" class="bg-white dark:bg-slate-900">Home & Furniture</option>
+                            <option value="Vehicles & Parts" class="bg-white dark:bg-slate-900">Vehicles & Parts</option>
+                            <option value="Services" class="bg-white dark:bg-slate-900">Services</option>
                         </select>
                     </div>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">WhatsApp Contact Number</label>
-                    <input type="text" id="pPhone" required placeholder="e.g. +255712345678" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">WhatsApp Contact Number</label>
+                    <input type="text" id="pPhone" required placeholder="e.g. +255712345678" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-emerald-500 focus:outline-none">
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Product Image (Auto-compressed)</label>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Product Image (Auto-compressed)</label>
                     <input type="file" id="pImageFile" accept="image/*" required class="w-full text-xs text-slate-500 file:mr-4 file:py-2 file:px-4 file:rounded-xl file:border-0 file:text-xs file:font-semibold file:bg-emerald-50 file:text-emerald-700 hover:file:bg-emerald-100">
                 </div>
                 <button type="submit" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-3 rounded-xl text-xs font-bold transition shadow-md">Publish Listing</button>
             </form>
         </div>
     </div>
-
-    <!-- MODAL 3: MANUAL VIP SUBSCRIPTIONS (20% Affiliate commission rule integration) -->
+    <!-- MODAL 3: MANUAL VIP SUBSCRIPTIONS -->
     <div id="vipModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-md w-full p-6 shadow-2xl relative text-slate-900 dark:text-white">
             <button onclick="closeVipModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             <div class="text-center mb-5">
                 <span class="bg-amber-100 text-amber-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Soko Faster VIP & Affiliate System</span>
-                <h3 class="text-xl font-black text-slate-900 mt-2">Upgrade to VIP Status</h3>
-                <p class="text-xs text-slate-500">Mfanyabiashara akilipia VIP, mwanachama aliyemleta analipwa 20% ya kamisheni!</p>
+                <h3 class="text-xl font-black mt-2">Upgrade to VIP Status</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Mfanyabiashara akilipia VIP, mwanachama aliyemleta analipwa 20% ya kamisheni!</p>
             </div>
 
-            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5 text-xs space-y-2">
-                <p class="font-bold text-slate-900"><i class="fa-solid fa-circle-info text-amber-500 mr-1"></i> Payment Hotline:</p>
+            <div class="bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-xl p-4 mb-5 text-xs space-y-2">
+                <p class="font-bold"><i class="fa-solid fa-circle-info text-amber-500 mr-1"></i> Payment Hotline:</p>
                 <p>1. Tuma pesa kwenda namba ya Founder Bungu:</p>
-                <p class="font-mono font-bold text-emerald-600 bg-emerald-50 p-2 rounded border border-emerald-200 text-center text-sm">
+                <p class="font-mono font-bold text-emerald-600 bg-emerald-50 dark:bg-emerald-950/40 p-2 rounded border border-emerald-200 dark:border-emerald-800 text-center text-sm">
                     0798 033 596 <span class="block text-[10px] text-slate-500 font-sans font-normal">(Emmanuel Mwakabungu)</span>
                 </p>
                 <div class="grid grid-cols-2 gap-2 pt-1">
-                    <div class="bg-white p-2 rounded border text-center">
+                    <div class="bg-white dark:bg-slate-900 p-2 rounded border dark:border-slate-700 text-center">
                         <span class="block text-[10px] text-slate-400">Weekly (TZS 3,000)</span>
-                        <span class="font-black text-slate-900">20% = TZS 600</span>
+                        <span class="font-black">20% = TZS 600</span>
                     </div>
-                    <div class="bg-white p-2 rounded border text-center">
+                    <div class="bg-white dark:bg-slate-900 p-2 rounded border dark:border-slate-700 text-center">
                         <span class="block text-[10px] text-slate-400">Monthly (TZS 10,000)</span>
                         <span class="font-black text-amber-600">20% = TZS 2,000</span>
                     </div>
@@ -285,15 +300,15 @@
 
             <form onsubmit="submitManualVip(event)" class="space-y-3">
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Select Package</label>
-                    <select id="vipPackageType" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500">
-                        <option value="weekly">Weekly VIP (TZS 3,000)</option>
-                        <option value="monthly">Monthly VIP (TZS 10,000)</option>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Select Package</label>
+                    <select id="vipPackageType" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:outline-none focus:ring-1 focus:ring-amber-500">
+                        <option value="weekly" class="bg-white dark:bg-slate-900">Weekly VIP (TZS 3,000)</option>
+                        <option value="monthly" class="bg-white dark:bg-slate-900">Monthly VIP (TZS 10,000)</option>
                     </select>
                 </div>
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Your Mobile Number / Transaction Reference</label>
-                    <input type="text" id="vipTransId" required placeholder="e.g. 0712345678 or Txn Ref #ABC12345" class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-amber-500">
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Your Mobile Number / Transaction Reference</label>
+                    <input type="text" id="vipTransId" required placeholder="e.g. 0712345678 or Txn Ref #ABC12345" class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:outline-none focus:ring-1 focus:ring-amber-500">
                 </div>
                 <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-slate-950 py-3 rounded-xl text-xs font-black transition shadow-md">
                     Submit Payment for Admin Verification
@@ -304,47 +319,47 @@
 
     <!-- MODAL 4: AFFILIATE PROGRAM DASHBOARD & REGISTRATION -->
     <div id="affiliateModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-lg w-full p-6 shadow-2xl relative max-h-[95vh] overflow-y-auto text-slate-900 dark:text-white">
             <button onclick="closeAffiliateModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             
             <div class="text-center mb-4">
                 <span class="bg-indigo-100 text-indigo-800 text-[10px] font-black px-3 py-1 rounded-full uppercase">Soko Faster Affiliate Program</span>
-                <h3 class="text-xl font-black text-slate-900 mt-2">Earn 20% Cash Commissions</h3>
-                <p class="text-xs text-slate-500">Mtumie mfanyabiashara link yako, akilipia VIP unapata 20% ya kiingilio!</p>
+                <h3 class="text-xl font-black mt-2">Earn 20% Cash Commissions</h3>
+                <p class="text-xs text-slate-500 dark:text-slate-400">Mtumie mfanyabiashara link yako, akilipia VIP unapata 20% ya kiingilio!</p>
             </div>
 
             <!-- REGISTRATION VIEW -->
             <div id="affiliateRegisterView" class="hidden space-y-4">
-                <div class="bg-indigo-50 border border-indigo-100 p-3 rounded-xl text-xs text-indigo-900">
+                <div class="bg-indigo-50 dark:bg-indigo-950/50 border border-indigo-100 dark:border-indigo-900 p-3 rounded-xl text-xs text-indigo-900 dark:text-indigo-300">
                     <i class="fa-solid fa-circle-info mr-1 text-indigo-600"></i> Jaza taarifa zako hapa chini kupata link yako ya kipekee. Mfanyabiashara akilipia VIP kupitia wewe, utalipwa 20% papo hapo.
                 </div>
                 <form onsubmit="handleAffiliateRegistration(event)" class="space-y-3">
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Majina Yako Kamili (Full Name)</label>
-                        <input type="text" id="affRegName" required placeholder="e.g. Emmanuel Mwakabungu" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Majina Yako Kamili (Full Name)</label>
+                        <input type="text" id="affRegName" required placeholder="e.g. Emmanuel Mwakabungu" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Email Address</label>
-                        <input type="email" id="affRegEmail" required placeholder="name@example.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Email Address</label>
+                        <input type="email" id="affRegEmail" required placeholder="name@example.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                     </div>
                     <div class="grid grid-cols-2 gap-3">
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Mtandao wa Simu (Network)</label>
-                            <select id="affRegNetwork" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
-                                <option value="M-Pesa">Vodacom M-Pesa</option>
-                                <option value="TigoPesa">Tigo Pesa</option>
-                                <option value="AirtelMoney">Airtel Money</option>
-                                <option value="Halopesa">Halopesa</option>
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Mtandao wa Simu (Network)</label>
+                            <select id="affRegNetwork" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                                <option value="M-Pesa" class="bg-white dark:bg-slate-900">Vodacom M-Pesa</option>
+                                <option value="TigoPesa" class="bg-white dark:bg-slate-900">Tigo Pesa</option>
+                                <option value="AirtelMoney" class="bg-white dark:bg-slate-900">Airtel Money</option>
+                                <option value="Halopesa" class="bg-white dark:bg-slate-900">Halopesa</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-xs font-bold text-slate-700 mb-1">Namba ya Simu (Mobile Number)</label>
-                            <input type="text" id="affRegPhone" required placeholder="e.g. 0712345678" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                            <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Namba ya Simu (Mobile Number)</label>
+                            <input type="text" id="affRegPhone" required placeholder="e.g. 0712345678" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                         </div>
                     </div>
                     <div>
-                        <label class="block text-xs font-bold text-slate-700 mb-1">Taarifa za Benki (Optional)</label>
-                        <input type="text" id="affRegBank" placeholder="e.g. NMB Bank - Account No: 123456789 (Optional)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
+                        <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Taarifa za Benki (Optional)</label>
+                        <input type="text" id="affRegBank" placeholder="e.g. NMB Bank - Account No: 123456789 (Optional)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:ring-2 focus:ring-indigo-500 focus:outline-none">
                     </div>
                     <button type="submit" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white py-3 rounded-xl text-xs font-bold transition shadow-md">
                         Generate My Affiliate Link Now
@@ -355,31 +370,31 @@
             <!-- DASHBOARD VIEW -->
             <div id="affiliateDashboardView" class="hidden space-y-4">
                 <div class="grid grid-cols-3 gap-3">
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
+                    <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
                         <span class="text-[10px] text-slate-500 font-semibold block">Total Clicks</span>
-                        <h4 id="affClicksCount" class="text-lg font-black text-slate-900 mt-0.5">0</h4>
+                        <h4 id="affClicksCount" class="text-lg font-black mt-0.5">0</h4>
                     </div>
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
+                    <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
                         <span class="text-[10px] text-slate-500 font-semibold block">Referrals</span>
                         <h4 id="affRefsCount" class="text-lg font-black text-indigo-600 mt-0.5">0</h4>
                     </div>
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-center">
+                    <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-center">
                         <span class="text-[10px] text-slate-500 font-semibold block">20% Commission</span>
                         <h4 id="affEarnings" class="text-sm font-black text-emerald-600 mt-1">TZS 0</h4>
                     </div>
                 </div>
 
                 <div>
-                    <label class="block text-xs font-bold text-slate-700 mb-1">Your Unique Referral Link</label>
+                    <label class="block text-xs font-bold text-slate-700 dark:text-slate-300 mb-1">Your Unique Referral Link</label>
                     <div class="flex gap-2">
-                        <input type="text" id="myReferralLink" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 text-xs font-mono text-slate-700 focus:outline-none">
+                        <input type="text" id="myReferralLink" readonly class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-800 text-xs font-mono focus:outline-none">
                         <button onclick="copyAffiliateLink()" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold shrink-0 transition">Copy Link</button>
                     </div>
                 </div>
 
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 text-xs space-y-1">
-                    <p class="font-bold text-slate-900"><i class="fa-solid fa-wallet text-emerald-600 mr-1"></i> Payout Details Saved:</p>
-                    <p id="affSavedDetails" class="text-slate-600"></p>
+                <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-200 dark:border-slate-700 text-xs space-y-1">
+                    <p class="font-bold"><i class="fa-solid fa-wallet text-emerald-600 mr-1"></i> Payout Details Saved:</p>
+                    <p id="affSavedDetails" class="text-slate-600 dark:text-slate-300"></p>
                 </div>
 
                 <button onclick="logoutAffiliate()" class="text-xs text-red-600 font-bold hover:underline block text-center w-full mt-2">
@@ -388,14 +403,14 @@
             </div>
         </div>
     </div>
-
     <!-- MODAL 5: PRODUCT DETAIL & REAL COMMENT SECTION -->
     <div id="productDetailModal" class="fixed inset-0 bg-slate-950/70 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-2xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto text-slate-900 dark:text-white">
             <button onclick="closeProductDetailModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
             <div id="productDetailContent"></div>
         </div>
     </div>
+
     <!-- FOOTER -->
     <footer class="bg-slate-900 text-slate-400 py-8 px-4 border-t border-slate-800 text-center text-xs mt-12">
         <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
@@ -415,11 +430,11 @@
 
     <!-- FOUNDER ADMIN DASHBOARD -->
     <div id="adminDashboardModal" class="fixed inset-0 bg-slate-950/80 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
-        <div class="bg-white rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
-            <div class="flex justify-between items-center pb-4 border-b border-slate-200 mb-6">
+        <div class="bg-white dark:bg-slate-900 rounded-2xl max-w-4xl w-full p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto text-slate-900 dark:text-white">
+            <div class="flex justify-between items-center pb-4 border-b border-slate-200 dark:border-slate-800 mb-6">
                 <div>
                     <span class="bg-amber-500 text-slate-950 font-black px-2.5 py-0.5 rounded text-[10px]">FOUNDER ADMIN PANEL (BUNGU)</span>
-                    <h3 class="text-xl font-black text-slate-900 mt-1">Soko Faster Control Center</h3>
+                    <h3 class="text-xl font-black mt-1">Soko Faster Control Center</h3>
                 </div>
                 <div class="flex items-center gap-2">
                     <button onclick="adminLogout()" class="bg-red-50 text-red-600 border border-red-200 hover:bg-red-600 hover:text-white px-3 py-1.5 rounded-xl text-xs font-bold transition">Logout Admin</button>
@@ -428,20 +443,21 @@
             </div>
 
             <!-- INTRUSION SECURITY ALERTS LOG -->
-            <div id="adminIntrusionLogBox" class="mb-6 p-4 rounded-2xl bg-amber-50 border border-amber-200 hidden">
-                <div class="flex items-center gap-2 text-amber-800 font-bold text-xs mb-1">
+            <div id="adminIntrusionLogBox" class="mb-6 p-4 rounded-2xl bg-amber-50 dark:bg-amber-950/40 border border-amber-200 dark:border-amber-900 hidden">
+                <div class="flex items-center gap-2 text-amber-800 dark:text-amber-400 font-bold text-xs mb-1">
                     <i class="fa-solid fa-triangle-exclamation"></i> Security Notice: Unauthorized Access Attempts Detected
                 </div>
-                <p id="adminIntrusionText" class="text-xs text-amber-700"></p>
+                <p id="adminIntrusionText" class="text-xs text-amber-700 dark:text-amber-300"></p>
             </div>
 
-            <!-- PENDING VIP MANUAL PAYMENTS TABLE -->
-            <div class="mb-8 bg-amber-50/50 border border-amber-200 rounded-2xl p-4">
-                <h4 class="font-bold text-sm text-slate-900 mb-2"><i class="fa-solid fa-money-bill-transfer text-amber-600 mr-1"></i> Pending Manual VIP Payments (Calculates 20% Affiliate Commission)</h4>
-                <div class="overflow-x-auto bg-white rounded-xl border border-amber-100">
+            <!-- PENDING VIP MANUAL PAYMENTS & AFFILIATE PAYOUTS -->
+            <div class="mb-8 bg-amber-50/50 dark:bg-slate-800/50 border border-amber-200 dark:border-slate-700 rounded-2xl p-4">
+                <h4 class="font-bold text-sm mb-2"><i class="fa-solid fa-money-bill-transfer text-amber-600 mr-1"></i> Admin Notification: Pending VIP & Affiliate Payouts</h4>
+                <p class="text-[11px] text-slate-500 dark:text-slate-400 mb-3">Mteja akilipia kupitia link ya affiliate na kudhibitisha malipo, taarifa inakuja hapa ili umthibitshie VIP na umlipe kamisheni yake ya 20%.</p>
+                <div class="overflow-x-auto bg-white dark:bg-slate-900 rounded-xl border border-amber-100 dark:border-slate-700">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-amber-100/60 text-slate-800 border-b border-amber-200">
+                            <tr class="bg-amber-100/60 dark:bg-slate-800 text-slate-800 dark:text-slate-200 border-b border-amber-200 dark:border-slate-700">
                                 <th class="p-2.5">User</th>
                                 <th class="p-2.5">Package</th>
                                 <th class="p-2.5">Mobile / Trans ID</th>
@@ -456,47 +472,50 @@
 
             <!-- Admin Stats Cards -->
             <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
                     <span class="text-xs text-slate-500 font-semibold">Total Members</span>
-                    <h4 id="adminStatUsers" class="text-2xl font-black text-slate-900 mt-1">0</h4>
+                    <h4 id="adminStatUsers" class="text-2xl font-black mt-1">0</h4>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
                     <span class="text-xs text-slate-500 font-semibold">Total Listings</span>
-                    <h4 id="adminStatProducts" class="text-2xl font-black text-slate-900 mt-1">0</h4>
+                    <h4 id="adminStatProducts" class="text-2xl font-black mt-1">0</h4>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
                     <span class="text-xs text-slate-500 font-semibold">Active VIPs</span>
                     <h4 id="adminStatVips" class="text-2xl font-black text-amber-600 mt-1">0</h4>
                 </div>
-                <div class="bg-slate-50 p-4 rounded-xl border border-slate-200">
+                <div class="bg-slate-50 dark:bg-slate-800 p-4 rounded-xl border border-slate-200 dark:border-slate-700">
                     <span class="text-xs text-slate-500 font-semibold">Founder Status</span>
                     <h4 class="text-sm font-bold text-emerald-600 mt-1 flex items-center gap-1"><i class="fa-solid fa-circle-check"></i> Secured</h4>
                 </div>
             </div>
 
-            <!-- Dynamic Announcements Admin Form -->
-            <div class="bg-indigo-50/50 border border-indigo-100 rounded-2xl p-5 mb-6">
-                <h4 class="font-bold text-sm text-slate-900 mb-3"><i class="fa-solid fa-bullhorn text-indigo-600 mr-2"></i> Post Global Announcement Banner</h4>
+            <!-- Dynamic Announcements Admin Form (Generate & Delete Announcements) -->
+            <div class="bg-indigo-50/50 dark:bg-slate-800/50 border border-indigo-100 dark:border-slate-700 rounded-2xl p-5 mb-6">
+                <div class="flex justify-between items-center mb-3">
+                    <h4 class="font-bold text-sm"><i class="fa-solid fa-bullhorn text-indigo-600 mr-2"></i> Manage Global Announcements</h4>
+                    <button onclick="clearAnnouncement()" class="text-xs text-red-600 font-bold hover:underline">Futa Tangazo Lililopo (Delete Active)</button>
+                </div>
                 <form onsubmit="handleAdminAnnouncement(event)" class="space-y-3">
                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                        <input type="text" id="adminAdTitle" required placeholder="Announcement Title" class="px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
-                        <select id="adminAdType" class="px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <input type="text" id="adminAdTitle" required placeholder="Announcement Title" class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <select id="adminAdType" class="px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500">
                             <option value="ANNOUNCEMENT">Global Announcement</option>
                             <option value="SPONSOR">Sponsor Notice</option>
                         </select>
                     </div>
-                    <textarea id="adminAdMessage" required rows="2" placeholder="Write announcement message..." class="w-full px-3 py-2 rounded-xl border border-slate-200 text-xs bg-white focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
-                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">Publish Announcement</button>
+                    <textarea id="adminAdMessage" required rows="2" placeholder="Write announcement message..." class="w-full px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 text-xs bg-white dark:bg-slate-900 focus:outline-none focus:ring-1 focus:ring-indigo-500"></textarea>
+                    <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition shadow-sm">Generate & Publish Announcement</button>
                 </form>
             </div>
 
-            <!-- All Members / Users Management Table (Details to add/remove members) -->
+            <!-- All Members Management Table -->
             <div class="mb-8">
-                <h4 class="font-bold text-sm text-slate-900 mb-3">All Members & Details Management (Add / Remove Members)</h4>
-                <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                <h4 class="font-bold text-sm mb-3">All Members & Details Management (Add / Remove Members)</h4>
+                <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                            <tr class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700">
                                 <th class="p-3">Store User / Member</th>
                                 <th class="p-3">Email</th>
                                 <th class="p-3">VIP Status</th>
@@ -510,11 +529,11 @@
 
             <!-- All Product Listings Management Table -->
             <div>
-                <h4 class="font-bold text-sm text-slate-900 mb-3">All Platform Product Listings</h4>
-                <div class="overflow-x-auto border border-slate-200 rounded-xl">
+                <h4 class="font-bold text-sm mb-3">All Platform Product Listings</h4>
+                <div class="overflow-x-auto border border-slate-200 dark:border-slate-700 rounded-xl">
                     <table class="w-full text-left border-collapse text-xs">
                         <thead>
-                            <tr class="bg-slate-100 text-slate-700 border-b border-slate-200">
+                            <tr class="bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-200 border-b border-slate-200 dark:border-slate-700">
                                 <th class="p-3">Product Title</th>
                                 <th class="p-3">Seller</th>
                                 <th class="p-3">Price</th>
@@ -533,6 +552,7 @@
         let isAdminActive = sessionStorage.getItem('soko_admin_active') === 'true';
 
         window.addEventListener('DOMContentLoaded', () => {
+            initDarkMode();
             updateNavigationUI();
             renderVipSlider();
             renderProducts();
@@ -545,6 +565,36 @@
                 showToast("Welcome to Soko Faster! Founder: Bungu.", 'info');
             }
         });
+
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            const icon = document.getElementById('themeIcon');
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('soko_theme', 'light');
+                icon.className = "fa-solid fa-moon text-sm";
+                showToast("Light Mode activated.", "info");
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('soko_theme', 'dark');
+                icon.className = "fa-solid fa-sun text-sm text-amber-400";
+                showToast("Dark Mode activated.", "info");
+            }
+        }
+
+        function initDarkMode() {
+            const theme = localStorage.getItem('soko_theme');
+            const icon = document.getElementById('themeIcon');
+            if (theme === 'dark') {
+                document.documentElement.classList.add('dark');
+                if(icon) icon.className = "fa-solid fa-sun text-sm text-amber-400";
+            }
+        }
+
+        function toggleMobileMenu() {
+            const drawer = document.getElementById('mobileDrawer');
+            drawer.classList.toggle('translate-x-full');
+        }
 
         function showToast(message, type = 'success') {
             const container = document.getElementById('toastContainer');
@@ -636,7 +686,8 @@
             closeAdminDashboard();
             showToast("Admin session closed.", "alert");
         }
-
+    </script>
+    <script>
         function renderAdminDashboardData() {
             let users = JSON.parse(localStorage.getItem('soko_users')) || [];
             let products = JSON.parse(localStorage.getItem('soko_products')) || [];
@@ -656,13 +707,13 @@
 
             const pendingTableBody = document.getElementById('adminPendingVipTableBody');
             if (pendingVips.length === 0) {
-                pendingTableBody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic">No pending VIP manual payments.</td></tr>`;
+                pendingTableBody.innerHTML = `<tr><td colspan="5" class="p-3 text-center text-slate-400 italic">No pending VIP manual payments or affiliate commissions.</td></tr>`;
             } else {
                 pendingTableBody.innerHTML = pendingVips.map((req, idx) => `
-                    <tr class="border-b border-amber-100 hover:bg-amber-50/50">
-                        <td class="p-2.5 font-bold text-slate-900">${req.username}</td>
-                        <td class="p-2.5 uppercase font-semibold text-amber-700">${req.type}</td>
-                        <td class="p-2.5 font-mono text-slate-700">${req.transId}</td>
+                    <tr class="border-b border-amber-100 dark:border-slate-800 hover:bg-amber-50/50">
+                        <td class="p-2.5 font-bold">${req.username}</td>
+                        <td class="p-2.5 uppercase font-semibold text-amber-600">${req.type}</td>
+                        <td class="p-2.5 font-mono">${req.transId}</td>
                         <td class="p-2.5 text-slate-500">${req.time}</td>
                         <td class="p-2.5 text-right space-x-1">
                             <button onclick="approveVip(${idx})" class="bg-emerald-600 hover:bg-emerald-700 text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition">Approve VIP & Pay Affiliate</button>
@@ -680,16 +731,16 @@
             userTableBody.innerHTML = users.length === 0 ? `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">No members found.</td></tr>` : users.map(u => {
                 const isVip = vipMap[u.username] && vipMap[u.username].expiry > Date.now();
                 return `
-                    <tr class="border-b border-slate-100 hover:bg-slate-50">
+                    <tr class="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40">
                         <td class="p-3 flex items-center gap-2">
                             <img src="${u.dp}" class="w-7 h-7 rounded-full object-cover border">
-                            <span class="font-bold text-slate-900">${u.username}</span>
+                            <span class="font-bold">${u.username}</span>
                         </td>
-                        <td class="p-3 text-slate-600">${u.email}</td>
+                        <td class="p-3 text-slate-600 dark:text-slate-400">${u.email}</td>
                         <td class="p-3"><span class="px-2 py-0.5 rounded font-bold text-[10px] ${isVip ? 'bg-amber-100 text-amber-800' : 'bg-slate-100 text-slate-600'}">${isVip ? 'VIP ACTIVE' : 'STANDARD'}</span></td>
                         <td class="p-3 text-right space-x-1">
-                            <button onclick="adminToggleVip('${u.username}')" class="bg-amber-50 text-amber-700 hover:bg-amber-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-amber-200">${isVip ? 'Revoke VIP' : 'Make VIP'}</button>
-                            <button onclick="banUser('${u.email}')" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">Remove Member</button>
+                            <button onclick="adminToggleVip('${u.username}')" class="bg-amber-50 dark:bg-slate-800 text-amber-700 hover:bg-amber-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-amber-200">${isVip ? 'Revoke VIP' : 'Make VIP'}</button>
+                            <button onclick="banUser('${u.email}')" class="bg-red-50 dark:bg-slate-800 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">Remove Member</button>
                         </td>
                     </tr>
                 `;
@@ -697,11 +748,11 @@
 
             const prodTableBody = document.getElementById('adminProductsTableBody');
             prodTableBody.innerHTML = products.length === 0 ? `<tr><td colspan="4" class="p-4 text-center text-slate-400 italic">No listings found.</td></tr>` : products.map(p => `
-                <tr class="border-b border-slate-100 hover:bg-slate-50">
-                    <td class="p-3 font-bold text-slate-900 truncate max-w-[200px]">${p.title}</td>
-                    <td class="p-3 text-slate-600">${p.seller}</td>
+                <tr class="border-b border-slate-100 dark:border-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800/40">
+                    <td class="p-3 font-bold truncate max-w-[200px]">${p.title}</td>
+                    <td class="p-3 text-slate-600 dark:text-slate-400">${p.seller}</td>
                     <td class="p-3 text-emerald-600 font-bold">${p.formattedPrice}</td>
-                    <td class="p-3 text-right"><button onclick="adminDeleteProduct(${p.id})" class="bg-red-50 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">Delete</button></td>
+                    <td class="p-3 text-right"><button onclick="adminDeleteProduct(${p.id})" class="bg-red-50 dark:bg-slate-800 text-red-600 hover:bg-red-600 hover:text-white px-2.5 py-1 rounded-md text-[10px] font-bold transition border border-red-200">Delete</button></td>
                 </tr>
             `).join('');
         }
@@ -776,8 +827,7 @@
                 showToast("Listing deleted.", "alert");
             }
         }
-    </script>
-    <script>
+
         function handleAdminAnnouncement(e) {
             e.preventDefault();
             const title = document.getElementById('adminAdTitle').value;
@@ -787,6 +837,14 @@
             closeAdminDashboard();
             loadActiveAnnouncements();
             showToast("Global announcement published!", "success");
+        }
+
+        function clearAnnouncement() {
+            if(confirm("Unataka kufuta tangazo hili la sasa?")) {
+                localStorage.removeItem('soko_active_announcement');
+                loadActiveAnnouncements();
+                showToast("Tangazo limefutwa kikamilifu.", "alert");
+            }
         }
 
         function loadActiveAnnouncements() {
@@ -800,7 +858,8 @@
                 document.getElementById('announcementDate').innerText = ad.date;
             } else { banner.classList.add('hidden'); }
         }
-
+    </script>
+    <script>
         function openAuthModal(mode) {
             isRegisterMode = (mode === 'register');
             updateAuthModalUI();
@@ -885,21 +944,26 @@
 
         function updateNavigationUI() {
             const area = document.getElementById('authNavArea');
+            const mobileArea = document.getElementById('mobileAuthNavArea');
+
             if (currentUser) {
-                // Jina katikati, Logout pembeni, Register/Sign in vikiwa sehemu zao
-                area.innerHTML = `
-                    <div class="flex items-center gap-1.5 bg-slate-100 px-3 py-1.5 rounded-xl text-xs font-bold text-slate-900">
+                const htmlContent = `
+                    <div class="flex items-center gap-1.5 bg-slate-100 dark:bg-slate-800 px-3 py-1.5 rounded-xl text-xs font-bold">
                         <img src="${currentUser.dp}" class="w-5 h-5 rounded-full object-cover">
                         <span class="mx-1">${currentUser.username}</span>
                         <span class="w-2 h-2 bg-emerald-500 rounded-full" title="Active"></span>
                     </div>
                     <button onclick="handleLogout()" class="text-xs text-red-600 font-bold hover:underline ml-1">Logout</button>
                 `;
+                if(area) area.innerHTML = htmlContent;
+                if(mobileArea) mobileArea.innerHTML = htmlContent;
             } else {
-                area.innerHTML = `
-                    <button onclick="openAuthModal('login')" class="text-xs font-bold text-slate-700 hover:text-emerald-600 transition">Sign In</button>
-                    <button onclick="openAuthModal('register')" class="text-xs font-bold bg-slate-900 text-white px-3.5 py-2 rounded-xl hover:bg-slate-800 transition shadow-sm">Register</button>
+                const htmlContent = `
+                    <button onclick="openAuthModal('login')" class="text-xs font-bold text-slate-700 dark:text-slate-300 hover:text-emerald-600 transition">Sign In</button>
+                    <button onclick="openAuthModal('register')" class="text-xs font-bold bg-slate-900 dark:bg-slate-800 text-white px-3.5 py-2 rounded-xl hover:bg-slate-800 transition shadow-sm">Register</button>
                 `;
+                if(area) area.innerHTML = htmlContent;
+                if(mobileArea) mobileArea.innerHTML = `<div class="flex gap-2 w-full">${htmlContent}</div>`;
             }
         }
 
@@ -1082,8 +1146,8 @@
             const modalContent = document.getElementById('productDetailContent');
             
             let commentsHtml = (p.comments || []).map(c => `
-                <div class="bg-slate-50 p-3 rounded-xl border border-slate-100 mb-2 text-xs">
-                    <span class="font-bold text-slate-900">${c.user}</span>: <span class="text-slate-700">${c.text}</span>
+                <div class="bg-slate-50 dark:bg-slate-800 p-3 rounded-xl border border-slate-100 dark:border-slate-700 mb-2 text-xs">
+                    <span class="font-bold">${c.user}</span>: <span class="text-slate-700 dark:text-slate-300">${c.text}</span>
                     <span class="block text-[9px] text-slate-400 mt-0.5">${c.time}</span>
                 </div>
             `).join('') || '<p class="text-xs text-slate-400 italic">No comments yet.</p>';
@@ -1095,23 +1159,23 @@
                     </div>
                     <div>
                         <span class="text-[10px] font-bold text-emerald-600 uppercase">${p.category}</span>
-                        <h3 class="font-black text-xl text-slate-900 mt-1">${p.title}</h3>
-                        <p class="text-xl font-black text-slate-900 my-2">${p.formattedPrice}</p>
-                        <p class="text-xs text-slate-500 mb-4"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> ${p.location}</p>
-                        <div class="flex items-center gap-2 mb-4 bg-slate-50 p-2.5 rounded-xl border">
+                        <h3 class="font-black text-xl mt-1">${p.title}</h3>
+                        <p class="text-xl font-black my-2">${p.formattedPrice}</p>
+                        <p class="text-xs text-slate-500 dark:text-slate-400 mb-4"><i class="fa-solid fa-location-dot text-amber-500 mr-1"></i> ${p.location}</p>
+                        <div class="flex items-center gap-2 mb-4 bg-slate-50 dark:bg-slate-800 p-2.5 rounded-xl border dark:border-slate-700">
                             <img src="${p.sellerDp}" class="w-8 h-8 rounded-full object-cover">
-                            <div><span class="font-bold text-xs text-slate-900 block">${p.seller}</span><span class="text-[10px] text-emerald-600">Verified Seller</span></div>
+                            <div><span class="font-bold text-xs block">${p.seller}</span><span class="text-[10px] text-emerald-600">Verified Seller</span></div>
                         </div>
                         <a href="https://wa.me/${p.phone.replace(/[^0-9]/g, '')}?text=Hello,%20I%20am%20interested%20in%20${encodeURIComponent(p.title)}" target="_blank" class="w-full bg-emerald-600 hover:bg-emerald-700 text-white py-2.5 rounded-xl font-bold text-xs transition flex items-center justify-center gap-2 shadow-sm mb-4">
                             <i class="fa-brands fa-whatsapp text-base"></i> Contact via WhatsApp
                         </a>
                     </div>
                 </div>
-                <div class="mt-6 border-t pt-4">
-                    <h4 class="font-bold text-sm text-slate-900 mb-3"><i class="fa-solid fa-comments text-indigo-600 mr-1"></i> Customer Comments & Inquiries</h4>
+                <div class="mt-6 border-t dark:border-slate-800 pt-4">
+                    <h4 class="font-bold text-sm mb-3"><i class="fa-solid fa-comments text-indigo-600 mr-1"></i> Customer Comments & Inquiries</h4>
                     <div class="max-h-40 overflow-y-auto mb-3 space-y-1">${commentsHtml}</div>
                     <form onsubmit="handleCommentSubmit(event, ${p.id})" class="flex gap-2">
-                        <input type="text" id="commentInput" required placeholder="Write a comment..." class="flex-1 px-3 py-2 rounded-xl border border-slate-200 text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500">
+                        <input type="text" id="commentInput" required placeholder="Write a comment..." class="flex-1 px-3 py-2 rounded-xl border border-slate-200 dark:border-slate-700 bg-transparent text-xs focus:outline-none focus:ring-1 focus:ring-indigo-500">
                         <button type="submit" class="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-xl text-xs font-bold transition">Post</button>
                     </form>
                 </div>
@@ -1160,14 +1224,13 @@
             let presenceMap = JSON.parse(localStorage.getItem('soko_presence')) || {};
 
             grid.innerHTML = products.map(p => {
-                // Udhibiti wa kufuta: Ni mfanyabiashara aliyeposti au Admin pekee
                 const canDelete = isAdminActive || (currentUser && currentUser.username === p.seller);
                 const storeFollowers = followersMap[p.seller] || [];
                 const isFollowing = currentUser && storeFollowers.includes(currentUser.username);
                 const isSellerOnline = presenceMap[p.seller] && presenceMap[p.seller].online;
 
                 return `
-                    <div class="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between relative group">
+                    <div class="bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800 overflow-hidden shadow-sm hover:shadow-xl transition flex flex-col justify-between relative group">
                         ${canDelete ? `<button onclick="adminDeleteProduct(${p.id})" class="absolute top-3 right-3 bg-red-600 hover:bg-red-700 text-white w-7 h-7 rounded-full flex items-center justify-center text-xs z-10 shadow transition" title="Delete Listing"><i class="fa-solid fa-trash"></i></button>` : ''}
                         <div onclick="openProductDetail(${p.id})" class="cursor-pointer">
                             <div class="relative h-56 bg-slate-900 overflow-hidden flex items-center justify-center p-2">
@@ -1178,8 +1241,8 @@
                             <div class="p-4">
                                 <div class="flex justify-between items-center mb-2">
                                     <span class="text-[10px] font-bold text-emerald-600 uppercase">${p.category}</span>
-                                    <div class="flex items-center gap-1 bg-indigo-50 px-2 py-0.5 rounded-md">
-                                        <span class="text-[10px] font-bold text-indigo-700">${storeFollowers.length} Followers</span>
+                                    <div class="flex items-center gap-1 bg-indigo-50 dark:bg-indigo-950 px-2 py-0.5 rounded-md">
+                                        <span class="text-[10px] font-bold text-indigo-700 dark:text-indigo-300">${storeFollowers.length} Followers</span>
                                         ${(!currentUser || currentUser.username !== p.seller) ? `<button onclick="event.stopPropagation(); toggleFollow('${p.seller}')" class="text-[9px] bg-indigo-600 text-white px-1.5 py-0.5 rounded font-semibold">${isFollowing ? 'Following' : '+ Follow'}</button>` : ''}
                                     </div>
                                 </div>
@@ -1189,13 +1252,13 @@
                                             <img src="${p.sellerDp}" class="w-6 h-6 rounded-full object-cover border">
                                             <span class="absolute bottom-0 right-0 w-2 h-2 rounded-full ${isSellerOnline ? 'bg-emerald-500' : 'bg-slate-400'} ring-1 ring-white"></span>
                                         </div>
-                                        <span class="text-xs font-bold text-slate-900">${p.seller}</span>
+                                        <span class="text-xs font-bold">${p.seller}</span>
                                     </div>
                                     <span class="text-[10px] font-bold ${isSellerOnline ? 'text-emerald-600' : 'text-slate-400'}">${isSellerOnline ? '● Online' : '○ Offline'}</span>
                                 </div>
-                                <h4 class="font-bold text-slate-900 text-sm mb-1 truncate">${p.title}</h4>
+                                <h4 class="font-bold text-sm mb-1 truncate">${p.title}</h4>
                                 <div class="flex justify-between items-baseline mb-3">
-                                    <span class="text-base font-black text-slate-900">${p.formattedPrice}</span>
+                                    <span class="text-base font-black">${p.formattedPrice}</span>
                                     <span class="text-[10px] text-slate-400">${(p.comments || []).length} Comments</span>
                                 </div>
                             </div>
